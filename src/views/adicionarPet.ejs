@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <%- include('head') %>
+</head>
+
+<body>
+    <%- include('menu') %>
+        <div class="container col-md-4 mt-3 mb-5">
+            <form action="pet-create" method="post" class="shadow p-5 form rounded" enctype="multipart/form-data">
+                <h2 class="fw-bold">Adicione um pet</h2>
+                <br>
+                <label for="nomePet">
+                    Nome do pet
+                </label>
+                <input type="text" class="form-control" name="name" placeholder="Digite aqui" required>
+                <br>
+                <div class="form-group">
+                    <label for="dataNascimento">
+                        Data de nascimento do pet
+                    </label>
+                    <input type="date" class="form-control" name="birthDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="raça">
+                        Raça do pet
+                    </label>
+                    <input type="text" class="form-control" placeholder="Digite aqui" name="petBreed" required>
+                </div>
+                <div class="form-group">
+                    <label for="portePet">
+                        Porte do pet
+                    </label>
+                    <input type="text" class="form-control" placeholder="Digite aqui" name="petSize" required>
+                </div>
+                <h4 class="fw-bold">Tipo do pet</h4>
+                <div class="form-group mt-3"> 
+                    <input type="radio" id="dog" name="petType" value="Cão" required>
+                    <label for="dog">Cachorro</label><br>
+                    <input type="radio" id="cat" name="petType" value="Gato" required>
+                    <label for="cat">Gato</label><br>
+                </div>
+                <h4 class="fw-bold">Gênero do pet</h4>
+                <div class="form-group mt-3"> 
+                    <input type="radio" id="macho" name="petGender" value="Macho" required>
+                    <label for="macho">Macho</label><br>
+                    <input type="radio" id="femea" name="petGender" value="Fêmea" required>
+                    <label for="femea">Fêmea</label><br>
+                </div>
+                <div class="form-group text-center mt-3">
+                    <input type="submit" class="btn text-light fw-bold shadow-lg" name="btn" value="CONFIRMAR" style="background-color: #E26A29;">
+                </div>
+            </form>
+        </div>
+</body>
+
+</html>

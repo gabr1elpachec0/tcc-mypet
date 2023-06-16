@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <%- include('head') %>
+</head>
+
+<body>
+    <%- include('menu') %>
+        <div class="container col-md-4 mt-5 mb-5">  
+            <% pet.forEach(function (pet) { %>
+                <form action="/pet-update/<%= pet['id'] %>" method="post" class="shadow p-5 rounded" enctype="multipart/form-data">
+                    <h2 class="fw-bold">Atualize seu pet</h2>
+                    <br>
+                    <label for="nomePet">
+                        Nome do pet
+                    </label>
+                    <input type="text" class="form-control" name="name" value="<%= pet['name'] %>" required>
+                    <br>
+                    <div class="form-group">
+                        <label for="dataNascimento">
+                            Data de nascimento do pet
+                        </label>
+                        <input type="date" class="form-control" name="birthDate" value="<%= pet['birthDate'] %>" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="raça">
+                            Raça do pet
+                        </label>
+                        <input type="text" class="form-control" value="<%= pet['breed'] %>" name="petBreed" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="portePet">
+                            Porte do pet
+                        </label>
+                        <input type="text" class="form-control" value="<%= pet['size'] %>" name="petSize" required>
+                    </div>
+                    <h4 class="fw-bold">Tipo do pet</h4>
+                    <div class="form-group mt-3">
+                        <input type="radio" id="dog" name="petType" value="Cão">
+                        <label for="dog">Cachorro</label><br>
+                        <input type="radio" id="cat" name="petType" value="Gato">
+                        <label for="cat">Gato</label><br>
+                    </div>
+                    <h4 class="fw-bold">Gênero do pet</h4>
+                    <div class="form-group mt-3">
+                        <input type="radio" id="macho" name="petGender" value="Macho">
+                        <label for="macho">Macho</label><br>
+                        <input type="radio" id="femea" name="petGender" value="Fêmea">
+                        <label for="femea">Fêmea</label><br>
+                    </div>
+                    <div class="form-group text-center mt-3">
+                        <input type="submit" class="btn text-light fw-bold shadow-lg" name="btn" value="ATUALIZAR"
+                            style="background-color: #E26A29;">
+                    </div>
+                </form>
+            <% }) %>
+        </div>
+</body>
+
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <%- include('head') %>
+</head>
+
+<body>
+    <%- include('menu') %>
+</body>
+<div class="container">
+    <h3 class="mt-5 fw-bold text-center">Minhas publicações</h3>
+    <br>
+    <% if (sucess_update_post) { %>
+        <div class='alert alert-success' style="height: 60px;">
+            <p>
+                <%= sucess_update_post %>
+            </p>
+        </div>
+    <% } %>
+    <% if (sucess_delete_post) { %>
+        <div class='alert alert-success' style="height: 60px;">
+            <p>
+                <%= sucess_delete_post %>
+            </p>
+        </div>
+    <% } %>
+    <div class="row mt-5">
+        <% posts.forEach(function(post) { %>
+            <div class="col mb-5">
+                <div class="card" style="width: 19rem;">
+                    <img src="postPics/<%= post['pic'] %>" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <div class="d-flex flex-row mb-3">
+                            <a href="#" class="mx-2">
+                                <img src="images/like.png" alt="like" style="height: 32px; width: 32px;">
+                            </a>
+                            <a href="#">
+                                <img src="images/comment.png" alt="comment" style="height: 31px; width: 31px;">
+                            </a>
+                        </div>
+            
+                        <p class="card-text fw-bold">
+                            Curtido por 500 pessoas
+                        </p>
+                        <br>
+                        <p class="card-text fw-bold">
+                            <%= post['postAuthor'].name %>
+                        </p>
+                        <p class="card-text">
+                            <%= post['description'] %>
+                        </p>
+                        <div class="d-flex">
+                            <a href="/post-update/<%= post['id'] %>">
+                                <div class="icon shadow">
+                                    <img src="images/edit.png" alt="edit" style="height: 30px; width: 30px; margin: 12px;">
+                                </div>
+                            </a>
+                            <a href="/post-delete/<%= post['id'] %>">
+                                <div class="icon shadow mx-3">
+                                    <img src="images/x.png" alt="edit" style="height: 30px; width: 30px; margin: 12px;">
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% }) %>
+    </div>
+</div>
+
+</html>

@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap');
+
+/* Universais */
+
+* {
+  font-family: 'Inter', sans-serif;
+}
+
+.form-control {
+  background-color: whitesmoke;
+}
+.form-group {
+  margin-bottom: 25px;
+}
+
+.btn:hover {
+  opacity: 80%;
+  transition: 0.5s;
+}
+
+
+/* Navbar */
+.logo {
+  width: 180px;
+  height: 130px;
+}
+
+#link {
+  font-size: large;
+  font-weight: 600;
+  color: black;
+}
+
+#link:hover {
+  color: #EB762B;
+  transition: 0.5s; 
+}
+
+#link-cadastro-logout {
+  color: #EB762B;
+  font-size: large;
+  font-weight: 600;
+}
+
+/* Doações */
+
+.icon {
+  background-color: #E26A29;
+  border-radius: 10px;
+  height: 55px;
+  text-align: center;
+}
+
+.icon:hover {
+  background-color: #EB762B;
+  transition: 0.2s;
+}
+
+#botaoDoacoes {
+  padding-top: 12px;
+}
+
+.card-img-top {
+  height: 180px;
+}
+
+.card-description {
+  height: 70px;
+}
+
+/* Fórum */
+
+.mensagemForum {
+  border: solid 2px;
+  border-color: #EB762B;
+  border-radius: 50px;
+  background-color: white;
+}
+
+/* Perfil */
+
+.perfil {
+  border: solid 2px;
+  border-color:#EB762B;
+  border-radius: 50px;
+}
+
+
+
+/* Meus Pets */
+
+.icon-table {
+  background-color: #E26A29;
+  border-radius: 10px;
+  height: 50px;
+  display: block;
+  text-align: center;
+  width: 50px;
+}
+
+.icon-table:hover {
+  background-color: #EB762B;
+  transition: 0.2s;
+}

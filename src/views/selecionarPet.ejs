@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <%- include('head') %>
+</head>
+
+<body>
+    <%- include('menu') %>
+        <div class="container col-md-4 mt-5">
+            <form action="selecionarPet" method="post" class="form shadow p-5">
+                <h2 class="fw-bold text-center">Seu(s) pet(s)</h2>
+                <br>
+                <label for="selecionePet">
+                    Selecione o pet
+                </label>
+                <select class="form-select" aria-label="Default select example" required>
+                    <option value="">Nenhum</option>
+                    <option value="1">Mirb</option>
+                    <option value="2">Molly</option>
+                </select>
+                <h5 class="text-center mt-5 fw-bold">Para imprimir a carteira digital, clique no botão abaixo:</h5>
+                <div class="form-group text-center mt-3">
+                    <input type="submit" class="btn text-light fw-bold shadow-lg" name="btn" value="IMPRIMIR" style="background-color: #E26A29;">
+                </div>
+            </form>
+        </div>
+</body>
+
+</html>

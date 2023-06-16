@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <%- include('head') %>
+</head>
+<body>
+    <%- include('menu') %>
+    <div class="container col-md-5 mt-5 mb-5"> 
+        <form action="/donation" method="post" class="form shadow p-5" enctype="multipart/form-data">
+          <h2 class="fw-bold text-start">Criar adoção</h2>
+          <br>
+          <label for="nome">
+            Nome do pet
+          </label>
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Nome do pet" name="name" required>
+          </div>
+          <label for="descricao">
+            Descrição do pet
+          </label>
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Breve descrição do pet" name="description" required>
+          </div>
+          <label for="foto">
+            Foto do pet
+          </label>
+          <div class="form-group">
+            <input type="file" class="form-control" name="petPic" required>
+          </div>
+          <h4 class="fw-bold text-start">
+            Tipo do pet
+          </h4>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="type" id="dog" value="Cão" required>
+            <label class="form-check-label" for="dog">
+              Cão
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="type" id="cat" value="Gato" required>
+            <label class="form-check-label" for="cat">
+              Gato
+            </label>
+          </div>
+          <h4 class="fw-bold text-start">
+            Castração e Vacinação
+          </h4>       
+          <div class="form-check mt-2">
+            <input class="form-check-input" type="checkbox" name="spayed" value="#" id="castracao">
+            <label class="form-check-label" for="castracao">
+              Castrado
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="vaccinated" value="#" id="vacinacao">
+            <label class="form-check-label" for="vacinacao">
+              Vacinado
+            </label>
+          </div>
+          <br>
+          <h4 class="fw-bold text-start">
+            Gênero do pet
+          </h4>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="gender" id="macho" value="Macho" required>
+            <label class="form-check-label" for="macho">
+              Macho
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="gender" id="femea" value="Fêmea" required>
+            <label class="form-check-label" for="femea">
+              Fêmea
+            </label>
+          </div>          
+          <div class="form-group text-center mt-5">
+            <input type="submit" class="btn text-light fw-bold shadow-lg" name="btn" value="CONFIRMAR" style="background-color: #E26A29;">  
+          </div>
+        </form>
+    </div>
+</body>
+</html>

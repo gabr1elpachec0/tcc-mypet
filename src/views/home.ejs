@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <%- include('head') %>
+</head>
+<body>
+  <%- include('menu') %>
+  <section class="p-5 text-sm-start mb-5" >
+    <div class="container py-5">
+      <% if(sucesso_login){ %>
+        <div class='alert alert-success' style="height: 60px;">
+          <p>
+            <%= sucesso_login %>
+          </p>
+        </div>
+      <% } %>
+      <% if(warning) { %>
+        <div class='alert alert-danger' style="height: 60px;">
+          <p>
+            <%= warning %>
+          </p>
+        </div>
+        <% } %>
+      <div class="d-sm-flex align-items-center justify-content-between">
+        <div class="container py-5">
+          <h2 class="fw-bold">Bem vindo ao <span style="color: #EB762B;"> MyPet</span>!</h2>
+          <h4 class="fw-bold my-4">
+            Administre a vida do seu pet por aqui
+          </h4>
+          <p class="my-4" style="font-size: 18px;">
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+            Lorem Ipsum has been the industry's standard
+            dummy text ever since the 1500s
+          </p>
+          <button class="btn shadow" style="background-color: #E26A29;">
+            <a href="#doacoes" style="text-decoration: none; color: white;">Saiba mais</a>
+          </button>
+        </div>
+        <div class="col-1"></div>
+        <div class="container " style="text-align: center;">
+          <img src="images/dog-cat.png" alt="dog-cat" style="">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-5 text-sm-start text-dark" style="background-color: #E26A29;" id="doacoes">
+    <div class="container py-5">
+      <div class="d-sm-flex align-items-center justify-content-between">
+        <div class="container"
+          style="text-align: center;">
+          <img src="images/donation.png" alt="donation">
+        </div>
+        <div class="col-1"></div>
+        <div class="container py-5">
+          <h2 class="fw-bold">Doações</h2>
+          <h4 class="fw-bold my-4">
+            Crie uma doação ou adote
+          </h4>
+          <p class="my-4" style="font-size: 18px;">
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+            Lorem Ipsum has been the industry's standard
+            dummy text ever since the 1500s
+          </p>
+            <a href="/doacoes" style="text-decoration: none; color: white;">
+              <button class="btn btn-dark shadow">
+                <span>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right"
+                    viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                      d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+                  </svg>
+                </span>
+                Conhecer
+              </button>
+            </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-5 text-sm-start text-dark" id="pets">
+    <div class="container py-5">
+      <div class="d-sm-flex align-items-center justify-content-between">
+        <div class="container py-5">
+          <h2 class="fw-bold">Saúde</h2>
+          <h4 class="fw-bold my-4">
+            Controle a saúde do seu pet
+          </h4>
+          <p class="my-4" style="font-size: 18px;">
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+            Lorem Ipsum has been the industry's standard
+            dummy text ever since the 1500s
+          </p>
+          <a href="/doacoes" style="text-decoration: none; color: white;">
+            <button class="btn shadow text-light" style="background-color: #E26A29;">
+              <span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right"
+                  viewBox="0 0 16 16">
+                  <path fill-rule="evenodd"
+                    d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+                </svg>
+              </span>
+              Conhecer
+            </button>
+          </a>
+        </div>
+        <div class="col-1"></div>
+        <div class="container" style="text-align: center;">
+          <img src="images/immunization.png" alt="immunization">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-5 text-sm-start text-dark" style="background-color: #E26A29;" id="blog">
+    <div class="container py-5">
+      <div class="d-sm-flex align-items-center justify-content-between">
+        <div class="container" style="text-align: center;">
+          <img src="images/social-media.png" alt="social-media">
+        </div>
+        <div class="col-1"></div>
+        <div class="container py-5">
+          <h2 class="fw-bold">Blog</h2>
+          <h4 class="fw-bold my-4">
+            Interaja com outros tutores
+          </h4>
+          <p class="my-4" style="font-size: 18px;">
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+            Lorem Ipsum has been the industry's standard
+            dummy text ever since the 1500s
+          </p>
+          <a href="/doacoes" style="text-decoration: none; color: white;">
+            <button class="btn btn-dark shadow">
+              <span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right"
+                  viewBox="0 0 16 16">
+                  <path fill-rule="evenodd"
+                    d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+                </svg>
+              </span>
+              Conhecer
+            </button>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-5 text-sm-start text-dark" id="veterinarios">
+    <div class="container py-5">
+      <div class="d-sm-flex align-items-center justify-content-between">
+        <div class="container py-5">
+          <h2 class="fw-bold">Veterinários</h2>
+          <h4 class="fw-bold my-4">
+            Agende consultas
+          </h4>
+          <p class="my-4" style="font-size: 18px;">
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+            Lorem Ipsum has been the industry's standard
+            dummy text ever since the 1500s
+          </p>
+          <a href="/doacoes" style="text-decoration: none; color: white;">
+            <button class="btn shadow text-light" style="background-color: #E26A29;">
+              <span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right"
+                  viewBox="0 0 16 16">
+                  <path fill-rule="evenodd"
+                    d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+                </svg>
+              </span>
+              Conhecer
+            </button>
+          </a>
+        </div>
+        <div class="col-1"></div>
+        <div class="container" style="text-align: center;">
+          <img src="images/vet.png" alt="vet">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-5 text-sm-start text-dark" style="background-color: #E26A29;" id="forum">
+    <div class="container py-5">
+      <div class="d-sm-flex align-items-center justify-content-between">
+        <div class="container" style="text-align: center;">
+          <img src="images/forum.png" alt="forum">
+        </div>
+        <div class="col-1"></div>
+        <div class="container py-5">
+          <h2 class="fw-bold">Fórum</h2>
+          <h4 class="fw-bold my-4">
+            Tire dúvidas com veterinários
+          </h4>
+          <p class="my-4" style="font-size: 18px;">
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+            Lorem Ipsum has been the industry's standard
+            dummy text ever since the 1500s
+          </p>
+          <a href="/doacoes" style="text-decoration: none; color: white;">
+            <button class="btn btn-dark shadow">
+              <span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right"
+                  viewBox="0 0 16 16">
+                  <path fill-rule="evenodd"
+                    d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+                </svg>
+              </span>
+              Conhecer
+            </button>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <%- include('footer') %>
+</body>
+</html>

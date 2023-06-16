@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <%- include('head') %>
+</head>
+<body>
+  <%- include('menu') %>
+  <div class="container text-center col-md-4 mt-5"> 
+    <form action="adicionarMensagem" method="post" class="form p-5 shadow">
+      <h2 class="form-title-login fw-bold">Adicione uma mensagem ao fórum</h2>
+      <br>
+      <div class="form-group text-start">
+        <label for="assunto">
+            Assunto
+        </label>
+        <input type="text" name="assunto" class="form-control" placeholder="Digite aqui">
+      </div>       
+      <div class="mb-3 text-start">
+        <label for="exampleFormControlTextarea1" class="form-label">
+          Descrição 
+        </label>
+        <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Digite aqui" rows="3"></textarea>
+      </div>
+      <div class="form-group">
+        <input type="submit" class="btn text-light fw-bold shadow-lg mt-3" name="btn" value="ENVIAR" style="background-color: #E26A29;">  
+      </div>
+    </form>
+  </div>
+</body>
+</html>
+
