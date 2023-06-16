@@ -65,32 +65,34 @@ module.exports = {
     },
 
     async getVets(req, res) {
-        var userId = req.session.userId
+        if (req.session.loggedin == true) {
+            var userId = req.session.userId
 
-        const findUserById = await prisma.user.findUnique({
-            where: {
-                id: userId,
-            }
-        })
-
-        var userType = findUserById.type
-
-        if (userType == "vet") {            
-            var userName       = findUserById.name
-            var userEmail      = findUserById.email
-            var userBio        = findUserById.bio
-            var userProfilePic = findUserById.profilePic
-
-            res.render('perfilVeterinario', {
-                name: userName,
-                email: userEmail,
-                bio: userBio,
-                profilePic: userProfilePic,
-                userType: userType
+            const findUserById = await prisma.user.findUnique({
+                where: {
+                    id: userId,
+                }
             })
-        } else {
-            req.session.warning = "Acesso somente para veterinários!"
-            res.redirect('/home')
+
+            var userType = findUserById.type
+
+            if (userType == "vet") {
+                var userName = findUserById.name
+                var userEmail = findUserById.email
+                var userBio = findUserById.bio
+                var userProfilePic = findUserById.profilePic
+
+                res.render('perfilVeterinario', {
+                    name: userName,
+                    email: userEmail,
+                    bio: userBio,
+                    profilePic: userProfilePic,
+                    userType: userType
+                })
+            } else {
+                req.session.warning = "Acesso negado!"
+                res.redirect('/home')
+            }
         }
     },
 

@@ -2,6 +2,7 @@ const { PrismaClient } = require('@prisma/client')
 const formidable = require('formidable')
 const dayjs = require('dayjs');
 const localizedFormat = require('dayjs/plugin/localizedFormat');
+const { name } = require('ejs');
 dayjs.extend(localizedFormat);
 
 const prisma = new PrismaClient()
@@ -168,5 +169,38 @@ module.exports = {
             }
         })
         res.redirect('/pets')
+    },
+
+    // View Select Pet
+
+    async getSelectPetForm(req, res) {
+        var userId = req.session.userId
+
+        const findUserById = await prisma.user.findUnique({
+            where: {
+                id: userId
+            }
+        })
+
+        const findPetByUser = await prisma.pet.findMany({
+            where: {
+                userId: userId
+            }
+        })
+
+        var userType   = findUserById.type
+        var profilePic = findUserById.profilePic
+        var userPets   = findPetByUser.map((pet) => {
+            return {
+                petName: pet.name,
+                petId: pet.id
+            }
+        })
+
+        res.render('selecionarPet', {
+            userType: userType,
+            profilePic: profilePic,
+            userPets: userPets
+        })
     }
 }

@@ -4,6 +4,7 @@ const VetController = require('./controllers/VetController')
 const PetController = require('./controllers/PetController')
 const DonationController = require('./controllers/DonationController')
 const PostController = require('./controllers/PostController')
+const HomeController = require('./controllers/HomeController')
 
 const router = Router()
 
@@ -12,53 +13,7 @@ const router = Router()
 
 
 // Home
-router.get('/home', function (req, res) {
-    var sucesso_login
-    var userName
-    var warning
-    var userType
-    var userPic
-
-    if (req.session.userProfilePic) {
-        userPic = req.session.userProfilePic
-        req.session.userProfilePic = ""
-    }
-
-    if (req.session.loggedin == true && req.session.userType == "user") {
-        userType = req.session.userType
-        // console.log(userType)
-        req.session.userType = ""
-    }
-
-    if (req.session.loggedin == true && req.session.userType == "vet") {
-        userType = req.session.userType
-        req.session.userType = ""
-    }
-
-    if (req.session.sucesso_login) {
-        sucesso_login = req.session.sucesso_login
-        req.session.sucesso_login = ""
-    }
-    
-    if (req.session.userName) {
-        userName = req.session.userName
-        req.session.userName = ""
-    }
-
-    if (req.session.warning) {
-        warning = req.session.warning
-        req.session.warning = ""
-    }
-
-    res.render('home',
-    {   
-        sucesso_login: sucesso_login, 
-        userName: userName,
-        warning: warning,
-        profilePic: userPic,
-        userType: userType
-    })
-})
+router.get('/home', HomeController.getHome)
 
 // User Views
 router.get('/cadastro', function (req, res) {
@@ -108,6 +63,17 @@ router.get('/login', function (req, res) {
     })
 })
 
+router.get('/logout', function(req, res) {
+    if (req.session.loggedin == true) {
+        req.session.loggedin = false
+        req.session.warning = "Você se desconectou da plataforma, faça o login!"
+        res.redirect('/home')
+    } else {
+        req.session.warning = "Você não está logado!"
+        res.redirect('/home')
+    }
+})
+
 router.get('/user-profile', UserController.getUsers)
 router.get('/vet-profile', VetController.getVets)
 
@@ -118,9 +84,7 @@ router.get('/editarPerfil', function (req, res) {
 router.get('/minhasMensagens', function (req, res) {
     res.render('minhasMensagens')
 })
-router.get('/selecionarPet', function (req, res) {
-    res.render('selecionarPet')
-})
+router.get('/selecionarPet', PetController.getSelectPetForm)
 
 // Blog routes
 router.get('/blog', PostController.getAllPosts)
