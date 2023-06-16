@@ -7,13 +7,21 @@
     <%- include('menu') %>
     <div class="container mt-5">
         <div class="d-flex flex-row justify-content-center">
-            <h3 class="fw-bold my-2 mx-5">Bem vindo ao <span style="color: #EB762B;">Fórum</span>, Gabriel!</h3>
+            <h3 class="fw-bold my-2 mx-5">Adicione uma <span style="color: #EB762B;">mensagem</span>!</h3>
             <a href="/adicionarMensagemForum">
                 <div class="icon shadow">
                     <img src="images/plus.png" alt="plus" style="height: 30px; width: 30px; margin: 12px;">
                 </div>
             </a>
         </div>
+        <br>
+        <% if (success_create_forum_message) { %>
+            <div class='alert alert-success' style="height: 60px;">
+                <p>
+                    <%= success_create_forum_message %>
+                </p>
+            </div>
+        <% } %>
         <div class="mensagemForum container shadow p-5 mt-5">
             <h3 class="fw-bold">Primeira mensagem</h3>
             <br>

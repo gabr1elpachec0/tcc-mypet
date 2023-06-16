@@ -9,11 +9,7 @@
     <%- include('menu') %>
         <div class="container mt-5">
             <div class="d-flex flex-row justify-content-center">
-                <h3 class="fw-bold my-2 mx-5"> Bem vindo ao <span style="color: #EB762B;">Blog</span>, 
-                    <% if (userName) { %> 
-                        <%= userName %>!
-                    <% } %>
-                </h3>
+                <h3 class="fw-bold my-2 mx-5"> Adicione uma <span style="color: #EB762B;">publicação</span>!</h3>
                 <a href="/post-create">
                     <div class="icon shadow">
                         <img src="images/plus.png" alt="plus" style="height: 30px; width: 30px; margin: 12px;">
@@ -21,10 +17,10 @@
                 </a>
             </div>
             <br>
-            <% if (sucess_create_post) { %>
+            <% if (success_create_post) { %>
                 <div class='alert alert-success' style="height: 60px;">
                     <p>
-                        <%= sucess_create_post %>
+                        <%= success_create_post %>
                     </p>
                 </div>
             <% } %>

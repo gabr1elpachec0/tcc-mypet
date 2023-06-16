@@ -54,7 +54,7 @@ module.exports = {
             })
             // console.log(createDonation)
 
-            req.session.sucess_create_donation = "Doação criada com sucesso!"
+            req.session.success_create_donation = "Doação criada com sucesso!"
             res.redirect('/doacoes')
         })
     },
@@ -88,8 +88,8 @@ module.exports = {
                 }
             })
 
-            var sucess_update_donation
-            var sucess_delete_donation
+            var success_update_donation
+            var success_delete_donation
 
             const findUserById = await prisma.user.findUnique({
                 where: {
@@ -101,17 +101,17 @@ module.exports = {
             var profilePic = findUserById.profilePic
 
 
-            if (req.session.sucess_update_donation) {
-                sucess_update_donation = req.session.sucess_update_donation
-                req.session.sucess_update_donation = ""
+            if (req.session.success_update_donation) {
+                success_update_donation = req.session.success_update_donation
+                req.session.success_update_donation = ""
             }
 
-            if (req.session.sucess_delete_donation) {
-                sucess_delete_donation = req.session.sucess_delete_donation
-                req.session.sucess_delete_donation = ""
+            if (req.session.success_delete_donation) {
+                success_delete_donation = req.session.success_delete_donation
+                req.session.success_delete_donation = ""
             }
 
-            res.render('minhasDoacoes', { donations: findDonationByUser, sucess_update_donation: sucess_update_donation, sucess_delete_donation: sucess_delete_donation, userType: userType, profilePic: profilePic })
+            res.render('minhasDoacoes', { donations: findDonationByUser, success_update_donation: success_update_donation, success_delete_donation: success_delete_donation, userType: userType, profilePic: profilePic })
         } else {
             req.session.erro = "Realize o login para ter acesso a esse serviço!"
             res.redirect('/login')
@@ -120,12 +120,12 @@ module.exports = {
 
     async getAllDonations(req, res) {
         if (req.session.loggedin == true) {
-            var sucess_create_donation
+            var success_create_donation
             var userId = req.session.userId
 
-            if (req.session.sucess_create_donation) {
-                sucess_create_donation = req.session.sucess_create_donation
-                req.session.sucess_create_donation = ""
+            if (req.session.success_create_donation) {
+                success_create_donation = req.session.success_create_donation
+                req.session.success_create_donation = ""
             }
             const findUserById = await prisma.user.findUnique({
                 where: {
@@ -137,7 +137,7 @@ module.exports = {
             var profilePic = findUserById.profilePic
 
             const findAllDonations = await prisma.donation.findMany()
-            res.render('doacoes', { donations: findAllDonations, sucess_create_donation: sucess_create_donation, userType: userType, profilePic: profilePic })
+            res.render('doacoes', { donations: findAllDonations, success_create_donation: success_create_donation, userType: userType, profilePic: profilePic })
         } else {
             req.session.erro = "Realize o login para ter acesso a esse serviço!"
             res.redirect('/login')
@@ -199,7 +199,7 @@ module.exports = {
                     contact: "default"
                 }
             })
-            req.session.sucess_update_donation = "Doação atualizada com sucesso!"
+            req.session.success_update_donation = "Doação atualizada com sucesso!"
             res.redirect('/minhasDoacoes')
         })
     },
@@ -236,7 +236,7 @@ module.exports = {
                 id: donationId
             }
         })
-        req.session.sucess_delete_donation = "Doação excluída com sucesso!"
+        req.session.success_delete_donation = "Doação excluída com sucesso!"
         res.redirect('/minhasDoacoes')
     }
 }

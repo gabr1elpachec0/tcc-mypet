@@ -41,6 +41,7 @@ module.exports = {
                 }
             })
         })
+        req.session.success_create_pet = "Pet adicionado com sucesso!"
         res.redirect('/pets')
         // console.log('Pet criado!')
     },
@@ -63,7 +64,7 @@ module.exports = {
     },
 
     // Read
-    async getPets(req, res) {
+    async getMyPets(req, res) {
         if (req.session.loggedin == true) {
             var userId
             userId = req.session.userId
@@ -83,6 +84,24 @@ module.exports = {
 
             var userType = findUserById.type
             var profilePic = findUserById.profilePic
+            var success_create_pet
+            var success_update_pet
+            var success_delete_pet
+
+            if (req.session.success_create_pet) {
+                success_create_pet = req.session.success_create_pet
+                req.session.success_create_pet = ""
+            }
+
+            if (req.session.success_update_pet) {
+                success_update_pet = req.session.success_update_pet
+                req.session.success_update_pet = ""
+            }
+            
+            if (req.session.success_delete_pet) {
+                success_delete_pet = req.session.success_delete_pet
+                req.session.success_delete_pet = ""
+            }
 
             // Adicionar um dia, pois estava diminuindo um dia durante a listagem
             const formattedPets = findPetByUser.map((pet) => ({
@@ -90,7 +109,14 @@ module.exports = {
                 birthDate: dayjs(pet.birthDate).add(1, 'day').format('DD/MM/YYYY'),
             }))
 
-            res.render('pets', { pets: formattedPets, userType: userType, profilePic: profilePic })
+            res.render('pets', { 
+                pets: formattedPets, 
+                userType: userType, 
+                profilePic: profilePic, 
+                success_create_pet: success_create_pet, 
+                success_update_pet: success_update_pet, 
+                success_delete_pet: success_delete_pet 
+            })
         } else {
             req.session.erro = "Realize o login para ter acesso a esse serviço!"
             res.redirect('/login')
@@ -132,6 +158,7 @@ module.exports = {
                     gender: petGender
                 }
             })
+            req.session.success_update_pet = "Pet atualizado com sucesso!"
             res.redirect('/pets')
         })
     },
@@ -168,6 +195,7 @@ module.exports = {
                 id: petId
             }
         })
+        req.session.success_update_pet = "Pet excluído com sucesso!"
         res.redirect('/pets')
     },
 

@@ -5,6 +5,7 @@ const PetController = require('./controllers/PetController')
 const DonationController = require('./controllers/DonationController')
 const PostController = require('./controllers/PostController')
 const HomeController = require('./controllers/HomeController')
+const ForumController = require('./controllers/ForumController')
 
 const router = Router()
 
@@ -81,9 +82,6 @@ router.get('/editarPerfil', function (req, res) {
     res.render('editarPerfil')
 })
 
-router.get('/minhasMensagens', function (req, res) {
-    res.render('minhasMensagens')
-})
 router.get('/selecionarPet', PetController.getSelectPetForm)
 
 // Blog routes
@@ -96,12 +94,11 @@ router.get('/post-create', PostController.createPostForm)
 router.get('/post-delete/:id', PostController.deletePost)
 
 // Forum
-router.get('/forum', function (req, res) {
-    res.render('forum')
-})
-router.get('/adicionarMensagemForum', function (req, res) {
-    res.render('adicionarMensagemForum')
-})
+router.get('/forum', ForumController.getAllForumMessages)
+router.get('/adicionarMensagemForum', ForumController.createForumMessageForm)
+router.get('/minhasMensagens', ForumController.getMyForumMessages)
+router.post('/adicionarMensagemForum', ForumController.createForumMessage)
+
 router.get('/editarMensagemForum', function (req, res) {
     res.render('editarMensagemForum')
 })
@@ -139,9 +136,9 @@ router.post('/user-login', UserController.verifyUser)
 router.post('/vet', VetController.createVet)
 
 
-//Pet Controller
+//Pets Controller
 router.post('/pet-create', PetController.createPet)
-router.get('/pets', PetController.getPets)
+router.get('/pets', PetController.getMyPets)
 router.get('/pet-update/:id', PetController.updatePetForm)
 router.post('/pet-update/:id', PetController.updatePet)
 router.get('/pet-delete/:id', PetController.deletePet)

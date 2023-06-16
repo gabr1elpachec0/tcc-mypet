@@ -35,7 +35,7 @@ module.exports = {
             })
             // console.log(createPost)
 
-            req.session.sucess_create_post = "Post criado com sucesso!"
+            req.session.success_create_post = "Post criado com sucesso!"
             res.redirect('/blog')
         })
     },
@@ -44,7 +44,7 @@ module.exports = {
 
     async getAllPosts(req, res) {
         if (req.session.loggedin == true) {
-            var sucess_create_post;
+            var success_create_post;
             var userId = req.session.userId;
 
             const findUserById = await prisma.user.findUnique({
@@ -53,13 +53,13 @@ module.exports = {
                 }
             });
 
-            var userName   = findUserById.name
+            // var userName   = findUserById.name
             var userType   = findUserById.type
             var profilePic = findUserById.profilePic
 
-            if (req.session.sucess_create_post) {
-                sucess_create_post = req.session.sucess_create_post
-                req.session.sucess_create_post = ""
+            if (req.session.success_create_post) {
+                success_create_post = req.session.success_create_post
+                req.session.success_create_post = ""
             }
 
             const findAllPosts = await prisma.post.findMany({
@@ -68,7 +68,7 @@ module.exports = {
                 }
             });
 
-            res.render('blog', { posts: findAllPosts, sucess_create_post: sucess_create_post, userName: userName, userType: userType, profilePic: profilePic });
+            res.render('blog', { posts: findAllPosts, success_create_post: success_create_post, userType: userType, profilePic: profilePic });
         } else {
             req.session.erro = "Realize o login para ter acesso a esse serviço!"
             res.redirect('/login')
@@ -96,23 +96,23 @@ module.exports = {
                 }
             });
             
-            var sucess_update_post
-            var sucess_delete_post
+            var success_update_post
+            var success_delete_post
             var userType = findUserById.type
             var profilePic = findUserById.profilePic
 
 
-            if (req.session.sucess_update_post) {
-                sucess_update_post = req.session.sucess_update_post
-                req.session.sucess_update_post = ""
+            if (req.session.success_update_post) {
+                success_update_post = req.session.success_update_post
+                req.session.success_update_post = ""
             }
 
-            if (req.session.sucess_delete_post) {
-                sucess_delete_post = req.session.sucess_delete_post
-                req.session.sucess_delete_post = ""
+            if (req.session.success_delete_post) {
+                success_delete_post = req.session.success_delete_post
+                req.session.success_delete_post = ""
             }
 
-            res.render('minhasPublicacoes', { posts: findPostByUser, sucess_delete_post: sucess_delete_post, sucess_update_post: sucess_update_post, userType: userType, profilePic: profilePic })
+            res.render('minhasPublicacoes', { posts: findPostByUser, success_delete_post: success_delete_post, success_update_post: success_update_post, userType: userType, profilePic: profilePic })
         } else {
             req.session.erro = "Realize o login para ter acesso a esse serviço!"
             res.redirect('/login')
@@ -189,7 +189,7 @@ module.exports = {
             })
             // console.log(updatePost)
 
-            req.session.sucess_update_post = "Post atualizado com sucesso!"
+            req.session.success_update_post = "Post atualizado com sucesso!"
             res.redirect('/minhasPublicacoes')
         })
     },
@@ -204,7 +204,7 @@ module.exports = {
                 id: postId
             }
         })
-        req.session.sucess_delete_post = "Post excluído com sucesso!"
+        req.session.success_delete_post = "Post excluído com sucesso!"
         res.redirect('/minhasPublicacoes')
     }
 

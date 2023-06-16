@@ -1,80 +1,96 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
-<head>
+  <head>
     <%- include('head') %>
-</head>
+  </head>
 
-<body>
+  <body>
     <%- include('menu') %>
-        <div class="container mt-5">
-            <div class="d-flex flex-row justify-content-center">
-                <h3 class="fw-bold my-2 mx-5"> Adicione aqui os seus <span style="color: #EB762B;">pets</span>!</h3>
-                <a href="/adicionarPet">
-                    <div class="icon shadow">
-                        <img src="images/plus.png" alt="plus" style="height: 30px; margin: 12px;">
-                    </div>
+    <div class="container mt-5">
+      <div class="d-flex flex-row justify-content-center">
+        <h3 class="fw-bold my-2 mx-5">
+          Adicione um <span style="color: #eb762b">pet</span>!
+        </h3>
+        <a href="/adicionarPet">
+          <div class="icon shadow">
+            <img
+              src="images/plus.png"
+              alt="plus"
+              style="height: 30px; margin: 12px"
+            />
+          </div>
+        </a>
+      </div>
+      <br />
+      <% if (success_create_pet) { %>
+      <div class="alert alert-success" style="height: 60px">
+        <p><%= success_create_pet %></p>
+      </div>
+      <% } %> <% if (success_update_pet) { %>
+      <div class="alert alert-success" style="height: 60px">
+        <p><%= success_update_pet %></p>
+      </div>
+      <% } %> <% if (success_delete_pet) { %>
+      <div class="alert alert-success" style="height: 60px">
+        <p><%= success_delete_pet %></p>
+      </div>
+      <% } %>
+      <div class="mt-5">
+        <table class="table mt-1 shadow-sm">
+          <thead>
+            <tr>
+              <th scope="col">Nome do Pet</th>
+              <th scope="col">Data de nascimento</th>
+              <th scope="col">Raça</th>
+              <th scope="col">Porte</th>
+              <th scope="col">Tipo do Pet</th>
+              <th scope="col">Gênero do Pet</th>
+              <th scope="col">Carteira Digital</th>
+              <th scope="col">Editar</th>
+              <th scope="col">Deletar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% pets.forEach(function (pet) { %>
+            <tr>
+              <td class="fw-normal" scope="row"><%= pet['name'] %></td>
+              <td class="fw-normal" scope="row"><%= pet['birthDate'] %></td>
+              <td class="fw-normal" scope="row"><%= pet['breed'] %></td>
+              <td class="fw-normal" scope="row"><%= pet['size'] %></td>
+              <td class="fw-normal" scope="row"><%= pet['type'] %></td>
+              <td class="fw-normal" scope="row"><%= pet['gender'] %></td>
+              <td>
+                <a href="/carteiraDigital" style="color: #eb762b"
+                  >Ver Carteira Digital</a
+                >
+              </td>
+              <td>
+                <a href="/pet-update/<%= pet['id'] %>">
+                  <div class="icon-table">
+                    <img
+                      src="images/edit.png"
+                      alt="edit"
+                      style="height: 25px; margin: 12px"
+                    />
+                  </div>
                 </a>
-            </div>
-            <div class="mt-5">
-                <table class="table mt-1 shadow-sm">
-                    <thead>
-                        <tr>
-                            <th scope="col">Nome do Pet</th>
-                            <th scope="col">Data de nascimento</th>
-                            <th scope="col">Raça</th>
-                            <th scope="col">Porte</th>
-                            <th scope="col">Tipo do Pet</th>
-                            <th scope="col">Gênero do Pet</th>
-                            <th scope="col">Carteira Digital</th>
-                            <th scope="col">Editar</th>
-                            <th scope="col">Deletar</th>
-
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% pets.forEach(function (pet) { %>
-                            <tr>
-                                <td class="fw-normal" scope="row">
-                                    <%= pet['name'] %>
-                                </td>
-                                <td class="fw-normal" scope="row">
-                                    <%= pet['birthDate'] %>
-                                </td>
-                                <td class="fw-normal" scope="row">
-                                    <%= pet['breed'] %>
-                                </td>
-                                <td class="fw-normal" scope="row">
-                                    <%= pet['size'] %>
-                                </td>
-                                <td class="fw-normal" scope="row">
-                                    <%= pet['type'] %>
-                                </td>
-                                <td class="fw-normal" scope="row">
-                                    <%= pet['gender'] %>
-                                </td>
-                                <td>
-                                    <a href="/carteiraDigital" style="color: #EB762B;">Ver Carteira Digital</a>
-                                </td>
-                                <td>
-                                    <a href="/pet-update/<%= pet['id'] %>">
-                                        <div class="icon-table">
-                                            <img src="images/edit.png" alt="edit" style="height: 25px; margin: 12px;">
-                                        </div>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="/pet-delete/<%= pet['id'] %>">
-                                        <div class="icon-table">
-                                            <img src="images/x.png" alt="delete" style="height: 25px; margin: 12px;">
-                                        </div>
-                                    </a>
-                                </td>
-                            </tr>
-                            <% }) %>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-</body>
+              </td>
+              <td>
+                <a href="/pet-delete/<%= pet['id'] %>">
+                  <div class="icon-table">
+                    <img
+                      src="images/x.png"
+                      alt="delete"
+                      style="height: 25px; margin: 12px"
+                    />
+                  </div>
+                </a>
+              </td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
 </html>
