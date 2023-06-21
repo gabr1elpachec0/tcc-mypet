@@ -33,7 +33,7 @@ module.exports = {
                     var oldpathImg = files.profilePic.filepath
                     var hashImg = crypto.createHash('md5').update(Date.now().toString()).digest('hex')
                     nomeimg = hashImg + '.' + files.profilePic.mimetype.split('/')[1]
-                    var newpathImg = path.join(__dirname, '../../public/uploads/', nomeimg)
+                    var newpathImg = path.join(__dirname, '../../public/profilePics/', nomeimg)
                     fs.rename(oldpathImg, newpathImg, function (err) {
                         if (err) throw err
                     })

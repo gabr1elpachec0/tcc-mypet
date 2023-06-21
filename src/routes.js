@@ -98,10 +98,9 @@ router.get('/forum', ForumController.getAllForumMessages)
 router.get('/adicionarMensagemForum', ForumController.createForumMessageForm)
 router.get('/minhasMensagens', ForumController.getMyForumMessages)
 router.post('/adicionarMensagemForum', ForumController.createForumMessage)
-
-router.get('/editarMensagemForum', function (req, res) {
-    res.render('editarMensagemForum')
-})
+router.get('/forumMessage-update/:id', ForumController.getUpdateForm)
+router.post('/forumMessage-update/:id', ForumController.updateForumMessage)
+router.get('/forumMessage-delete/:id', ForumController.deleteForumMessage)
 
 // Pets e Carteira Digital
 router.get('/carteiraDigital', function (req, res) {

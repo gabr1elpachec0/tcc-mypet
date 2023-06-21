@@ -22,21 +22,22 @@
                 </p>
             </div>
         <% } %>
-        <div class="mensagemForum container shadow p-5 mt-5">
-            <h3 class="fw-bold">Primeira mensagem</h3>
-            <br>
-            <p>Minha primeira mensagem aqui no fórum!</p>
-            <p class="fw-bold">Usuário: Gabriel Pacheco</p>
-            <br>
-            <p class="">
-                <a  href="" 
-                    style="color: #EB762B;">
-                    Responder
-                </a>
-            </p>
+        <% messages.forEach(function(message) { %>
+            <div class="mensagemForum container shadow p-5 mt-5">
+                <h3 class="fw-bold"><%= message['title'] %></h3>
+                <br>
+                <p><%= message['description'] %></p>
+                <p class="fw-bold">Usuário: <%= message['forumMessageAuthor'].name %></p>
+                <br>
+                <p class="">
+                    <a href="" style="color: #EB762B;">
+                        Responder
+                    </a>
+                </p>
             
-        </div>
-        <br>
+            </div>
+            <br>
+        <% }) %>
     </div>
     
 </body>
