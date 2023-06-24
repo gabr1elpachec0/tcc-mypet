@@ -1,76 +1,78 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
+  <head>
     <%- include('head') %>
-</head>
-<body>
+  </head>
+
+  <body>
     <%- include('menu') %>
     <div class="container text-start">
-        <h2 class="fw-bold mt-5">Área do usuário</h2>
+      <h2 class="fw-bold mt-4">Perfil do Usuário</h2>
     </div>
     <div class="perfil container d-flex text-start mt-5 shadow">
-        <% if (profilePic) { %>
-            <img class="rounded-circle shadow m-3" src="profilePics/<%= profilePic %>" alt="profile-picture" style="height: 300px; width: 300px;">
-        <% } else { %>
-            <img class="rounded-circle shadow m-3" src="images/user-circle.png" alt="profile-picture" style="height: 300px; width: 300px;">
+      <% if (profileUserVetPic) { %>
+      <img
+        class="rounded-circle shadow m-5"
+        src="../profilePics/<%= profileUserVetPic %>"
+        alt="profile-picture"
+        style="height: 300px; width: 300px"
+      />
+      <% } else { %>
+      <img
+        class="rounded-circle shadow m-5"
+        src="../images/user-circle.png"
+        alt="profile-picture"
+        style="height: 300px; width: 300px"
+      />
+      <% } %>
+      <div class="container m-5">
+        <h5 class="fw-bold" style="color: #eb762b">Nome:</h5>
+        <% if(profileUserVetName){ %>
+        <h5><%= profileUserVetName %></h5>
+        <%} %>
+        <br />
+        <h5 class="fw-bold" style="color: #eb762b">Descrição:</h5>
+        <% if(profileUserVetBio){ %>
+        <h5><%= profileUserVetBio %></h5>
+        <% } %> <% if (!profileUserVetBio) { %>
+        <h5>Nenhuma</h5>
         <% } %>
-        <div class="container m-5">
-            <h5 class="fw-bold" style="color: #EB762B;">Nome:</h5>
-            <% if (name) { %>
-                <h5>
-                    <%= name %>
-                </h5>
-            <% } %>
-            <br>
-            <h5 class="fw-bold" style="color: #EB762B;">Email:</h5>
-            <% if (email) { %>
-                <h5>
-                    <%= email %>
-                </h5>
-            <% } %>
-            <br>
-            <h5 class="fw-bold" style="color: #EB762B;">Descrição:</h5>
-            <% if (bio) { %>
-                <h5>
-                    <%= bio %>
-                </h5>
-            <% } %>
-            <% if (!bio) { %>
-                <h5>
-                    Nenhuma
-                </h5>
-            <% } %>
-        </div>
-        <div class="container">
-            <a href="/editarPerfil" class="text-decoration-none text-white">
-                <button class="btn text-light m-5 fw-bold shadow" style="background-color: #E26A29;">
-                    EDITAR
-                </button>
-            </a>
-        </div>
+      </div>
+      <div class="container">
+        <a href="#" class="text-decoration-none text-white">
+          <button
+            class="btn text-light m-5 fw-bold shadow"
+            style="background-color: #e26a29"
+          >
+            Entrar em contato
+          </button>
+        </a>
+      </div>
     </div>
-    <br>
+    <br />
     <div class="container mt-5 mb-5">
-        <table class="table mt-1">
-            <thead>
-                <tr>
-                    <th scope="col">Doações</th>
-                    <th scope="col">Pets</th>
-                    <th scope="col">Publicações</th>
-                    <th scope="col">Fórum</th>
-                    <th scope="col">Carteira Digital</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><a href="/minhasDoacoes" style="color: #EB762B;">Minhas doações</a></td>
-                    <td><a href="/pets" style="color: #EB762B;">Meus pets</a></td>
-                    <td><a href="/minhasPublicacoes" style="color: #EB762B;">Minhas publicações</a></td>
-                    <td><a href="/minhasMensagens" style="color: #EB762B;">Minhas mensagens</a></td>
-                    <td><a href="/selecionarPet" style="color: #EB762B;">Gerar</a></td>
-                </tr>
-            </tbody>
-        </table>
+      <table class="table mt-1">
+        <thead>
+          <tr>
+            <th scope="col">Doações</th>
+            <th scope="col">Publicações</th>
+            <th scope="col">Fórum</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <a href="/suasDoacoes" style="color: #eb762b">Suas doações</a>
+            </td>
+            <td>
+              <a href="/suasPublicacoes" style="color: #eb762b">Suas publicações</a>
+            </td>
+            <td>
+              <a href="/suasMensagens" style="color: #eb762b">Suas mensagens</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-</body>
+  </body>
 </html>

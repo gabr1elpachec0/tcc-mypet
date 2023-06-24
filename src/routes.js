@@ -121,9 +121,8 @@ router.get('/editarTabela', function (req, res) {
 
 
 // Veterinários
-router.get('/listaVeterinarios', function (req, res) {
-    res.render('listaVeterinarios')
-})
+router.get('/listaVeterinarios', VetController.getAllVets)
+router.get('/profile/:id', UserController.getProfile)
 
 // Controllers
 

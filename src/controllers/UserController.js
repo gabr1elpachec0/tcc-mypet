@@ -123,7 +123,7 @@ module.exports = {
                 var userBio = findUserById.bio
                 var userProfilePic = findUserById.profilePic
 
-                res.render('perfilUsuario', {
+                res.render('meuPerfilUsuario', {
                     name: userName,
                     email: userEmail,
                     bio: userBio,
@@ -136,5 +136,61 @@ module.exports = {
             }
         } 
     },
+
+    async getProfile(req, res) {
+        if (req.session.loggedin == true) {
+            var userId = req.session.userId
+            var profileId = parseInt(req.params.id)
+
+            const findUserById = await prisma.user.findUnique({
+                where: {
+                    id: userId,
+                }
+            })
+
+            var userType = findUserById.type
+            var profilePic = findUserById.profilePic
+
+            const findProfileById = await prisma.user.findUnique({
+                where: {
+                    id: profileId
+                }
+            })
+
+            var profileUserVetName
+            var profileUserVetPic
+            var profileUserVetBio
+
+            if (findProfileById.type == "user") {
+                profileUserVetName = findProfileById.name
+                profileUserVetPic = findProfileById.profilePic
+                profileUserVetBio = findProfileById.bio
+
+                res.render('perfilUsuario', {
+                    userType: userType,
+                    profilePic: profilePic,
+                    profileUserVetName: profileUserVetName,
+                    profileUserVetBio: profileUserVetBio,
+                    profileUserVetPic: profileUserVetPic
+                })
+            }
+            if (findProfileById.type == "vet") {
+                profileUserVetName = findProfileById.name
+                profileUserVetPic = findProfileById.profilePic
+                profileUserVetBio = findProfileById.bio
+
+                res.render('perfilVeterinario', {
+                    userType: userType,
+                    profilePic: profilePic,
+                    profileUserVetName: profileUserVetName,
+                    profileUserVetBio: profileUserVetBio,
+                    profileUserVetPic: profileUserVetPic
+                })
+            }
+        } else {
+            req.session.warning = "Acesso negado!"
+            res.redirect('/home')
+        }
+    }
 
 }

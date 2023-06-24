@@ -82,13 +82,14 @@ module.exports = {
                 var userBio = findUserById.bio
                 var userProfilePic = findUserById.profilePic
 
-                res.render('perfilVeterinario', {
+                res.render('meuPerfilVeterinario', {
                     name: userName,
                     email: userEmail,
                     bio: userBio,
                     profilePic: userProfilePic,
                     userType: userType
                 })
+        
             } else {
                 req.session.warning = "Acesso negado!"
                 res.redirect('/home')
@@ -96,5 +97,35 @@ module.exports = {
         }
     },
 
+    async getAllVets(req, res) {
+        if (req.session.loggedin == true) {
+            var userId = req.session.userId
+
+            const findUserById = await prisma.user.findUnique({
+                where: {
+                    id: userId,
+                }
+            })
+
+            var userType   = findUserById.type
+            var profilePic = findUserById.profilePic
+
+            const findAllVets = await prisma.user.findMany({
+                where: {
+                    type: 'vet'
+                }
+            })
+            
+            res.render('listaVeterinarios', {
+                vets: findAllVets,
+                userType: userType,
+                profilePic: profilePic
+            })
+
+        } else {
+            req.session.warning = "Acesso negado!"
+            res.redirect('/home') 
+        }
+    },
 
 }
