@@ -103,12 +103,11 @@ router.post('/forumMessage-update/:id', ForumController.updateForumMessage)
 router.get('/forumMessage-delete/:id', ForumController.deleteForumMessage)
 
 // Pets e Carteira Digital
-router.get('/carteiraDigital', function (req, res) {
-    res.render('carteiraDigital')
-})
-router.get('/adicionarControleImunizacao', function (req, res) {
-    res.render('adicionarControleImunizacao')
-})
+router.get('/carteiraDigital/:id', PetController.getDigitalCard)
+
+router.get('/adicionarControleImunizacao/:id', PetController.getImmunizationControlForm)
+router.post('/adicionarControleImunizacao/:id', PetController.createImmunizationControl)
+
 router.get('/adicionarControlePeso', function (req, res) {
     res.render('adicionarControlePeso')
 })

@@ -8,56 +8,66 @@
 <body>
     <%- include('menu') %>
         <div class="container mt-5">
-            <div class="d-flex flex-row">
-                <h3 class="fw-bold my-2"> Carteira Digital do <span style="color: #EB762B;">Mirb</span>!</h3>
-                <div class="icon shadow mx-5">
-                    <a href="/adicionarControleImunizacao">
-                        <img src="images/vaccine.svg" alt="plus" style="height: 30px; width: 30px; margin: 12px;">
-                    </a>
+            <% if(success_create_immunization_control){ %>
+                <div class='alert alert-success' style="height: 60px;">
+                  <p>
+                    <%= success_create_immunization_control %>
+                  </p>
                 </div>
-                <div class="icon shadow ">
+            <% } %>
+            <br>
+            <% pet.forEach(function (pet) { %>
+                <div class="d-flex flex-row">
+                    <h3 class="fw-bold my-2"> Carteira Digital do <span style="color: #EB762B;"><%= pet['name'] %></span>!</h3>
+                    <a href="/adicionarControleImunizacao/<%= pet['id'] %>">
+                        <div class="icon shadow mx-5">
+                            <img src="../images/vaccine.svg" alt="plus" style="height: 30px; width: 30px; margin: 12px;">
+                        </div>
+                    </a>
                     <a href="/adicionarControlePeso">
-                        <img src="images/weight.svg" alt="edit" style="height: 30px; width: 30px; margin: 12px;">
+                        <div class="icon shadow ">
+                            <img src="../images/weight.png" alt="edit" style="height: 32px; width: 32px; margin: 12px;">
+                        </div>
                     </a>
-                </div>
-                <div class="icon shadow mx-5">
                     <a href="/adicionarControleMedicamentos">
-                        <img src="images/pill.svg" alt="edit" style="height: 30px; width: 30px; margin: 12px;">
+                        <div class="icon shadow mx-5">
+                            <img src="../images/pill.svg" alt="edit" style="height: 30px; width: 30px; margin: 12px;">
+                        </div>
                     </a>
-                </div>
-                <div class="icon shadow">
                     <a href="/filtrarTabela">
-                        <img src="images/filter.png" alt="filter" style="height: 30px; width: 30px; margin: 12px;">
+                        <div class="icon shadow">
+                            <img src="../images/filter.png" alt="filter" style="height: 30px; width: 30px; margin: 12px;">
+                        </div>
                     </a>
+                </div>            
+                <div class="mt-5">
+                    <h3 class="fw-bold"> Tabela aqui</h3>
+                    <table class="table mt-1">
+                        <thead>
+                            <tr>
+                                <th scope="col">Data</th>
+                                <th scope="col">Vacina</th>
+                                <th scope="col">Veterinário</th>
+                                <th scope="col">Repetir em</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th class="fw-normal" scope="row">28/03/2023</th>
+                                <td>Raiva</td>
+                                <td>Nome-Veterinário</td>
+                                <td>28/03/2024</td>
+                            </tr>
+                            <tr>
+                                <th class="fw-normal" scope="row">28/03/2023</th>
+                                <td>Óctupla</td>
+                                <td>Nome-Veterinário</td>
+                                <td>28/03/2024</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-            </div>            
-            <div class="mt-5">
-                <h3 class="fw-bold"> Tabela aqui</h3>
-                <table class="table mt-1">
-                    <thead>
-                        <tr>
-                            <th scope="col">Data</th>
-                            <th scope="col">Vacina</th>
-                            <th scope="col">Veterinário</th>
-                            <th scope="col">Repetir em</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th class="fw-normal" scope="row">28/03/2023</th>
-                            <td>Raiva</td>
-                            <td>Nome-Veterinário</td>
-                            <td>28/03/2024</td>
-                        </tr>
-                        <tr>
-                            <th class="fw-normal" scope="row">28/03/2023</th>
-                            <td>Óctupla</td>
-                            <td>Nome-Veterinário</td>
-                            <td>28/03/2024</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <% }) %>
         </div>
 </body>
 

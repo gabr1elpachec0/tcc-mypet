@@ -230,5 +230,88 @@ module.exports = {
             profilePic: profilePic,
             userPets: userPets
         })
+    },
+
+    async getDigitalCard(req, res) {
+        var userId = req.session.userId
+        var petId  = parseInt(req.params.id)
+        var success_create_immunization_control
+
+        const findUserById = await prisma.user.findUnique({
+            where: {
+                id: userId
+            }
+        })
+
+        const findPetById = await prisma.pet.findUnique({
+            where: {
+                id: petId
+            }
+        })
+        
+        if (req.session.success_create_immunization_control) {
+            success_create_immunization_control = req.session.success_create_immunization_control
+            req.session.success_create_immunization_control = ""
+        }
+
+        var userType   = findUserById.type
+        var profilePic = findUserById.profilePic
+
+        res.render('carteiraDigital', {
+            userType: userType,
+            profilePic: profilePic,
+            pet: [findPetById],
+            success_create_immunization_control: success_create_immunization_control
+        })
+    },
+
+    async getImmunizationControlForm(req, res) {
+        var userId = req.session.userId
+        var petId  = parseInt(req.params.id)
+
+        const findUserById = await prisma.user.findUnique({
+            where: {
+                id: userId
+            }
+        })
+
+        const findPetById = await prisma.pet.findUnique({
+            where: {
+                id: petId
+            }
+        })
+
+        var userType   = findUserById.type
+        var profilePic = findUserById.profilePic
+
+        res.render('adicionarControleImunizacao', {
+            userType: userType,
+            profilePic: profilePic,
+            pet: [findPetById]
+        })
+    },
+
+    async createImmunizationControl(req, res) {
+        var petId = parseInt(req.params.id)
+
+        var form_create_immunization_control = new formidable.IncomingForm()
+
+        form_create_immunization_control.parse(req, async(err, fields, files) => {
+            var vaccineDate = fields['date']
+            var repeatDate  = fields['repeatDate']
+
+            const createImmunizationControl = await prisma.immunizationControl.create({
+                data: {
+                    petId: petId,
+                    vaccineName: fields['vaccineName'],
+                    date: new Date(vaccineDate),
+                    vetName: fields['vetName'],
+                    vaccineRepeat: new Date(repeatDate)
+                }
+            })
+
+            req.session.success_create_immunization_control = "Controle de imunização criado com sucesso!"
+            res.redirect(`/carteiraDigital/${petId}`)
+        })
     }
 }
