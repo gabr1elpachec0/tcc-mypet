@@ -236,6 +236,8 @@ module.exports = {
         var userId = req.session.userId
         var petId  = parseInt(req.params.id)
         var success_create_immunization_control
+        var success_create_weight_control
+        var success_create_medicines_control
 
         const findUserById = await prisma.user.findUnique({
             where: {
@@ -254,10 +256,20 @@ module.exports = {
             req.session.success_create_immunization_control = ""
         }
 
+        if (req.session.success_create_weight_control) {
+            success_create_weight_control = req.session.success_create_weight_control
+            req.session.success_create_weight_control = ""
+        }
+
+        if (req.session.success_create_medicines_control) {
+            success_create_medicines_control = req.session.success_create_medicines_control
+            req.session.success_create_medicines_control = ""
+        }
+
         var userType   = findUserById.type
         var profilePic = findUserById.profilePic
 
-        const findImmunizationControl = await prisma.immunizationControl.findMany({
+        const findImmunizationControl = await prisma.ImmunizationControl.findMany({
             where: {
                 petId: petId
             }
@@ -274,7 +286,10 @@ module.exports = {
             profilePic: profilePic,
             pet: [findPetById],
             immunizationControl: formattedImmunizationControl,
-            success_create_immunization_control: success_create_immunization_control
+            success_create_immunization_control: success_create_immunization_control,
+            success_create_weight_control: success_create_weight_control,
+            success_create_medicines_control: success_create_medicines_control
+
         })
     },
 
@@ -327,4 +342,179 @@ module.exports = {
             res.redirect(`/carteiraDigital/${petId}`)
         })
     },
+
+    async getWeightControlForm(req, res) {
+        var userId = req.session.userId
+        var petId = parseInt(req.params.id)
+
+        const findUserById = await prisma.user.findUnique({
+            where: {
+                id: userId
+            }
+        })
+
+        const findPetById = await prisma.pet.findUnique({
+            where: {
+                id: petId
+            }
+        })
+
+        var userType = findUserById.type
+        var profilePic = findUserById.profilePic
+
+        res.render('adicionarControlePeso', {
+            userType: userType,
+            profilePic: profilePic,
+            pet: [findPetById]
+        })
+    },
+
+    async createWeightControl(req, res) {
+        var petId = parseInt(req.params.id)
+
+        var form_create_weight_control = new formidable.IncomingForm()
+
+        form_create_weight_control.parse(req, async (err, fields, files) => {
+            var weightDate = fields['weightDate']
+            var weight = fields['weight']
+
+            const createWeightControl = await prisma.weightControl.create({
+                data: {
+                    petId: petId,
+                    weight: parseInt(weight),
+                    weightDate: new Date(weightDate)
+                }
+            })
+
+            req.session.success_create_weight_control = "Controle de peso criado com sucesso!"
+            res.redirect(`/carteiraDigital/${petId}`)
+        })
+    },
+
+    async getMedicinesControlForm(req, res) {
+        var userId = req.session.userId
+        var petId = parseInt(req.params.id)
+
+        const findUserById = await prisma.user.findUnique({
+            where: {
+                id: userId
+            }
+        })
+
+        const findPetById = await prisma.pet.findUnique({
+            where: {
+                id: petId
+            }
+        })
+
+        var userType = findUserById.type
+        var profilePic = findUserById.profilePic
+
+        res.render('adicionarControleMedicamentos', {
+            userType: userType,
+            profilePic: profilePic,
+            pet: [findPetById]
+        })
+    },
+
+    async createMedicinesControl(req, res) {
+        var petId = parseInt(req.params.id)
+
+        var form_create_medicines_control = new formidable.IncomingForm()
+
+        form_create_medicines_control.parse(req, async (err, fields, files) => {
+            var medicineDate   = fields['medicineDate']
+            var medicineRepeat = fields['medicineRepeat']
+
+            const createMedicinesControl = await prisma.medicinesControl.create({
+                data: {
+                    petId: petId,
+                    medicineCategory: fields['medicineCategory'],
+                    medicineName: fields['medicineName'],
+                    medicineDate: new Date(medicineDate),
+                    medicineRepeat: new Date(medicineRepeat)
+                }
+            })
+
+            req.session.success_create_medicines_control = "Controle de medicamentos criado com sucesso!"
+            res.redirect(`/carteiraDigital/${petId}`)
+        })
+    },
+
+    async getWeightControl(req, res) {
+        var userId = req.session.userId
+        var petId = parseInt(req.params.id)
+
+        const findUserById = await prisma.user.findUnique({
+            where: {
+                id: userId
+            }
+        })
+
+        const findPetById = await prisma.pet.findUnique({
+            where: {
+                id: petId
+            }
+        })
+
+        var userType = findUserById.type
+        var profilePic = findUserById.profilePic
+
+        const findWeightControl = await prisma.weightControl.findMany({
+            where: {
+                petId: petId
+            }
+        })
+
+        const formattedWeightControl = findWeightControl.map((pet) => ({
+            ...pet,
+            weightDate: dayjs(pet.weightDate).add(1, 'day').format('DD/MM/YYYY'),
+        }))
+
+        res.render('listarControlePeso', {
+            userType: userType,
+            profilePic: profilePic,
+            pet: [findPetById],
+            weightControl: formattedWeightControl,
+        })
+    },
+
+    async getMedicinesControl(req, res) {
+        var userId = req.session.userId
+        var petId = parseInt(req.params.id)
+
+        const findUserById = await prisma.user.findUnique({
+            where: {
+                id: userId
+            }
+        })
+
+        const findPetById = await prisma.pet.findUnique({
+            where: {
+                id: petId
+            }
+        })
+
+        var userType = findUserById.type
+        var profilePic = findUserById.profilePic
+
+        const findMedicinesControl = await prisma.medicinesControl.findMany({
+            where: {
+                petId: petId
+            }
+        })
+
+        const formattedMedicinesControl = findMedicinesControl.map((pet) => ({
+            ...pet,
+            medicineDate: dayjs(pet.medicineDate).add(1, 'day').format('DD/MM/YYYY'),
+            medicineRepeat: dayjs(pet.medicineRepeat).add(1, 'day').format('DD/MM/YYYY'),
+        }))
+
+        res.render('listarControleMedicamentos', {
+            userType: userType,
+            profilePic: profilePic,
+            pet: [findPetById],
+            medicinesControl: formattedMedicinesControl,
+        })
+    }
 }

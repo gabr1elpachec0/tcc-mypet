@@ -15,30 +15,49 @@
                   </p>
                 </div>
             <% } %>
+            <% if(success_create_weight_control){ %>
+                <div class='alert alert-success' style="height: 60px;">
+                    <p>
+                        <%= success_create_weight_control %>
+                    </p>
+                </div>
+            <% } %>
+            <% if(success_create_medicines_control){ %>
+                <div class='alert alert-success' style="height: 60px;">
+                    <p>
+                        <%= success_create_medicines_control %>
+                    </p>
+                </div>
+                <% } %>
             <br>
             <% pet.forEach(function (pet) { %>
                 <div class="d-flex flex-row">
-                    <h3 class="fw-bold my-2"> Carteira Digital do <span style="color: #EB762B;"><%= pet['name'] %></span>!</h3>
+                    <h3 class="fw-bold my-2"> Carteira Digital do(a) <span style="color: #EB762B;"><%= pet['name'] %></span>!</h3>
                     <a href="/adicionarControleImunizacao/<%= pet['id'] %>">
                         <div class="icon shadow mx-5">
                             <img src="../images/vaccine.svg" alt="plus" style="height: 30px; width: 30px; margin: 12px;">
                         </div>
                     </a>
-                    <a href="/adicionarControlePeso">
+                    <a href="/adicionarControlePeso/<%= pet['id'] %>">
                         <div class="icon shadow ">
                             <img src="../images/weight.png" alt="edit" style="height: 32px; width: 32px; margin: 12px;">
                         </div>
                     </a>
-                    <a href="/adicionarControleMedicamentos">
+                    <a href="/adicionarControleMedicamentos/<%= pet['id'] %>">
                         <div class="icon shadow mx-5">
                             <img src="../images/pill.svg" alt="edit" style="height: 30px; width: 30px; margin: 12px;">
                         </div>
                     </a>
-                    <a href="/filtrarTabela">
-                        <div class="icon shadow">
-                            <img src="../images/filter.png" alt="filter" style="height: 30px; width: 30px; margin: 12px;">
-                        </div>
-                    </a>
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle icon" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Filtrar
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/carteiraDigital/<%= pet['id'] %>">Controle de imunização</a></li>
+                            <li><a class="dropdown-item" href="/listarControlePeso/<%= pet['id'] %>">Controle de peso</a></li>
+                            <li><a class="dropdown-item" href="/listarControleMedicamentos/<%= pet['id'] %>">Controle de medicamentos</a></li>
+                        </ul>
+                    </div>
                 </div>            
                 <div class="mt-5">
                     <h3 class="fw-bold"> Controle de imunização </h3>

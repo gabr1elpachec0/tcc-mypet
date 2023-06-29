@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <%- include('head') %>
+</head>
+
+<body>
+    <%- include('menu') %>
+        <div class="container mt-5">
+            <% pet.forEach(function (pet) { %>
+                <div class="d-flex flex-row">
+                    <h3 class="fw-bold my-2">
+                        Carteira Digital do(a)
+                        <span style="color: #eb762b">
+                            <%= pet['name'] %>
+                        </span>!
+                    </h3>
+                    <a href="/adicionarControleImunizacao/<%= pet['id'] %>">
+                        <div class="icon shadow mx-5">
+                            <img src="../images/vaccine.svg" alt="plus"
+                                style="height: 30px; width: 30px; margin: 12px" />
+                        </div>
+                    </a>
+                    <a href="/adicionarControlePeso/<%= pet['id'] %>">
+                        <div class="icon shadow">
+                            <img src="../images/weight.png" alt="edit"
+                                style="height: 32px; width: 32px; margin: 12px" />
+                        </div>
+                    </a>
+                    <a href="/adicionarControleMedicamentos/<%= pet['id'] %>">
+                        <div class="icon shadow mx-5">
+                            <img src="../images/pill.svg" alt="edit" style="height: 30px; width: 30px; margin: 12px" />
+                        </div>
+                    </a>
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle icon" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Filtrar
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="/carteiraDigital/<%= pet['id'] %>">Controle de
+                                    imunização</a>
+                            </li>
+                            <li><a class="dropdown-item" href="/listarControlePeso/<%= pet['id'] %>">Controle de
+                                    peso</a></li>
+                            <li>
+                                <a class="dropdown-item" href="/listarControleMedicamentos/<%= pet['id'] %>">Controle de medicamentos</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-5">
+                    <h3 class="fw-bold">Controle de medicamentos</h3>
+                    <table class="table mt-1">
+                        <thead>
+                            <tr>
+                                <th scope="col">Categoria</th>
+                                <th scope="col">Nome</th>
+                                <th scope="col">Data</th>
+                                <th scope="col">Repetir em</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% medicinesControl.forEach(function(medicineControl) { %>
+                                <tr>
+                                    <th class="fw-normal" scope="row">
+                                        <%= medicineControl['medicineCategory'] %>
+                                    </th>
+                                    <td>
+                                        <%= medicineControl['medicineName'] %>
+                                    </td>
+                                    <td>
+                                        <%= medicineControl['medicineDate'] %>
+                                    </td>
+                                    <td>
+                                        <%= medicineControl['medicineRepeat'] %>
+                                    </td>
+                                </tr>
+                                <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+                <% }) %>
+        </div>
+</body>
+
+</html>

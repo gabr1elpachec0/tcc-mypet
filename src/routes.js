@@ -108,16 +108,14 @@ router.get('/carteiraDigital/:id', PetController.getDigitalCard)
 router.get('/adicionarControleImunizacao/:id', PetController.getImmunizationControlForm)
 router.post('/adicionarControleImunizacao/:id', PetController.createImmunizationControl)
 
-router.get('/adicionarControlePeso', function (req, res) {
-    res.render('adicionarControlePeso')
-})
-router.get('/adicionarControleMedicamentos', function (req, res) {
-    res.render('adicionarControleMedicamentos')
-})
-router.get('/editarTabela', function (req, res) {
-    res.render('editarTabela')
-})
+router.get('/adicionarControlePeso/:id', PetController.getWeightControlForm)
+router.post('/adicionarControlePeso/:id', PetController.createWeightControl)
 
+router.get('/adicionarControleMedicamentos/:id', PetController.getMedicinesControlForm)
+router.post('/adicionarControleMedicamentos/:id', PetController.createMedicinesControl)
+
+router.get('/listarControlePeso/:id', PetController.getWeightControl)
+router.get('/listarControleMedicamentos/:id', PetController.getMedicinesControl)
 
 // Veterinários
 router.get('/listaVeterinarios', VetController.getAllVets)
