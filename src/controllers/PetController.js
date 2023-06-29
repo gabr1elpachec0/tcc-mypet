@@ -257,10 +257,23 @@ module.exports = {
         var userType   = findUserById.type
         var profilePic = findUserById.profilePic
 
+        const findImmunizationControl = await prisma.immunizationControl.findMany({
+            where: {
+                petId: petId
+            }
+        })
+
+        const formattedImmunizationControl = findImmunizationControl.map((pet) => ({
+            ...pet,
+            date: dayjs(pet.date).add(1, 'day').format('DD/MM/YYYY'),
+            vaccineRepeat: dayjs(pet.vaccineRepeat).add(1, 'day').format('DD/MM/YYYY')
+        }))
+
         res.render('carteiraDigital', {
             userType: userType,
             profilePic: profilePic,
             pet: [findPetById],
+            immunizationControl: formattedImmunizationControl,
             success_create_immunization_control: success_create_immunization_control
         })
     },
@@ -313,5 +326,5 @@ module.exports = {
             req.session.success_create_immunization_control = "Controle de imunização criado com sucesso!"
             res.redirect(`/carteiraDigital/${petId}`)
         })
-    }
+    },
 }

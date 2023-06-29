@@ -41,7 +41,7 @@
                     </a>
                 </div>            
                 <div class="mt-5">
-                    <h3 class="fw-bold"> Tabela aqui</h3>
+                    <h3 class="fw-bold"> Controle de imunização </h3>
                     <table class="table mt-1">
                         <thead>
                             <tr>
@@ -52,18 +52,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th class="fw-normal" scope="row">28/03/2023</th>
-                                <td>Raiva</td>
-                                <td>Nome-Veterinário</td>
-                                <td>28/03/2024</td>
-                            </tr>
-                            <tr>
-                                <th class="fw-normal" scope="row">28/03/2023</th>
-                                <td>Óctupla</td>
-                                <td>Nome-Veterinário</td>
-                                <td>28/03/2024</td>
-                            </tr>
+                            <% immunizationControl.forEach(function(immunizationControl) { %>
+                                <tr>
+                                    <th class="fw-normal" scope="row"> <%= immunizationControl['date'] %> </th>
+                                    <td><%= immunizationControl['vaccineName'] %></td>
+                                    <td><%= immunizationControl['vetName'] %></td>
+                                    <td><%= immunizationControl['vaccineRepeat'] %></td>
+                                </tr>
+                            <% }) %>
                         </tbody>
                     </table>
                 </div>
