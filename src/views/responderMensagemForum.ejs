@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <%- include('head') %>
+  </head>
+
+  <body>
+    <%- include('menu') %>
+    <div class="container mt-5">
+      <div class="d-flex flex-row justify-content-center">
+        <h3 class="fw-bold my-2 mx-5">
+          Responda à <span style="color: #eb762b">mensagem</span>!
+        </h3>
+      </div>
+    <% messages.forEach(function(message) { %>
+      <div class="mensagemForum container shadow p-5 mt-5">
+        <h3 class="fw-bold"><%= message['title'] %></h3>
+        <br />
+        <p><%= message['description'] %></p>
+        <p class="fw-bold">
+          Usuário: <%= message['forumMessageAuthor'].name %>
+        </p>
+        <br />
+        <div class="respostaForm">
+          <form action="/responderMensagemForum/<%= message['id'] %>" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+              <label for="resposta" class="form-label">Resposta:</label>
+              <textarea
+                class="form-control"
+                id="resposta"
+                name="resposta"
+                rows="4"
+              ></textarea>
+            </div>
+            <button type="submit" class="btn" style="background-color: #eb762b; color: white;">
+              Enviar Resposta
+            </button>
+          </form>
+        </div>
+      </div>
+      <br />
+      <% }) %>
+    </div>
+  </body>
+</html>

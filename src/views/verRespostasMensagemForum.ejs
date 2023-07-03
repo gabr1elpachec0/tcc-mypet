@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <%- include('head') %>
+</head>
+
+<body>
+    <%- include('menu') %>
+        <div class="container mt-5">
+            <div class="d-flex flex-row justify-content-center">
+                <h3 class="fw-bold my-2 mx-5">
+                    Respostas à <span style="color: #eb762b">mensagem</span>!
+                </h3>
+            </div>
+            <% replies.forEach(function(reply) { %>
+                <div class="mensagemForum container shadow p-5 mt-5">
+                    <h4 class="fw-bold">
+                        <%= reply['forumReplyAuthor'].name %>
+                    </h4>
+                    <br>
+                    <p style="font-size: large;">
+                        <%= reply['description'] %>
+                    </p>
+                </div>
+                <br />
+            <% }) %>
+        </div>
+</body>
+
+</html>

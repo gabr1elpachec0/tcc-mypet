@@ -22,19 +22,37 @@
                 </p>
             </div>
         <% } %>
+        <% if (success_create_forum_message_response) { %>
+            <div class='alert alert-success' style="height: 60px;">
+                <p>
+                    <%= success_create_forum_message_response %>
+                </p>
+            </div>
+        <% } %>
+        <% if(warning) { %>
+            <div class='alert alert-danger' style="height: 60px;">
+                <p>
+                    <%= warning %>
+                </p>
+            </div>
+        <% } %>
         <% messages.forEach(function(message) { %>
             <div class="mensagemForum container shadow p-5 mt-5">
                 <h3 class="fw-bold"><%= message['title'] %></h3>
                 <br>
-                <p><%= message['description'] %></p>
-                <p class="fw-bold">Usuário: <%= message['forumMessageAuthor'].name %></p>
-                <br>
+                <p style="font-size: large;">
+                    Mensagem: <%= message['description'] %>
+                </p>
+                <p class="fw-bold"><%= message['forumMessageAuthor'].name %></p>
                 <p class="">
-                    <a href="" style="color: #EB762B;">
+                    <a href="/responderMensagemForum/ <%= message['id'] %>" style="color: #EB762B;">
                         Responder
                     </a>
                 </p>
-            
+                <br>
+                <a href="/verRespostasMensagemForum/<%= message['id'] %>" class="btn" style="background-color: #EB762B; color: white;">
+                    Ver respostas
+                </a>
             </div>
             <br>
         <% }) %>
