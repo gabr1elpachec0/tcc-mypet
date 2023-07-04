@@ -90,10 +90,11 @@ model ForumReply {
 }
 
 model Chat {
-  id                Int    @id @default(autoincrement())
+  id                Int      @id @default(autoincrement())
   sentMessageId     Int
   receivedMessageId Int
   message           String
+  created_at        DateTime @default(now())
 
   sentMessage     User @relation("sentMessage", fields: [sentMessageId], references: [id])
   receivedMessage User @relation("receivedMessage", fields: [receivedMessageId], references: [id])

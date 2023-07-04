@@ -6,6 +6,7 @@ const DonationController = require('./controllers/DonationController')
 const PostController = require('./controllers/PostController')
 const HomeController = require('./controllers/HomeController')
 const ForumController = require('./controllers/ForumController')
+const ChatController = require('./controllers/ChatController')
 
 const router = Router()
 
@@ -153,5 +154,8 @@ router.get('/donation-update/:id', DonationController.updateDonationForm)
 router.post('/donation-update/:id', DonationController.updateDonation)
 router.get('/donation-delete/:id', DonationController.deleteDonation)
 
+// Chat
+router.get('/chat/:id', ChatController.getChat)
+router.post('/chat/:id', ChatController.createMessage)
 
 module.exports = router

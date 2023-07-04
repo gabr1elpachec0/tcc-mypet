@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pr-br">
+  <head>
+    <%- include('head') %>
+  </head>
+
+  <body>
+    <%- include('menu') %>
+    <section>
+      <div class="container py-5">
+        <div class="row d-flex justify-content-center">
+          <div class="col-md-10 col-lg-8 col-xl-6">
+            <% if (success_message) { %>
+            <div class="alert alert-success" style="height: 60px">
+              <p><%= success_message %></p>
+            </div>
+            <% } %>
+            <div class="card" id="chat2">
+              <div
+                class="card-header d-flex justify-content-between align-items-center p-3"
+              >
+                <h5 class="mb-0">Chat</h5>
+                <button
+                  type="button"
+                  class="btn btn-sm"
+                  data-mdb-ripple-color="dark"
+                  style="background-color: #e26a29; color: white"
+                >
+                  Let's Chat App
+                </button>
+              </div>
+              <div
+                class="card-body"
+                data-mdb-perfect-scrollbar="true"
+                style="position: relative; height: 400px"
+              >
+                <% myMessages.forEach(function (myMessage) { %>
+                    <div class="d-flex flex-row justify-content-start align-items-center">
+                        <% if (profilePic) { %>
+                            <img class="rounded-circle shadow" src="/profilePics/<%= profilePic %>" alt="profile-picture"
+                                style="width: 50px; height: 50px; margin-right: 10px;" />
+                            <% } else { %>
+                                <img class="rounded-circle shadow" src="/images/user-circle.png" alt="profile-picture"
+                                    style="width: 50px; height: 50px; margin-right: 10px;" />
+                                <% } %>
+                                    <div>
+                                        <p class="small p-2 mb-1 rounded-3" style="background-color: #f5f6f7">
+                                            <%= myMessage['message'] %>
+                                        </p>
+                                        <p class="small mb-3 rounded-3 text-muted">
+                                            <%= myMessage['created_at'] %>
+                                        </p>
+                                    </div>
+                    </div>
+                    <% }) %>
+
+
+                <% recipientMessages.forEach(function (recipientMessage) { %>
+                    <div class="d-flex flex-row justify-content-end align-items-center mb-4">
+                        <div>
+                            <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7">
+                                <%= recipientMessage['message'] %>
+                            </p>
+                            <p class="small ms-3 mb-3 rounded-3 text-muted">
+                                <%= recipientMessage['created_at'] %>
+                            </p>
+                        </div>
+                        <% if (recipientProfilePic) { %>
+                            <img class="rounded-circle shadow" src="/profilePics/<%= recipientProfilePic %>" alt="profile-picture"
+                                style="width: 50px; height: 50px; margin-left: 10px;" />
+                            <% } else { %>
+                                <img class="rounded-circle shadow" src="/images/user-circle.png" alt="profile-picture"
+                                    style="width: 50px; height: 50px; margin-left: 10px;" />
+                                <% } %>
+                    </div>
+                    <% }) %>
+
+
+                <!-- <div class="divider d-flex align-items-center mb-4">
+                                    <p class="text-center mx-3 mb-0" style="color: #a2aab7">
+                                        Today
+                                    </p>
+                                </div> -->
+              </div>
+              <form
+                action="/chat/<%= recipientId %>"
+                method="post"
+                enctype="multipart/form-data"
+              >
+                <div
+                  class="card-footer text-muted d-flex justify-content-start align-items-center p-3"
+                >
+                  <% if (profilePic) { %>
+                  <img
+                    class="rounded-circle shadow"
+                    src="/profilePics/<%= profilePic %>"
+                    alt="profile-picture"
+                    style="width: 50px; height: 50px"
+                  />
+                  <% } else { %>
+                  <img
+                    class="rounded-circle shadow"
+                    src="/images/user-circle.png"
+                    alt="profile-picture"
+                    style="width: 50px; height: 50px"
+                  />
+                  <% } %>
+                  <input
+                    type="text"
+                    class="form-control form-control-lg"
+                    id="exampleFormControlInput1"
+                    name="message"
+                    placeholder="Escreva aqui"
+                    style="font-size: medium"
+                  />
+                  <a href="#" id="paper-plane">
+                    <button
+                      class="btn rounded-2"
+                      style="background-color: #e26a29"
+                      type="submit"
+                    >
+                      <img
+                        src="../images/paper-plane.svg"
+                        alt="paper-plane"
+                        style="height: 25px; width: 25px"
+                      />
+                    </button>
+                  </a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
