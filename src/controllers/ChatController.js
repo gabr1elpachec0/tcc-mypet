@@ -60,12 +60,12 @@ module.exports = {
 
             const formattedMyMessagesDate = findMyMessages.map((message) => ({
                 ...message,
-                created_at: dayjs(message.created_at).add(1, 'day').format('DD/MM/YYYY HH:mm'),
+                created_at: dayjs(message.created_at).add(1, 'day').format('DD/MM/YYYY HH:mm:ss'),
             }));
 
             const formattedRecipientMessagesDate = findRecipientMessages.map((message) => ({
                 ...message,
-                created_at: dayjs(message.created_at).add(1, 'day').format('DD/MM/YYYY HH:mm'),
+                created_at: dayjs(message.created_at).add(1, 'day').format('DD/MM/YYYY HH:mm:ss'),
             }));
 
             res.render('chat', {

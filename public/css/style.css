@@ -122,3 +122,7 @@
   height: 1px;
   background: #eee;
 } */
+
+#chat-conteudo {
+  overflow-y: auto;
+}
