@@ -68,15 +68,20 @@ module.exports = {
                 created_at: dayjs(message.created_at).add(1, 'day').format('DD/MM/YYYY HH:mm:ss'),
             }));
 
-            res.render('chat', {
-                userType: userType,
-                profilePic: profilePic,
-                recipientProfilePic: recipientProfilePic,
-                success_message: success_message,
-                recipientId: recipientUserId,
-                myMessages: formattedMyMessagesDate,
-                recipientMessages: formattedRecipientMessagesDate,
-            });
+            if (senderUserId == recipientUserId) {
+                req.session.warning = "Acesso inválido";
+                res.redirect('/home');
+            } else {
+                res.render('chat', {
+                    userType: userType,
+                    profilePic: profilePic,
+                    recipientProfilePic: recipientProfilePic,
+                    success_message: success_message,
+                    recipientId: recipientUserId,
+                    myMessages: formattedMyMessagesDate,
+                    recipientMessages: formattedRecipientMessagesDate,
+                });
+            }
         } else {
             req.session.erro = "Faça login para acessar esse serviço!";
             res.redirect('/login');

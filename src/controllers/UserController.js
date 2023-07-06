@@ -91,7 +91,8 @@ module.exports = {
                         req.session.userBio        = findUserByEmail.bio
                         req.session.userType       = findUserByEmail.type
                         req.session.userProfilePic = findUserByEmail.profilePic
-                        req.session.sucesso_login  = req.session.userName + ", seja bem-vindo(a)!"
+                        var userName = req.session.userName = findUserByEmail.name
+                        req.session.sucesso_login = `${userName}, seja bem-vindo(a)!`
                         res.redirect('/home')
                     } else {
                         req.session.erro_login = "Email ou senha inválidos!"
@@ -128,7 +129,8 @@ module.exports = {
                     email: userEmail,
                     bio: userBio,
                     profilePic: userProfilePic,
-                    userType: userType
+                    userType: userType,
+                    id: userId
                 })
             } else {
                 req.session.warning = "Acesso negado!"
@@ -160,11 +162,13 @@ module.exports = {
             var profileUserVetName
             var profileUserVetPic
             var profileUserVetBio
+            var profileUserVetId
 
             if (findProfileById.type == "user") {
+                profileUserVetId = findProfileById.id
                 profileUserVetName = findProfileById.name
-                profileUserVetPic = findProfileById.profilePic
-                profileUserVetBio = findProfileById.bio
+                profileUserVetPic  = findProfileById.profilePic
+                profileUserVetBio  = findProfileById.bio
 
                 res.render('perfilUsuario', {
                     userType: userType,
@@ -175,6 +179,7 @@ module.exports = {
                 })
             }
             if (findProfileById.type == "vet") {
+                profileUserVetId = findProfileById.id
                 profileUserVetName = findProfileById.name
                 profileUserVetPic = findProfileById.profilePic
                 profileUserVetBio = findProfileById.bio
@@ -182,6 +187,7 @@ module.exports = {
                 res.render('perfilVeterinario', {
                     userType: userType,
                     profilePic: profilePic,
+                    profileId: profileUserVetId,
                     profileUserVetName: profileUserVetName,
                     profileUserVetBio: profileUserVetBio,
                     profileUserVetPic: profileUserVetPic
@@ -190,6 +196,69 @@ module.exports = {
         } else {
             req.session.warning = "Acesso negado!"
             res.redirect('/home')
+        }
+    },
+
+    async updateUserForm(req, res) {
+        if(req.session.loggedin == true) {
+            var userId = req.session.userId
+
+            const findUserById = await prisma.user.findUnique({
+                where: {
+                    id: userId
+                }
+            })
+            
+            var userType = findUserById.type
+            var profilePic = findUserById.profilePic
+
+
+            res.render('editarPerfil', {
+                userType: userType,
+                profilePic: profilePic,
+                user: findUserById
+            })
+        }
+    },
+
+    async updateUser(req, res) {
+        if (req.session.loggedin == true) {
+            var userId = req.session.userId
+            var form_update_user = new formidable.IncomingForm()
+
+            form_update_user.parse(req, async (err, fields, files) => {
+                var type = 'user'
+                var email = fields['userEmail']
+                
+                var nomeimg = ""
+                if (files.profilePic['originalFilename'].length != 0) {
+                    var oldpathImg = files.profilePic.filepath
+                    var hashImg = crypto.createHash('md5').update(Date.now().toString()).digest('hex')
+                    nomeimg = hashImg + '.' + files.profilePic.mimetype.split('/')[1]
+                    var newpathImg = path.join(__dirname, '../../public/profilePics/', nomeimg)
+                    fs.rename(oldpathImg, newpathImg, function (err) {
+                        if (err) throw err
+                    })
+                }
+                bcrypt.hash(fields['userPassword'], saltRounds, async (err, hash) => {
+                    await prisma.user.update({
+                        where: {
+                            id: userId
+                        },
+                        data: {
+                            name: fields['userName'],
+                            email: email,
+                            bio: fields['userBio'],
+                            password: hash,
+                            type: type,
+                            profilePic: nomeimg,
+                            certified: ''
+                        }
+                    })
+                })
+                req.session.sucesso_cadastro = "Usuário atualizado com sucesso, faça o login!"
+                res.redirect('/login')
+            })            
         }
     }
 

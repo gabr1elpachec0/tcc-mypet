@@ -79,9 +79,9 @@ router.get('/logout', function(req, res) {
 router.get('/user-profile', UserController.getUsers)
 router.get('/vet-profile', VetController.getVets)
 
-router.get('/editarPerfil', function (req, res) {
-    res.render('editarPerfil')
-})
+router.get('/user-update/:id', UserController.updateUserForm)
+router.post('/user-update/:id', UserController.updateUser)
+
 
 router.get('/selecionarPet', PetController.getSelectPetForm)
 
