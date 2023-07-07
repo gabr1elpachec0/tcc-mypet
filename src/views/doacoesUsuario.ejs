@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <%- include('head') %>
+  </head>
+
+  <body>
+    <%- include('menu') %>
+    <div class="container mt-5">
+      <div class="d-flex flex-row justify-content-center">
+        <h3 class="fw-bold my-2 mx-5">
+          Doações de <span style="color: #eb762b"><%= userName %></span>!
+        </h3>
+      </div>
+      <br />
+      <div class="row mt-5">
+        <% donations.forEach(function (donation) { %>
+        <div class="col mb-5">
+          <div class="card" style="width: 19rem">
+            <img
+              src="../donationPics/<%= donation['petPic'] %>"
+              class="card-img-top"
+              alt="petPic"
+            />
+            <div class="card-body">
+              <h5 class="card-title fw-bold"><%= donation['petName'] %></h5>
+              <br />
+              <p class="card-text card-description">
+                <span class="fw-bold"> Descrição: </span>
+                <%= donation['petDescription'] %>
+              </p>
+              <p class="card-text">
+                <span class="fw-bold"> Castrado: </span>
+                <% if (donation['petSpayed']===true) { %> Sim <% } else { %> Não
+                <% } %>
+              </p>
+              <p class="card-text">
+                <span class="fw-bold"> Vacinado: </span>
+                <% if (donation['petVaccinated']===true) { %> Sim <% } else { %>
+                Não <% } %>
+              </p>
+              <p class="card-text">
+                <span class="fw-bold"> Gênero: </span>
+                <%= donation['petGender'] %>
+              </p>
+              <br />
+              <button
+                class="btn card-btn"
+                style="background-color: #eb762b; color: white"
+              >
+                <a
+                  href="/chat/<%= donation['userId'] %>"
+                  style="color: white; text-decoration: none"
+                >
+                  Entrar em contato
+                </a>
+              </button>
+            </div>
+          </div>
+        </div>
+        <% }) %>
+      </div>
+    </div>
+  </body>
+</html>

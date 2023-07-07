@@ -126,9 +126,11 @@ router.get('/listarControleMedicamentos/:id', PetController.getMedicinesControl)
 
 // Veterinários
 router.get('/listaVeterinarios', VetController.getAllVets)
-router.get('/profile/:id', UserController.getProfile)
 
-// Controllers
+router.get('/profile/:id', UserController.getProfile)
+router.get('/user-posts/:id', UserController.getUserPosts)
+router.get('/user-donations/:id', UserController.getUserDonations)
+router.get('/user-messages/:id', UserController.getUserForumMessages)
 
 // User Controller
 router.post('/user-create', UserController.createUser)

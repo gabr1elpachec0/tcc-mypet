@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <%- include('head') %>
+  </head>
+
+  <body>
+    <%- include('menu') %>
+    <div class="container mt-5">
+      <div class="d-flex flex-row justify-content-center">
+        <h3 class="fw-bold my-2 mx-5">
+          Mensagens de <span style="color: #eb762b"><%= userName %></span>!
+        </h3>
+      </div>
+      <br />
+      <% forumMessages.forEach(function(message) { %>
+      <div class="mensagemForum container shadow p-5 mt-5">
+        <h3 class="fw-bold"><%= message['title'] %></h3>
+        <br />
+        <p style="font-size: large">Mensagem: <%= message['description'] %></p>
+        <p class="fw-bold"><%= userName %></p>
+        <p class="">
+          <a
+            href="/responderMensagemForum/ <%= message['id'] %>"
+            style="color: #eb762b"
+          >
+            Responder
+          </a>
+        </p>
+        <br />
+        <a
+          href="/verRespostasMensagemForum/<%= message['id'] %>"
+          class="btn"
+          style="background-color: #eb762b; color: white"
+        >
+          Ver respostas
+        </a>
+      </div>
+      <br />
+      <% }) %>
+    </div>
+  </body>
+</html>

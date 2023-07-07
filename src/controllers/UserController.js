@@ -4,6 +4,7 @@ const fs = require('fs')
 const crypto = require('crypto')
 const bcrypt = require('bcrypt')
 const path = require('path')
+const { profile } = require('console')
 
 const saltRounds = 10
 const prisma = new PrismaClient()
@@ -173,6 +174,7 @@ module.exports = {
                 res.render('perfilUsuario', {
                     userType: userType,
                     profilePic: profilePic,
+                    profileId: profileUserVetId,
                     profileUserVetName: profileUserVetName,
                     profileUserVetBio: profileUserVetBio,
                     profileUserVetPic: profileUserVetPic
@@ -196,6 +198,93 @@ module.exports = {
         } else {
             req.session.warning = "Acesso negado!"
             res.redirect('/home')
+        }
+    },
+
+    async getUserPosts(req, res) {
+        if (req.session.loggedin == true) {
+            var userId = parseInt(req.params.id)
+
+            const findUserById = await prisma.user.findUnique({
+                where: {
+                    id: userId,
+                }
+            })
+
+            var userType   = findUserById.type
+            var profilePic = findUserById.profilePic
+            var userName   = findUserById.name
+
+            const findPostsByUserId = await prisma.post.findMany({
+                where: {
+                    userId: userId
+                }
+            })
+
+            res.render('publicacoesUsuario', {
+                userType: userType,
+                profilePic: profilePic,
+                userName: userName,
+                posts: findPostsByUserId
+            })
+        }
+    },
+
+    async getUserDonations(req, res) {
+        if (req.session.loggedin == true) {
+            var userId = parseInt(req.params.id)
+
+            const findUserById = await prisma.user.findUnique({
+                where: {
+                    id: userId,
+                }
+            })
+
+            var userType = findUserById.type
+            var profilePic = findUserById.profilePic
+            var userName = findUserById.name
+
+            const findDonationsByUserId = await prisma.donation.findMany({
+                where: {
+                    userId: userId
+                }
+            })
+
+            res.render('doacoesUsuario', {
+                userType: userType,
+                profilePic: profilePic,
+                userName: userName,
+                donations: findDonationsByUserId
+            })
+        }
+    },
+
+    async getUserForumMessages(req, res) {
+        if (req.session.loggedin == true) {
+            var userId = parseInt(req.params.id)
+
+            const findUserById = await prisma.user.findUnique({
+                where: {
+                    id: userId,
+                }
+            })
+
+            var userType = findUserById.type
+            var profilePic = findUserById.profilePic
+            var userName = findUserById.name
+
+            const findForumMessagesByUserId = await prisma.forumMessage.findMany({
+                where: {
+                    userId: userId
+                }
+            })
+
+            res.render('mensagensUsuario', {
+                userType: userType,
+                profilePic: profilePic,
+                userName: userName,
+                forumMessages: findForumMessagesByUserId
+            })
         }
     },
 
