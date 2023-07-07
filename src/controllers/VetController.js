@@ -87,7 +87,8 @@ module.exports = {
                     email: userEmail,
                     bio: userBio,
                     profilePic: userProfilePic,
-                    userType: userType
+                    userType: userType,
+                    id: userId
                 })
         
             } else {
@@ -127,5 +128,75 @@ module.exports = {
             res.redirect('/home') 
         }
     },
+
+    async updateVetForm(req, res) {
+        if (req.session.loggedin == true) {
+            var userId = req.session.userId
+
+            const findUserById = await prisma.user.findUnique({
+                where: {
+                    id: userId
+                }
+            })
+
+            var userType = findUserById.type
+            var profilePic = findUserById.profilePic
+
+
+            res.render('editarPerfilVeterinario', {
+                userType: userType,
+                profilePic: profilePic,
+                user: findUserById
+            })
+        }
+    },
+
+    async updateVet(req, res) {
+        if (req.session.loggedin == true) {
+            var userId = req.session.userId
+            var form_update_user = new formidable.IncomingForm()
+
+            form_update_user.parse(req, async (err, fields, files) => {
+                var type = 'vet'
+                var email = fields['userEmail']
+
+                var nomeimg = ""
+                if (files.profilePic['originalFilename'].length != 0) {
+                    var oldpathImg = files.profilePic.filepath
+                    var hashImg = crypto.createHash('md5').update(Date.now().toString()).digest('hex')
+                    nomeimg = hashImg + '.' + files.profilePic.mimetype.split('/')[1]
+                    var newpathImg = path.join(__dirname, '../../public/profilePics/', nomeimg)
+                    fs.rename(oldpathImg, newpathImg, function (err) {
+                        if (err) throw err
+                    })
+                }
+                var oldpathCertified = files.certified.filepath
+                var hashCertified = crypto.createHash('md5').update(Date.now().toString()).digest('hex')
+                var nomecertified = hashCertified + '.' + files.certified.mimetype.split('/')[1]
+                var newpathCertified = path.join(__dirname, '../../public/vetCertifieds/', nomecertified)
+                fs.rename(oldpathCertified, newpathCertified, function (err) {
+                    if (err) throw err
+                })
+                bcrypt.hash(fields['userPassword'], saltRounds, async (err, hash) => {
+                    await prisma.user.update({
+                        where: {
+                            id: userId
+                        },
+                        data: {
+                            name: fields['userName'],
+                            email: email,
+                            bio: fields['userBio'],
+                            password: hash,
+                            type: type,
+                            profilePic: nomeimg,
+                            certified: nomecertified
+                        }
+                    })
+                })
+                req.session.sucesso_cadastro = "Usuário atualizado com sucesso, faça o login!"
+                res.redirect('/login')
+            })
+        }
+    }
 
 }

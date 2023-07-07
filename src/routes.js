@@ -82,6 +82,9 @@ router.get('/vet-profile', VetController.getVets)
 router.get('/user-update/:id', UserController.updateUserForm)
 router.post('/user-update/:id', UserController.updateUser)
 
+router.get('/vet-update/:id', VetController.updateVetForm)
+router.post('/vet-update/:id', VetController.updateVet)
+
 
 router.get('/selecionarPet', PetController.getSelectPetForm)
 

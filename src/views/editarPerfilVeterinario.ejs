@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <%- include('head') %>
+</head>
+
+<body>
+    <%- include('menu') %>
+        <div class="container text-center col-md-4">
+            <form action="/vet-update/<%= user['id'] %>" method="post" class="shadow p-5 mt-3 form"
+                enctype="multipart/form-data">
+                <h2 class="fw-bold">Atualizar conta</h2>
+                <br />
+                <div class="form-group">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-person-fill" viewBox="0 0 16 16">
+                                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                            </svg>
+                        </span>
+                        <input type="name" class="form-control" name="userName" value="<%= user['name'] %>" required />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-envelope-fill" viewBox="0 0 16 16">
+                                <path
+                                    d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757Zm3.436-.586L16 11.801V4.697l-5.803 3.546Z" />
+                            </svg>
+                        </span>
+                        <input type="email" class="form-control" value="<%= user['email'] %>" name="userEmail"
+                            required />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-lock-fill" viewBox="0 0 16 16">
+                                <path
+                                    d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z" />
+                            </svg>
+                        </span>
+                        <input type="password" class="form-control" placeholder="Nova senha" name="userPassword"
+                            required />
+                    </div>
+                </div>
+                <div class="text-start">
+                    <label for="descricao" class="text-start">
+                        Biografia (opcional):
+                    </label>
+                    <textarea class="form-control" placeholder="Adicione uma breve descrição" name="userBio"
+                        rows="3"></textarea>
+                </div>
+                <br />
+                <div class="form-group text-start">
+                    <label for="profilePic" class="fw-bold">
+                        Foto de perfil (opcional)
+                    </label>
+                    <input name="profilePic" class="form-control" type="file" />
+                </div>
+                <div class="form-group mb-3 text-start">
+                    <label for="formFile" class="form-label fw-bold">
+                        Comprove que você é veterinário
+                    </label>
+                    <input name="certified" class="form-control" type="file" id="formFile" required>
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btn text-light fw-bold shadow-lg" name="btn" value="ATUALIZAR"
+                        style="background-color: #e26a29" />
+                </div>
+            </form>
+        </div>
+</body>
+
+</html>
