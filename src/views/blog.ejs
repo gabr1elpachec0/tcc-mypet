@@ -1,59 +1,85 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
-<head>
+  <head>
     <%- include('head') %>
-</head>
+  </head>
 
-<body>
+  <body>
     <%- include('menu') %>
-        <div class="container mt-5">
-            <div class="d-flex flex-row justify-content-center">
-                <h3 class="fw-bold my-2 mx-5"> Adicione uma <span style="color: #EB762B;">publicação</span>!</h3>
-                <a href="/post-create">
-                    <div class="icon shadow">
-                        <img src="images/plus.png" alt="plus" style="height: 30px; width: 30px; margin: 12px;">
-                    </div>
+    <div class="container mt-5">
+      <div class="d-flex flex-row justify-content-center">
+        <h3 class="fw-bold my-2 mx-5">
+          Adicione uma <span style="color: #eb762b">publicação</span>!
+        </h3>
+        <a href="/post-create">
+          <div class="icon shadow">
+            <img
+              src="images/plus.png"
+              alt="plus"
+              style="height: 30px; width: 30px; margin: 12px"
+            />
+          </div>
+        </a>
+      </div>
+      <br />
+      <% if (success_create_post) { %>
+      <div class="alert alert-success" style="height: 60px">
+        <p><%= success_create_post %></p>
+      </div>
+      <% } %> <% if (success_comment) { %>
+      <div class="alert alert-success" style="height: 60px">
+        <p><%= success_comment %></p>
+      </div>
+      <% } %>
+      <div class="row mt-5">
+        <% posts.forEach(function(post) { %>
+        <div class="col mb-5">
+          <div class="card" style="width: 19rem">
+            <img
+              src="postPics/<%= post['pic'] %>"
+              class="card-img-top"
+              alt="postPic"
+            />
+            <div class="card-body">
+              <div class="d-flex flex-row mb-3">
+                <a
+                  id=""
+                  href="/post-like/<%= post['id'] %>"
+                  class="mx-2"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-heart" style="color: black;"
+                        viewBox="0 0 16 16">
+                        <path
+                            d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+                    </svg>
                 </a>
+                <a href="/post-comment/<%= post['id'] %>">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chat-left" style="color: black;"
+                        viewBox="0 0 16 16">
+                        <path
+                            d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                    </svg>
+                </a>
+              </div>
+
+              <p class="card-text fw-bold">
+                Curtido por 500 pessoas
+                <br />
+                <a
+                  href="/post-comments/<%= post['id'] %>"
+                  style="color: #eb762b"
+                >
+                  Ver comentários
+                </a>
+              </p>
+              <br />
+              <p class="card-text fw-bold"><%= post['postAuthor'].name %></p>
+              <p class="card-text"><%= post['description'] %></p>
             </div>
-            <br>
-            <% if (success_create_post) { %>
-                <div class='alert alert-success' style="height: 60px;">
-                    <p>
-                        <%= success_create_post %>
-                    </p>
-                </div>
-            <% } %>
-            <div class="row mt-5">
-                <% posts.forEach(function(post) { %>
-                    <div class="col mb-5">
-                        <div class="card" style="width: 19rem;">
-                            <img src="postPics/<%= post['pic'] %>" class="card-img-top" alt="postPic">
-                            <div class="card-body">
-                                <div class="d-flex flex-row mb-3">
-                                    <a href="#" class="mx-2">
-                                        <img src="images/like.png" alt="like" style="height: 32px; width: 32px;">
-                                    </a>
-                                    <a href="#">
-                                        <img src="images/comment.png" alt="comment" style="height: 31px; width: 31px;">
-                                    </a>
-                                </div>
-                    
-                                <p class="card-text fw-bold">
-                                    Curtido por 500 pessoas
-                                </p>
-                                <br>
-                                <p class="card-text fw-bold">
-                                    <%= post['postAuthor'].name %>
-                                </p>
-                                <p class="card-text">
-                                    <%= post['description'] %>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                <% }) %>
-            </div>
-		</div>
-</body>
+          </div>
+        </div>
+        <% }) %>
+      </div>
+    </div>
+  </body>
 </html>

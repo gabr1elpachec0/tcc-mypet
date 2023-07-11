@@ -96,6 +96,10 @@ router.post('/post-update/:id', PostController.updatePost)
 router.post('/post', PostController.createPost)
 router.get('/post-create', PostController.createPostForm)
 router.get('/post-delete/:id', PostController.deletePost)
+router.get('/post-comment/:id', PostController.getCommentForm)
+router.post('/post-comment/:id', PostController.comment)
+router.get('/post-comments/:id', PostController.getAllComments)
+router.get('/post-like/:id', PostController.like)
 
 // Forum
 router.get('/forum', ForumController.getAllForumMessages)

@@ -33,6 +33,7 @@ model User {
   ForumReply   ForumReply[]
   ChatSent     Chat[]         @relation("sentMessage")
   ChatReceived Chat[]         @relation("receivedMessage")
+  PostLikes    PostLike[]
 }
 
 model Donation {
@@ -50,14 +51,22 @@ model Donation {
 }
 
 model Post {
-  id          Int    @id @default(autoincrement())
+  id          Int        @id @default(autoincrement())
   userId      Int
   pic         String
   description String
-  like        String
-  postAuthor  User   @relation(fields: [userId], references: [id])
+  postAuthor  User       @relation(fields: [userId], references: [id])
+  PostLikes   PostLike[] // Relação com a tabela de curtidas (PostLike)
 
   PostComment PostComment[]
+}
+
+model PostLike {
+  id     Int  @id @default(autoincrement())
+  userId Int
+  postId Int
+  user   User @relation(fields: [userId], references: [id])
+  post   Post @relation(fields: [postId], references: [id])
 }
 
 model PostComment {

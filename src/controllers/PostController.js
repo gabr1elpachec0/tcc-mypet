@@ -45,6 +45,7 @@ module.exports = {
     async getAllPosts(req, res) {
         if (req.session.loggedin == true) {
             var success_create_post;
+            var success_comment;
             var userId = req.session.userId;
 
             const findUserById = await prisma.user.findUnique({
@@ -52,6 +53,12 @@ module.exports = {
                     id: userId
                 }
             });
+
+            const findPostsLiked = await prisma.postLike.findMany({
+                where: {
+                    userId: userId
+                }
+            })
 
             // var userName   = findUserById.name
             var userType   = findUserById.type
@@ -61,6 +68,11 @@ module.exports = {
                 success_create_post = req.session.success_create_post
                 req.session.success_create_post = ""
             }
+            
+            if (req.session.success_comment) {
+                success_comment = req.session.success_comment
+                req.session.success_comment = ""
+            }
 
             const findAllPosts = await prisma.post.findMany({
                 include: {
@@ -68,7 +80,14 @@ module.exports = {
                 }
             });
 
-            res.render('blog', { posts: findAllPosts, success_create_post: success_create_post, userType: userType, profilePic: profilePic });
+            res.render('blog', { 
+                posts: findAllPosts, 
+                success_create_post: success_create_post, 
+                userType: userType, 
+                profilePic: profilePic, 
+                success_comment: success_comment,
+                likes: findPostsLiked
+            });
         } else {
             req.session.erro = "Realize o login para ter acesso a esse serviço!"
             res.redirect('/login')
@@ -206,6 +225,105 @@ module.exports = {
         })
         req.session.success_delete_post = "Post excluído com sucesso!"
         res.redirect('/minhasPublicacoes')
-    }
+    },
+
+    // Comment Post
+    async getCommentForm(req, res) {
+        if (req.session.loggedin == true) {
+            var userId = req.session.userId
+            var postId = parseInt(req.params.id)
+
+            const findUserById = await prisma.user.findUnique({
+                where: {
+                    id: userId
+                }
+            })
+
+            var userType = findUserById.type
+            var profilePic = findUserById.profilePic
+
+            const findPostById = await prisma.post.findUnique({
+                where: {
+                    id: postId
+                }
+            })
+
+            res.render('adicionarComentario', {
+                posts: [findPostById],
+                userType: userType,
+                profilePic: profilePic,
+                postId: postId
+            })
+        }
+    },
+
+    async comment(req, res) {
+        if (req.session.loggedin == true) {
+            var userId = req.session.userId
+            var postId = parseInt(req.params.id)
+
+            var form_comment = new formidable.IncomingForm()
+
+            form_comment.parse(req, async(err, fields, files) => {
+                await prisma.postComment.create({
+                    data: {
+                        postId: postId,
+                        userId: userId,
+                        description: fields['comment']
+                    }
+                })
+
+                req.session.success_comment = "Comentário adicionado com sucesso!"
+                res.redirect('/blog')
+            })
+        }
+    },
+
+    async getAllComments(req, res) {
+        if (req.session.loggedin == true) {
+            var userId = req.session.userId
+            var postId = parseInt(req.params.id)
+
+            const findUserById = await prisma.user.findUnique({
+                where: {
+                    id: userId
+                }
+            })
+
+            var userType = findUserById.type
+            var profilePic = findUserById.profilePic
+
+            const findPostComments = await prisma.postComment.findMany({
+                where: {
+                   postId: postId 
+                },
+                include: {
+                    commentAuthor: true
+                }
+            })
+
+            res.render('comentarios', {
+                comments: findPostComments,
+                userType: userType,
+                profilePic: profilePic
+            })
+        }
+    },
+
+    // Like posts
+    async like(req, res) {
+        if (req.session.loggedin == true) {
+            var userId = req.session.userId
+            var postId = parseInt(req.params.id)
+
+            const like = await prisma.postLike.create({
+                data: {
+                    userId: userId,
+                    postId: postId
+                }
+            })
+            res.redirect('/blog')
+        }
+    },
 
 }
