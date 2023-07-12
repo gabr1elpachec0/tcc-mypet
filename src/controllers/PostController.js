@@ -54,12 +54,6 @@ module.exports = {
                 }
             });
 
-            const findPostsLiked = await prisma.postLike.findMany({
-                where: {
-                    userId: userId
-                }
-            })
-
             // var userName   = findUserById.name
             var userType   = findUserById.type
             var profilePic = findUserById.profilePic
@@ -76,17 +70,18 @@ module.exports = {
 
             const findAllPosts = await prisma.post.findMany({
                 include: {
-                    postAuthor: true
+                    postAuthor: true,
+                    PostLikes: true
                 }
             });
 
             res.render('blog', { 
-                posts: findAllPosts, 
+                posts: findAllPosts,
                 success_create_post: success_create_post, 
                 userType: userType, 
                 profilePic: profilePic, 
                 success_comment: success_comment,
-                likes: findPostsLiked
+                userId: userId
             });
         } else {
             req.session.erro = "Realize o login para ter acesso a esse serviço!"
@@ -316,12 +311,30 @@ module.exports = {
             var userId = req.session.userId
             var postId = parseInt(req.params.id)
 
-            const like = await prisma.postLike.create({
-                data: {
-                    userId: userId,
-                    postId: postId
+            const findLike = await prisma.postLike.findFirst({
+                where: {
+                    postId: postId,
+                    userId: userId
                 }
             })
+            // console.log(findLike)
+
+            if (findLike) {
+                const deleteLike = await prisma.postLike.delete({
+                    where: {
+                        id: findLike.id
+                    }
+                })
+                // console.log("Publicação descurtida!")
+            } else {
+                const like = await prisma.postLike.create({
+                    data: {
+                        userId: userId,
+                        postId: postId
+                    }
+                })
+                // console.log("Publicação curtida!")
+            }
             res.redirect('/blog')
         }
     },
