@@ -69,14 +69,24 @@ module.exports = {
             }
 
             const findAllPosts = await prisma.post.findMany({
-                include: {
+                include : {
                     postAuthor: true,
                     PostLikes: true
                 }
             });
 
+            const findAllLikes = await prisma.postLike.findMany({
+                where: {
+                    userId: userId,
+                },
+            });
+
+            // console.log(findAllLikes)
+            // console.log(findAllPosts)
+            
             res.render('blog', { 
                 posts: findAllPosts,
+                likes: findAllLikes,
                 success_create_post: success_create_post, 
                 userType: userType, 
                 profilePic: profilePic, 
