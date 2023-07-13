@@ -6,6 +6,12 @@ const { name } = require('ejs');
 dayjs.extend(localizedFormat);
 
 const prisma = new PrismaClient()
+const PDFDocument = require('pdfkit');
+const fs = require('fs');
+const path = require('path');
+const os = require('os');
+
+
 
 module.exports = {
     // Create
@@ -238,6 +244,7 @@ module.exports = {
         var success_create_immunization_control
         var success_create_weight_control
         var success_create_medicines_control
+        var success_download 
 
         const findUserById = await prisma.user.findUnique({
             where: {
@@ -266,6 +273,11 @@ module.exports = {
             req.session.success_create_medicines_control = ""
         }
 
+        if (req.session.success_download) {
+            success_download = req.session.success_download
+            req.session.success_download = ""
+        }
+
         var userType   = findUserById.type
         var profilePic = findUserById.profilePic
 
@@ -288,7 +300,8 @@ module.exports = {
             immunizationControl: formattedImmunizationControl,
             success_create_immunization_control: success_create_immunization_control,
             success_create_weight_control: success_create_weight_control,
-            success_create_medicines_control: success_create_medicines_control
+            success_create_medicines_control: success_create_medicines_control,
+            success_download: success_download
 
         })
     },
@@ -516,5 +529,126 @@ module.exports = {
             pet: [findPetById],
             medicinesControl: formattedMedicinesControl,
         })
+    },
+
+    async generateDigitalCard(req, res) {
+        if (req.session.loggedin == true) {
+            var petId = parseInt(req.params.id)
+
+            const findPetById = await prisma.pet.findUnique({
+                where: {
+                    id: petId
+                }
+            })
+
+            const findImmunizationControl = await prisma.immunizationControl.findMany({
+                where: {
+                    petId: petId
+                }
+            })
+
+            const findMedicinesControl = await prisma.medicinesControl.findMany({
+                where: {
+                    petId: petId
+                }
+            })
+
+            const findWeightControl = await prisma.weightControl.findMany({
+                where: {
+                    petId: petId
+                }
+            })
+
+            const formattedImmunizationControl = findImmunizationControl.map((pet) => ({
+                ...pet,
+                date: dayjs(pet.date).add(1, 'day').format('DD/MM/YYYY'),
+                vaccineRepeat: dayjs(pet.vaccineRepeat).add(1, 'day').format('DD/MM/YYYY')
+            }))
+
+            const formattedMedicinesControl = findMedicinesControl.map((pet) => ({
+                ...pet,
+                medicineDate: dayjs(pet.medicineDate).add(1, 'day').format('DD/MM/YYYY'),
+                medicineRepeat: dayjs(pet.medicineRepeat).add(1, 'day').format('DD/MM/YYYY'),
+            }))
+
+            const formattedWeightControl = findWeightControl.map((pet) => ({
+                ...pet,
+                weightDate: dayjs(pet.weightDate).add(1, 'day').format('DD/MM/YYYY'),
+            }))
+
+            var petName = findPetById.name
+
+            const doc = new PDFDocument()
+
+            // ...
+
+            const downloadsFolder = path.join(os.homedir(), 'Downloads');
+            const filePath = path.join(downloadsFolder, `carteira_digital_${petName}.pdf`);
+            const stream = fs.createWriteStream(filePath);
+
+            // Configuração do cabeçalho do documento PDF
+
+            doc
+                .fontSize(20)
+                .text(`Carteira digital do ${petName}`)
+                .moveDown();
+        
+            // Exemplo de adição de dados a uma tabela
+            doc
+                .fontSize(14)
+                .text('Controle de Imunização', { bold: true })
+                .moveDown();
+
+            formattedImmunizationControl.forEach(function (immunizationControl) {
+                doc
+                    .fontSize(12)
+                    .text('Vacina: ' + immunizationControl.vaccineName)
+                    .text('Data: ' + immunizationControl.date)
+                    .text('Veterinário que aplicou: ' + immunizationControl.vetName)
+                    .text('Repetir em: ' + immunizationControl.vaccineRepeat)
+                    .moveDown();
+            })
+
+            doc
+                .fontSize(14)
+                .text('Controle de Peso', { bold: true })
+                .moveDown();
+
+            formattedWeightControl.forEach(function (weightControl) {
+                doc
+                    .fontSize(12)
+                    .text('Peso: ' + weightControl.weight)
+                    .text('Data: ' + weightControl.weightDate)
+                    .moveDown();
+            })
+
+            doc
+                .fontSize(14)
+                .text('Controle de Medicamentos', { bold: true })
+                .moveDown();
+
+            formattedMedicinesControl.forEach(function (medicineControl) {
+                doc
+                    .fontSize(12)
+                    .text('Categoria: ' + medicineControl.medicineCategory)
+                    .text('Nome: ' + medicineControl.medicineName)
+                    .text('Data: ' + medicineControl.medicineDate)
+                    .text('Repetir em: ' + medicineControl.medicineRepeat)
+                    .moveDown();
+            })
+
+            // Finalize e salve o documento PDF
+            doc.pipe(stream);
+            doc.end();
+
+            // Envie o arquivo PDF gerado como resposta
+            stream.on('finish', () => {
+                res.download(`carteira_digital_${petId}.pdf`);
+            });
+
+            req.session.success_download = "Download da carteira digital realizado com sucesso!"
+
+            res.redirect(`/carteiraDigital/${petId}`)
+        }
     }
 }

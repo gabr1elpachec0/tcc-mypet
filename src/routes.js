@@ -115,6 +115,7 @@ router.get('/verRespostasMensagemForum/:id', ForumController.getForumMessagesRep
 
 // Pets e Carteira Digital
 router.get('/carteiraDigital/:id', PetController.getDigitalCard)
+router.get('/gerarCarteiraDigital/:id', PetController.generateDigitalCard)
 
 router.get('/adicionarControleImunizacao/:id', PetController.getImmunizationControlForm)
 router.post('/adicionarControleImunizacao/:id', PetController.createImmunizationControl)
