@@ -27,6 +27,11 @@
         </li>
         <% if (userType == "user" || userType == "vet") { %>
           <li class="nav-item">
+            <a id="link" class="nav-link m-2" href="/notifications">
+              <img src="../../images/bell.svg" alt="bell">
+            </a>
+          </li>
+          <li class="nav-item">
             <a id="link" class="nav-link" href="/<%=userType%>-profile">
               <% if (profilePic) { %>
                 <img class="rounded-circle shadow" src="/profilePics/<%= profilePic %>" alt="profile-picture"

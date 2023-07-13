@@ -43,5 +43,7 @@ module.exports = {
         } else {
             res.render('home', { userType: userType, profilePic: profilePic, userName: userName, sucesso_login: sucesso_login, warning: warning })
         }
-    }
+    },
+
+    
 }

@@ -7,12 +7,11 @@ const PostController = require('./controllers/PostController')
 const HomeController = require('./controllers/HomeController')
 const ForumController = require('./controllers/ForumController')
 const ChatController = require('./controllers/ChatController')
+const NotificationController = require('./controllers/NotificationController')
 
 const router = Router()
 
 // Views
-
-
 
 // Home
 router.get('/home', HomeController.getHome)
@@ -36,7 +35,7 @@ router.get('/cadastro-vet', function (req, res) {
     res.render('cadastro-vet', { erro_cadastro: erro_cadastro })
 })
 
-router.get('/login', function (req, res) {
+router.get('/login', function (req, res) {    
     var sucesso_cadastro
     var erro_login
     var erro
@@ -87,6 +86,9 @@ router.post('/vet-update/:id', VetController.updateVet)
 
 
 router.get('/selecionarPet', PetController.getSelectPetForm)
+
+// Notifications
+router.get('/notifications', NotificationController.listNotifications)
 
 // Blog routes
 router.get('/blog', PostController.getAllPosts)
@@ -139,7 +141,11 @@ router.get('/user-messages/:id', UserController.getUserForumMessages)
 
 // User Controller
 router.post('/user-create', UserController.createUser)
-router.post('/user-login', UserController.verifyUser)
+router.post('/user-login', async (req, res) => {
+    await UserController.verifyUser(req, res);
+    await NotificationController.createVaccineNotification(req, res);
+});
+
 
 // Vet Controller
 router.post('/vet', VetController.createVet)

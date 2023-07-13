@@ -1,0 +1,24 @@
+<!-- notificacoes.ejs -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include('head') %>
+  </head>
+
+  <body>
+    <%- include('menu') %>
+    <div class="container mt-5 text-center">
+      <h1 class="fw-bold">Notificações</h1>
+      <br>
+      <% if (notifications.length > 0) { %>
+      <ul>
+        <% notifications.forEach(notification=> { %>
+        <li><%= notification.message %></li>
+        <% }) %>
+      </ul>
+      <% } else { %>
+      <p class="">Não há notificações.</p>
+      <% } %>
+    </div>
+  </body>
+</html>

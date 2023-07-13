@@ -85,6 +85,7 @@ module.exports = {
                     // console.log('bcrypt iniciou')
                     if (err) throw err
                     if (result) {
+                        // console.log('login realizado')
                         req.session.loggedin       = true
                         req.session.userId         = findUserByEmail.id
                         req.session.userName       = findUserByEmail.name
@@ -349,6 +350,6 @@ module.exports = {
                 res.redirect('/login')
             })            
         }
-    }
+    },
 
 }

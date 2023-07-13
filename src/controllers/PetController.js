@@ -9,9 +9,8 @@ const prisma = new PrismaClient()
 const PDFDocument = require('pdfkit');
 const fs = require('fs');
 const path = require('path');
-const os = require('os');
-
-
+const { now } = require('moment/moment');
+// const os = require('os');
 
 module.exports = {
     // Create
@@ -582,15 +581,15 @@ module.exports = {
 
             // ...
 
-            const downloadsFolder = path.join(os.homedir(), 'Downloads');
-            const filePath = path.join(downloadsFolder, `carteira_digital_${petName}.pdf`);
-            const stream = fs.createWriteStream(filePath);
+            
+            const stream = fs.createWriteStream(path.join(__dirname, '../../public/pdfs/', `carteira_digital_${petName}.pdf`));
+            // var newpathImg = path.join(__dirname, '../../public/profilePics/', nomeimg)
 
             // Configuração do cabeçalho do documento PDF
 
             doc
                 .fontSize(20)
-                .text(`Carteira digital do ${petName}`)
+                .text(`Carteira digital do(a) ${petName}`)
                 .moveDown();
         
             // Exemplo de adição de dados a uma tabela
@@ -650,5 +649,8 @@ module.exports = {
 
             res.redirect(`/carteiraDigital/${petId}`)
         }
-    }
+    },
+
+    
+
 }

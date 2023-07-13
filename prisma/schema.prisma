@@ -34,6 +34,7 @@ model User {
   ChatSent     Chat[]         @relation("sentMessage")
   ChatReceived Chat[]         @relation("receivedMessage")
   PostLikes    PostLike[]
+  Notification Notification[]
 }
 
 model Donation {
@@ -153,4 +154,13 @@ model MedicinesControl {
   medicineDate     DateTime
   medicineRepeat   DateTime
   pet              Pet      @relation(fields: [petId], references: [id])
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  message   String
+  createdAt DateTime @default(now())
+  read      Boolean  @default(false)
+  user      User     @relation(fields: [userId], references: [id])
 }
