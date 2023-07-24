@@ -109,4 +109,37 @@ module.exports = {
         })
 
     },
+
+    async getChats(req, res) {
+        if (req.session.loggedin == true) {
+            var userId = req.session.userId
+            
+            const findUserById = await prisma.user.findUnique({
+                where: {
+                    id: userId
+                }
+            })
+
+            var userType = findUserById.type
+            var profilePic = findUserById.profilePic
+
+            const getChats = await prisma.chat.findMany({
+                where: {
+                    sentMessageId: userId,
+                },
+                include: {
+                    receivedMessage: true
+                }
+            })
+
+            // console.log(getChats)
+
+            res.render('conversas', {
+                userType: userType,
+                profilePic: profilePic,
+                chats: getChats
+            })
+        
+        }
+    }
 }

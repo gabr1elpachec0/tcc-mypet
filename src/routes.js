@@ -90,6 +90,7 @@ router.get('/logout', async function (req, res) {
     }
 });
 
+router.get('/conversas', ChatController.getChats)
 
 router.get('/user-profile', UserController.getUsers)
 router.get('/vet-profile', VetController.getVets)
