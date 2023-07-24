@@ -1,10 +1,11 @@
 const { PrismaClient } = require('@prisma/client')
+const dayjs = require('dayjs')
 
 const prisma = new PrismaClient()
 
 module.exports = {
     async createVaccineNotification(userId) {
-        const dateNow = new Date();
+        // console.log(userId)
 
         const findUserPets = await prisma.pet.findMany({
             where: {
@@ -20,14 +21,17 @@ module.exports = {
             });
 
             for (const immunizationControl of findImmunizationControl) {
-                const repeatDate = immunizationControl.vaccineRepeat;
+                const repeatDate = dayjs(immunizationControl.vaccineRepeat, 'DD/MM/YYYY');
+                const differenceInDays = (repeatDate.diff(dayjs(), 'day') + 1);
 
-                const diffInDays = Math.floor((repeatDate - dateNow) / (1000 * 60 * 60 * 24));
-                if (diffInDays === 7) {
+                // console.log(repeatDate);
+                // console.log(differenceInDays);
+
+                if (differenceInDays == 7) {
                     await prisma.notification.create({
                         data: {
                             userId: userId,
-                            message: "Você precisa vacinar seu pet daqui a 7 dias!"
+                            message: "Você precisa vacinar seu pet daqui a 7 dias!",
                         }
                     });
                 }
@@ -35,7 +39,10 @@ module.exports = {
         }
     },
 
-    async listNotifications(userId) {
+
+    async listNotifications(req, res) {
+        var userId = req.session.userId;
+
         const findUserById = await prisma.user.findUnique({
             where: {
                 id: userId

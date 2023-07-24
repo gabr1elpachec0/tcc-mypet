@@ -580,9 +580,9 @@ module.exports = {
             const doc = new PDFDocument()
 
             // ...
-
-            
-            const stream = fs.createWriteStream(path.join(__dirname, '../../public/pdfs/', `carteira_digital_${petName}.pdf`));
+            var path_pdf = path.join(__dirname, '../../public/pdfs/', `carteira_digital${petId}.pdf`)
+            console.log(path_pdf)
+            const stream = fs.createWriteStream(path.join(__dirname, '../../public/pdfs/', `carteira_digital_${petId}.pdf`));
             // var newpathImg = path.join(__dirname, '../../public/profilePics/', nomeimg)
 
             // Configuração do cabeçalho do documento PDF
@@ -591,7 +591,7 @@ module.exports = {
                 .fontSize(20)
                 .text(`Carteira digital do(a) ${petName}`)
                 .moveDown();
-        
+
             // Exemplo de adição de dados a uma tabela
             doc
                 .fontSize(14)
@@ -642,15 +642,13 @@ module.exports = {
 
             // Envie o arquivo PDF gerado como resposta
             stream.on('finish', () => {
-                res.download(`carteira_digital_${petId}.pdf`);
+                res.download('public/pdfs/' + `carteira_digital_${petId}.pdf`);
             });
 
-            req.session.success_download = "Download da carteira digital realizado com sucesso!"
+            // req.session.success_download = "Download da carteira digital realizado com sucesso!"
 
-            res.redirect(`/carteiraDigital/${petId}`)
+            //res.redirect(`/carteiraDigital/${petId}`)
         }
     },
-
-    
 
 }

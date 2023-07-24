@@ -8,6 +8,9 @@ const HomeController = require('./controllers/HomeController')
 const ForumController = require('./controllers/ForumController')
 const ChatController = require('./controllers/ChatController')
 const NotificationController = require('./controllers/NotificationController')
+const { PrismaClient } = require('@prisma/client')
+const prisma = new PrismaClient()
+
 
 const router = Router()
 
@@ -64,16 +67,29 @@ router.get('/login', function (req, res) {
     })
 })
 
-router.get('/logout', function(req, res) {
+router.get('/logout', async function (req, res) {
+    var userId = req.session.userId;
     if (req.session.loggedin == true) {
-        req.session.loggedin = false
-        req.session.warning = "Você se desconectou da plataforma, faça o login!"
-        res.redirect('/home')
+        req.session.loggedin = false;
+        req.session.warning = "Você se desconectou da plataforma, faça o login!";
+        try {
+            await prisma.notification.deleteMany({
+                where: {
+                    userId: userId
+                }
+            });
+            res.redirect('/home');
+        } catch (error) {
+            // Tratar erros, se necessário
+            console.error(error);
+            res.status(500).send("Ocorreu um erro ao fazer logout.");
+        }
     } else {
-        req.session.warning = "Você não está logado!"
-        res.redirect('/home')
+        req.session.warning = "Você não está logado!";
+        res.redirect('/home');
     }
-})
+});
+
 
 router.get('/user-profile', UserController.getUsers)
 router.get('/vet-profile', VetController.getVets)
@@ -141,10 +157,7 @@ router.get('/user-messages/:id', UserController.getUserForumMessages)
 
 // User Controller
 router.post('/user-create', UserController.createUser)
-router.post('/user-login', async (req, res) => {
-    await UserController.verifyUser(req, res);
-    await NotificationController.createVaccineNotification(req, res);
-});
+router.post('/user-login', UserController.verifyUser)
 
 
 // Vet Controller

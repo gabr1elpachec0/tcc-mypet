@@ -5,6 +5,7 @@ const crypto = require('crypto')
 const bcrypt = require('bcrypt')
 const path = require('path')
 const { profile } = require('console')
+const NotificationController = require('./NotificationController')
 
 const saltRounds = 10
 const prisma = new PrismaClient()
@@ -94,8 +95,11 @@ module.exports = {
                         req.session.userType       = findUserByEmail.type
                         req.session.userProfilePic = findUserByEmail.profilePic
                         var userName = req.session.userName = findUserByEmail.name
+                        var userId = req.session.userId
                         req.session.sucesso_login = `${userName}, seja bem-vindo(a)!`
                         res.redirect('/home')
+                        const createNotification = NotificationController.createVaccineNotification(userId)
+                        // console.log(createNotification)
                     } else {
                         req.session.erro_login = "Email ou senha inválidos!"
                         res.redirect('/login')
