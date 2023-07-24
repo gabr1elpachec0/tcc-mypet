@@ -98,7 +98,9 @@ module.exports = {
                         var userId = req.session.userId
                         req.session.sucesso_login = `${userName}, seja bem-vindo(a)!`
                         res.redirect('/home')
-                        const createNotification = NotificationController.createVaccineNotification(userId)
+                        const createVaccineNotification = NotificationController.createVaccineNotification(userId)
+                        const createMedicinesNotification = NotificationController.createMedicineNotification(userId)
+
                         // console.log(createNotification)
                     } else {
                         req.session.erro_login = "Email ou senha inválidos!"

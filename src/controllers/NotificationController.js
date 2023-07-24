@@ -39,6 +39,40 @@ module.exports = {
         }
     },
 
+    async createMedicineNotification(userId) {
+        const findUserPets = await prisma.pet.findMany({
+            where: {
+                userId: userId
+            }
+        });
+
+        for (const userPet of findUserPets) {
+            const findMedicinesControl = await prisma.medicinesControl.findMany({
+                where: {
+                    petId: userPet.id
+                }
+            });
+
+            for (const medicinesControl of findMedicinesControl) {
+                const repeatDate = dayjs(medicinesControl.medicineRepeat, 'DD/MM/YYYY');
+                const differenceInDays = (repeatDate.diff(dayjs(), 'day') + 1);
+
+                // console.log(repeatDate);
+                // console.log(differenceInDays);
+
+                if (differenceInDays == 7) {
+                    await prisma.notification.create({
+                        data: {
+                            userId: userId,
+                            message: "Você precisa dar remédio ao seu pet daqui a 7 dias!",
+                        }
+                    });
+                }
+            }
+        }
+
+    },
+
 
     async listNotifications(req, res) {
         var userId = req.session.userId;
