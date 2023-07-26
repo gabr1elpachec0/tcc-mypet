@@ -34,23 +34,21 @@ module.exports = {
                 },
             });
 
-            const findMyMessages = await prisma.chat.findMany({
+            const allMessages = await prisma.chat.findMany({
                 where: {
-                    sentMessageId: senderUserId,
-                    receivedMessageId: recipientUserId,
+                    OR: [
+                        {
+                            sentMessageId: senderUserId,
+                            receivedMessageId: recipientUserId,
+                        },
+                        {
+                            sentMessageId: recipientUserId,
+                            receivedMessageId: senderUserId,
+                        },
+                    ],
                 },
                 orderBy: {
-                    created_at: 'asc', // Ordena as mensagens do remetente pelo horário de criação em ordem ascendente
-                },
-            });
-
-            const findRecipientMessages = await prisma.chat.findMany({
-                where: {
-                    sentMessageId: recipientUserId,
-                    receivedMessageId: senderUserId,
-                },
-                orderBy: {
-                    created_at: 'asc', // Ordena as mensagens do destinatário pelo horário de criação em ordem ascendente
+                    created_at: 'asc', // Ordena todas as mensagens pelo horário de criação em ordem decrescente
                 },
             });
 
@@ -58,14 +56,9 @@ module.exports = {
             var profilePic = findSenderUserById.profilePic;
             var recipientProfilePic = findRecipientUserById.profilePic;
 
-            const formattedMyMessagesDate = findMyMessages.map((message) => ({
+            const formattedMessages = allMessages.map((message) => ({
                 ...message,
-                created_at: dayjs(message.created_at).add(1, 'day').format('DD/MM/YYYY HH:mm:ss'),
-            }));
-
-            const formattedRecipientMessagesDate = findRecipientMessages.map((message) => ({
-                ...message,
-                created_at: dayjs(message.created_at).add(1, 'day').format('DD/MM/YYYY HH:mm:ss'),
+                created_at: dayjs(message.created_at).format('DD/MM/YYYY HH:mm:ss'),
             }));
 
             if (senderUserId == recipientUserId) {
@@ -78,8 +71,8 @@ module.exports = {
                     recipientProfilePic: recipientProfilePic,
                     success_message: success_message,
                     recipientId: recipientUserId,
-                    myMessages: formattedMyMessagesDate,
-                    recipientMessages: formattedRecipientMessagesDate,
+                    allMessages: formattedMessages,
+                    senderUserId: senderUserId
                 });
             }
         } else {
@@ -87,6 +80,7 @@ module.exports = {
             res.redirect('/login');
         }
     },
+
 
 
     async createMessage(req, res) {

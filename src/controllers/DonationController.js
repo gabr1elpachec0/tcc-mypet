@@ -136,7 +136,14 @@ module.exports = {
             var userType = findUserById.type
             var profilePic = findUserById.profilePic
 
-            const findAllDonations = await prisma.donation.findMany()
+            const findAllDonations = await prisma.donation.findMany({
+                where: {
+                    NOT: {
+                        userId: userId
+                    }
+                }
+            })
+
             res.render('doacoes', { donations: findAllDonations, success_create_donation: success_create_donation, userType: userType, profilePic: profilePic })
         } else {
             req.session.erro = "Realize o login para ter acesso a esse serviço!"

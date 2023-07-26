@@ -30,7 +30,6 @@ module.exports = {
                     userId: userId,
                     pic: nomeimg,
                     description: fields['postDescription'],
-                    like: ""
                 }
             })
             // console.log(createPost)

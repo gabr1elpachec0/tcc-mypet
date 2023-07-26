@@ -21,7 +21,7 @@
                         <label for="dataNascimento">
                             Data de nascimento do pet
                         </label>
-                        <input type="date" class="form-control" name="birthDate" value="<%= pet['birthDate'] %>" required>
+                        <input type="date" class="form-control" name="birthDate" value="<%= pet['birthDate'].toISOString().slice(0, 10) %>" required>
                     </div>
                     <div class="form-group">
                         <label for="raça">
@@ -37,16 +37,16 @@
                     </div>
                     <h4 class="fw-bold">Tipo do pet</h4>
                     <div class="form-group mt-3">
-                        <input type="radio" id="dog" name="petType" value="Cão">
+                        <input type="radio" id="dog" name="petType" value="Cão" <% if (pet['type'] === 'Cão') { %>checked<% } %>>
                         <label for="dog">Cachorro</label><br>
-                        <input type="radio" id="cat" name="petType" value="Gato">
+                        <input type="radio" id="cat" name="petType" value="Gato"  <% if (pet['type'] === 'Gato') { %>checked<% } %>>
                         <label for="cat">Gato</label><br>
                     </div>
                     <h4 class="fw-bold">Gênero do pet</h4>
                     <div class="form-group mt-3">
-                        <input type="radio" id="macho" name="petGender" value="Macho">
+                        <input type="radio" id="macho" name="petGender" value="Macho" <% if (pet['gender'] === 'Macho') { %>checked<% } %>>
                         <label for="macho">Macho</label><br>
-                        <input type="radio" id="femea" name="petGender" value="Fêmea">
+                        <input type="radio" id="femea" name="petGender" value="Fêmea" <% if (pet['gender'] === 'Fêmea') { %>checked<% } %>>
                         <label for="femea">Fêmea</label><br>
                     </div>
                     <div class="form-group text-center mt-3">
