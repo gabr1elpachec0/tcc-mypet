@@ -651,4 +651,197 @@ module.exports = {
         }
     },
 
+    async getUpdateImmunizationControlForm(req, res) {
+        var immunizationControlId = parseInt(req.params.id)
+        var userId = req.session.userId
+
+        const findImmunizationControlById = await prisma.immunizationControl.findUnique({
+            where: {
+                id: immunizationControlId
+            }
+        })
+
+        const findUserById = await prisma.user.findUnique({
+            where: {
+                id: userId
+            }
+        })
+
+        var userType = findUserById.type
+        var profilePic = findUserById.profilePic
+
+        res.render('editarControleImunizacao', { 
+            immunizationControl: [findImmunizationControlById], 
+            userType: userType, 
+            profilePic: profilePic 
+        })
+    },
+
+    async updateImmunizationControl(req, res) {
+        var immunizationControlId = parseInt(req.params.id)
+
+        var form_update_immunization_control = new formidable.IncomingForm()
+
+        // console.log(userId)
+
+        form_update_immunization_control.parse(req, async (err, fields, files) => {
+
+            await prisma.immunizationControl.update({
+                where: {
+                    id: immunizationControlId
+                },
+                data: {
+                    vaccineName: fields['vaccineName'],
+                    date: new Date(fields['date']),
+                    vetName: fields['vetName'],
+                    vaccineRepeat: new Date(fields['repeatDate'])
+                }
+            })
+            req.session.success_update_pet = "Registro no controle de imunização atualizado com sucesso!"
+            res.redirect('/pets')
+        })
+    },
+
+    async deleteImmunizationControl(req, res) {
+        var immunizationControlId = parseInt(req.params.id)
+
+        await prisma.immunizationControl.delete({
+            where: {
+                id: immunizationControlId
+            }
+        })
+
+        req.session.success_update_pet = "Registro no controle de imunização excluído com sucesso!"
+        res.redirect('/pets')
+
+    },
+
+    async getUpdateMedicinesControlForm(req, res) {
+        var medicineControlId = parseInt(req.params.id)
+        var userId = req.session.userId
+
+        const findMedicinesControlById = await prisma.medicinesControl.findUnique({
+            where: {
+                id: medicineControlId
+            }
+        })
+
+        const findUserById = await prisma.user.findUnique({
+            where: {
+                id: userId
+            }
+        })
+
+        var userType = findUserById.type
+        var profilePic = findUserById.profilePic
+
+        res.render('editarControleMedicamentos', {
+            medicinesControl: [findMedicinesControlById],
+            userType: userType,
+            profilePic: profilePic
+        })
+    },
+
+    async updateMedicinesControl(req, res) {
+        var medicineControlId = parseInt(req.params.id)
+
+        var form_update_medicines_control = new formidable.IncomingForm()
+
+        // console.log(userId)
+
+        form_update_medicines_control.parse(req, async (err, fields, files) => {
+
+            await prisma.medicinesControl.update({
+                where: {
+                    id: medicineControlId
+                },
+                data: {
+                    medicineCategory: fields['medicineCategory'],
+                    medicineDate: new Date(fields['medicineDate']),
+                    medicineName: fields['medicineName'],
+                    medicineRepeat: new Date(fields['medicineRepeat'])
+                }
+            })
+            req.session.success_update_pet = "Registro no controle de medicamentos atualizado com sucesso!"
+            res.redirect('/pets')
+        })
+    },
+
+    async deleteMedicineControl(req, res) {
+        var medicineControlId = parseInt(req.params.id)
+
+        await prisma.medicinesControl.delete({
+            where: {
+                id: medicineControlId
+            }
+        })
+
+        req.session.success_update_pet = "Registro no controle de medicamentos excluído com sucesso!"
+        res.redirect('/pets')
+
+    },
+
+    async getUpdateWeigthControlForm(req, res) {
+        var weightControlId = parseInt(req.params.id)
+        var userId = req.session.userId
+
+        const findWeightControlById = await prisma.weightControl.findUnique({
+            where: {
+                id: weightControlId
+            }
+        })
+
+        const findUserById = await prisma.user.findUnique({
+            where: {
+                id: userId
+            }
+        })
+
+        var userType = findUserById.type
+        var profilePic = findUserById.profilePic
+
+        res.render('editarControlePeso', {
+            weightControl: [findWeightControlById],
+            userType: userType,
+            profilePic: profilePic
+        })
+    },
+
+    async updateWeightControl(req, res) {
+        var weightControlId = parseInt(req.params.id)
+
+        var form_update_weight_control = new formidable.IncomingForm()
+
+        // console.log(userId)
+
+        form_update_weight_control.parse(req, async (err, fields, files) => {
+
+            await prisma.weightControl.update({
+                where: {
+                    id: weightControlId
+                },
+                data: {
+                    weight: parseInt(fields['weight']),
+                    weightDate: new Date(fields['weightDate'])
+                }
+            })
+            req.session.success_update_pet = "Registro no controle de peso atualizado com sucesso!"
+            res.redirect('/pets')
+        })
+    },
+
+    async deleteWeightControl(req, res) {
+        var weightControlId = parseInt(req.params.id)
+
+        await prisma.weightControl.delete({
+            where: {
+                id: weightControlId
+            }
+        })
+
+        req.session.success_update_pet = "Registro no controle de peso excluído com sucesso!"
+        res.redirect('/pets')
+
+    },
+
 }

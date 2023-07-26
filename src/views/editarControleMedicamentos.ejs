@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <%- include('head') %>
+  </head>
+
+  <body>
+    <%- include('menu') %>
+    <div class="container col-md-4 mt-5">
+      <% medicinesControl.forEach(function(medicineControl) { %>
+      <form
+        action="/medicinesControl-update/<%= medicineControl['id'] %>"
+        method="post"
+        class="shadow-lg p-5 rounded"
+        enctype="multipart/form-data"
+      >
+        <h2 class="fw-bold text-center">Controle de medicamentos</h2>
+        <br />
+        <div class="form-group">
+          <label for="data"> Data </label>
+          <input
+            type="date"
+            class="form-control"
+            name="medicineDate"
+            value="<%= medicineControl['medicineDate'].toISOString().slice(0, 10) %>"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="categoriaProduto"> Categoria </label>
+          <select
+            class="form-select form-control"
+            name="medicineCategory"
+            id="categoriaProduto"
+            required
+          >
+            <option value="">Nenhum</option>
+            <% const categories = ['Antiparasitários internos', 'Ectoparasitas',
+            'Articulações', 'Antibióticos', 'Antifúngicos',
+            'Anti-inflamatórios', 'Controle de ansiedade', 'Cuidado dental',
+            'Suplemento nutricional']; %> <% categories.forEach(category => { %>
+            <% if (medicineControl['medicineCategory'] === category) { %>
+            <option value="<%= category %>" selected><%= category %></option>
+            <% } else { %>
+            <option value="<%= category %>"><%= category %></option>
+            <% } %> <% }) %>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="nomeProduto"> Nome do produto </label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Digite aqui"
+            name="medicineName"
+            value="<%= medicineControl['medicineName'] %>"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="dataRepetir"> Repetir em </label>
+          <input
+            type="date"
+            class="form-control"
+            name="medicineRepeat"
+            value="<%= medicineControl['medicineRepeat'].toISOString().slice(0, 10) %>"
+            required
+          />
+        </div>
+        <div class="form-group text-center mt-5">
+          <input
+            type="submit"
+            class="btn text-light fw-bold shadow-lg"
+            name="btn"
+            value="CONFIRMAR"
+            style="background-color: #e26a29"
+          />
+        </div>
+      </form>
+      <% }) %>
+    </div>
+  </body>
+</html>

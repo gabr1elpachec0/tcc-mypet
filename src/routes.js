@@ -138,12 +138,21 @@ router.get('/gerarCarteiraDigital/:id', PetController.generateDigitalCard)
 
 router.get('/adicionarControleImunizacao/:id', PetController.getImmunizationControlForm)
 router.post('/adicionarControleImunizacao/:id', PetController.createImmunizationControl)
+router.get('/immunizationControl-update/:id', PetController.getUpdateImmunizationControlForm)
+router.post('/immunizationControl-update/:id', PetController.updateImmunizationControl)
+router.get('/immunizationControl-delete/:id', PetController.deleteImmunizationControl)
 
 router.get('/adicionarControlePeso/:id', PetController.getWeightControlForm)
 router.post('/adicionarControlePeso/:id', PetController.createWeightControl)
+router.get('/weightControl-update/:id', PetController.getUpdateWeigthControlForm)
+router.post('/weightControl-update/:id', PetController.updateWeightControl)
+router.get('/weightControl-delete/:id', PetController.deleteWeightControl)
 
 router.get('/adicionarControleMedicamentos/:id', PetController.getMedicinesControlForm)
 router.post('/adicionarControleMedicamentos/:id', PetController.createMedicinesControl)
+router.get('/medicinesControl-update/:id', PetController.getUpdateMedicinesControlForm)
+router.post('/medicinesControl-update/:id', PetController.updateMedicinesControl)
+router.get('/medicinesControl-delete/:id', PetController.deleteMedicineControl)
 
 router.get('/listarControlePeso/:id', PetController.getWeightControl)
 router.get('/listarControleMedicamentos/:id', PetController.getMedicinesControl)

@@ -72,6 +72,8 @@
             <tr>
               <th scope="col">Peso</th>
               <th scope="col">Data</th>
+              <th scope="col">Editar</th>
+              <th scope="col">Deletar</th>
             </tr>
           </thead>
           <tbody>
@@ -81,6 +83,28 @@
                 <%= weightControl['weight'] %> g
               </th>
               <td><%= weightControl['weightDate'] %></td>
+              <td>
+                <a href="/weightControl-update/<%= weightControl['id'] %>">
+                  <div class="icon-table">
+                    <img
+                      src="../images/edit.png"
+                      alt="edit"
+                      style="height: 25px; margin: 12px"
+                    />
+                  </div>
+                </a>
+              </td>
+              <td>
+                <a href="/weightControl-delete/<%= weightControl['id'] %>">
+                  <div class="icon-table">
+                    <img
+                      src="../images/x.png"
+                      alt="delete"
+                      style="height: 25px; margin: 12px"
+                    />
+                  </div>
+                </a>
+              </td>
             </tr>
             <% }) %>
           </tbody>

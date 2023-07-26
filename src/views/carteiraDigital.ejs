@@ -1,101 +1,154 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
-<head>
+  <head>
     <%- include('head') %>
-</head>
+  </head>
 
-<body>
+  <body>
     <%- include('menu') %>
-        <div class="container mt-5">
-            <% if(success_create_immunization_control){ %>
-                <div class='alert alert-success' style="height: 60px;">
-                  <p>
-                    <%= success_create_immunization_control %>
-                  </p>
-                </div>
-            <% } %>
-            <% if(success_create_weight_control){ %>
-                <div class='alert alert-success' style="height: 60px;">
-                    <p>
-                        <%= success_create_weight_control %>
-                    </p>
-                </div>
-            <% } %>
-            <% if(success_create_medicines_control){ %>
-                <div class='alert alert-success' style="height: 60px;">
-                    <p>
-                        <%= success_create_medicines_control %>
-                    </p>
-                </div>
-                <% } %>
-                <% if(success_download){ %>
-                    <div class='alert alert-success' style="height: 60px;">
-                        <p>
-                            <%= success_download %>
-                        </p>
-                    </div>
-                    <% } %>
-            <br>
-            <% pet.forEach(function (pet) { %>
-                <div class="d-flex flex-row">
-                    <h3 class="fw-bold my-2"> Carteira Digital do(a) <span style="color: #EB762B;"><%= pet['name'] %></span>!</h3>
-                    <a href="/adicionarControleImunizacao/<%= pet['id'] %>">
-                        <div class="icon shadow mx-5">
-                            <img src="../images/vaccine.svg" alt="plus" style="height: 30px; width: 30px; margin: 12px;">
-                        </div>
-                    </a>
-                    <a href="/adicionarControlePeso/<%= pet['id'] %>">
-                        <div class="icon shadow ">
-                            <img src="../images/weight.png" alt="edit" style="height: 32px; width: 32px; margin: 12px;">
-                        </div>
-                    </a>
-                    <a href="/adicionarControleMedicamentos/<%= pet['id'] %>">
-                        <div class="icon shadow mx-5">
-                            <img src="../images/pill.svg" alt="edit" style="height: 30px; width: 30px; margin: 12px;">
-                        </div>
-                    </a>
-                    <a href="/gerarCarteiraDigital/<%= pet['id'] %>">
-                        <div class="icon shadow">
-                            <img src="../images/download.svg" alt="edit" style="height: 30px; width: 30px; margin: 12px;">
-                        </div>
-                    </a>
-                    <div class="dropdown mx-5">
-                        <button class="btn dropdown-toggle icon" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Filtrar
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/carteiraDigital/<%= pet['id'] %>">Controle de imunização</a></li>
-                            <li><a class="dropdown-item" href="/listarControlePeso/<%= pet['id'] %>">Controle de peso</a></li>
-                            <li><a class="dropdown-item" href="/listarControleMedicamentos/<%= pet['id'] %>">Controle de medicamentos</a></li>
-                        </ul>
-                    </div>
-                </div>            
-                <div class="mt-5">
-                    <h3 class="fw-bold"> Controle de imunização </h3>
-                    <table class="table mt-1">
-                        <thead>
-                            <tr>
-                                <th scope="col">Data</th>
-                                <th scope="col">Vacina</th>
-                                <th scope="col">Veterinário</th>
-                                <th scope="col">Repetir em</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% immunizationControl.forEach(function(immunizationControl) { %>
-                                <tr>
-                                    <th class="fw-normal" scope="row"> <%= immunizationControl['date'] %> </th>
-                                    <td><%= immunizationControl['vaccineName'] %></td>
-                                    <td><%= immunizationControl['vetName'] %></td>
-                                    <td><%= immunizationControl['vaccineRepeat'] %></td>
-                                </tr>
-                            <% }) %>
-                        </tbody>
-                    </table>
-                </div>
-            <% }) %>
+    <div class="container mt-5">
+      <% if(success_create_immunization_control){ %>
+      <div class="alert alert-success" style="height: 60px">
+        <p><%= success_create_immunization_control %></p>
+      </div>
+      <% } %> <% if(success_create_weight_control){ %>
+      <div class="alert alert-success" style="height: 60px">
+        <p><%= success_create_weight_control %></p>
+      </div>
+      <% } %> <% if(success_create_medicines_control){ %>
+      <div class="alert alert-success" style="height: 60px">
+        <p><%= success_create_medicines_control %></p>
+      </div>
+      <% } %> <% if(success_download){ %>
+      <div class="alert alert-success" style="height: 60px">
+        <p><%= success_download %></p>
+      </div>
+      <% } %>
+      <br />
+      <% pet.forEach(function (pet) { %>
+      <div class="d-flex flex-row">
+        <h3 class="fw-bold my-2">
+          Carteira Digital do(a)
+          <span style="color: #eb762b"><%= pet['name'] %></span>!
+        </h3>
+        <a href="/adicionarControleImunizacao/<%= pet['id'] %>">
+          <div class="icon shadow mx-5">
+            <img
+              src="../images/vaccine.svg"
+              alt="plus"
+              style="height: 30px; width: 30px; margin: 12px"
+            />
+          </div>
+        </a>
+        <a href="/adicionarControlePeso/<%= pet['id'] %>">
+          <div class="icon shadow">
+            <img
+              src="../images/weight.png"
+              alt="edit"
+              style="height: 32px; width: 32px; margin: 12px"
+            />
+          </div>
+        </a>
+        <a href="/adicionarControleMedicamentos/<%= pet['id'] %>">
+          <div class="icon shadow mx-5">
+            <img
+              src="../images/pill.svg"
+              alt="edit"
+              style="height: 30px; width: 30px; margin: 12px"
+            />
+          </div>
+        </a>
+        <a href="/gerarCarteiraDigital/<%= pet['id'] %>">
+          <div class="icon shadow">
+            <img
+              src="../images/download.svg"
+              alt="edit"
+              style="height: 30px; width: 30px; margin: 12px"
+            />
+          </div>
+        </a>
+        <div class="dropdown mx-5">
+          <button
+            class="btn dropdown-toggle icon"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Filtrar
+          </button>
+          <ul class="dropdown-menu">
+            <li>
+              <a class="dropdown-item" href="/carteiraDigital/<%= pet['id'] %>"
+                >Controle de imunização</a
+              >
+            </li>
+            <li>
+              <a
+                class="dropdown-item"
+                href="/listarControlePeso/<%= pet['id'] %>"
+                >Controle de peso</a
+              >
+            </li>
+            <li>
+              <a
+                class="dropdown-item"
+                href="/listarControleMedicamentos/<%= pet['id'] %>"
+                >Controle de medicamentos</a
+              >
+            </li>
+          </ul>
         </div>
-</body>
-
+      </div>
+      <div class="mt-5">
+        <h3 class="fw-bold">Controle de imunização</h3>
+        <table class="table mt-1">
+          <thead>
+            <tr>
+              <th scope="col">Data</th>
+              <th scope="col">Vacina</th>
+              <th scope="col">Veterinário</th>
+              <th scope="col">Repetir em</th>
+              <th scope="col">Editar</th>
+              <th scope="col">Deletar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% immunizationControl.forEach(function(immunizationControl) { %>
+            <tr>
+              <th class="fw-normal" scope="row">
+                <%= immunizationControl['date'] %>
+              </th>
+              <td><%= immunizationControl['vaccineName'] %></td>
+              <td><%= immunizationControl['vetName'] %></td>
+              <td><%= immunizationControl['vaccineRepeat'] %></td>
+              <td>
+                <a href="/immunizationControl-update/<%= immunizationControl['id'] %>">
+                  <div class="icon-table">
+                    <img
+                      src="../images/edit.png"
+                      alt="edit"
+                      style="height: 25px; margin: 12px"
+                    />
+                  </div>
+                </a>
+              </td>
+              <td>
+                <a href="/immunizationControl-delete/<%= immunizationControl['id'] %>">
+                  <div class="icon-table">
+                    <img
+                      src="../images/x.png"
+                      alt="delete"
+                      style="height: 25px; margin: 12px"
+                    />
+                  </div>
+                </a>
+              </td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+      <% }) %>
+    </div>
+  </body>
 </html>
