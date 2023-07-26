@@ -106,34 +106,62 @@ module.exports = {
 
     async getChats(req, res) {
         if (req.session.loggedin == true) {
-            var userId = req.session.userId
-            
+            var userId = req.session.userId;
+
             const findUserById = await prisma.user.findUnique({
                 where: {
                     id: userId
                 }
-            })
+            });
 
-            var userType = findUserById.type
-            var profilePic = findUserById.profilePic
+            var userType = findUserById.type;
+            var profilePic = findUserById.profilePic;
 
-            const getChats = await prisma.chat.findMany({
+            const allChats = await prisma.chat.findMany({
                 where: {
-                    sentMessageId: userId,
+                    OR: [
+                        { sentMessageId: userId },
+                        { receivedMessageId: userId },
+                    ],
                 },
                 include: {
-                    receivedMessage: true
-                }
-            })
+                    sentMessage: true,
+                    receivedMessage: true,
+                },
+            });
 
-            // console.log(getChats)
+            const uniqueChats = {}; // Objeto para armazenar as conversas distintas
+
+            // Adicionar as mensagens ao objeto de conversas distintas
+            allChats.forEach(chat => {
+                if (chat.sentMessageId === userId) {
+                    const recipientId = chat.receivedMessageId;
+                    if (!uniqueChats[recipientId]) {
+                        uniqueChats[recipientId] = chat.receivedMessage;
+                    }
+                } else if (chat.receivedMessageId === userId) {
+                    const senderId = chat.sentMessageId;
+                    if (!uniqueChats[senderId]) {
+                        uniqueChats[senderId] = chat.sentMessage;
+                    }
+                }
+            });
+
+            /* Percorro cada mensagem enviada e verifico se o id da pessoa que enviou ou recebeu a mensagem já está 
+            na lista uniqueChats ou não. Se estiver, ele passa para a outra mensagem e não adiciona. Se não estiver ele adiciona
+            e assim, não adicionará mais, mantendo o requisito estabelecido, ou seja, não repetindo os ids das conversas. 
+            Após isso, os valores de dentro desse objeto serão passados para um array. */
+
+            // Converter o objeto de conversas distintas em uma matriz
+            const chatsArray = Object.values(uniqueChats);
+            // console.log(chatsArray)
 
             res.render('conversas', {
                 userType: userType,
                 profilePic: profilePic,
-                chats: getChats
-            })
-        
+                chats: chatsArray,
+            });
         }
     }
+
 }
