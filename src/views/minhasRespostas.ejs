@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <%- include('head') %>
+</head>
+
+<body>
+    <%- include('menu') %>
+</body>
+<div class="container">
+    <h3 class="mt-5 fw-bold text-center">Minhas respostas</h3>
+    <br>
+    <% if (success_update_forum_message) { %>
+        <div class='alert alert-success' style="height: 60px;">
+            <p>
+                <%= success_update_forum_message %>
+            </p>
+        </div>
+    <% } %>
+    <% if (success_delete_forum_message) { %>
+        <div class='alert alert-success' style="height: 60px;">
+            <p>
+                <%= success_delete_forum_message %>
+            </p>
+        </div>
+    <% } %>
+    <% replies.forEach(function(reply) { %>
+        <div class="mensagemForum container shadow p-5 mt-5">
+            <h3 class="fw-bold">
+                <%= reply.forumMessage.title %>
+            </h3>
+            <br>
+            <p>
+                <%= reply.description %>
+            </p>
+            <br>
+            <div class="d-flex">
+                <a href="/forumReply-update/<%= reply['id'] %>">
+                    <div class="icon shadow">
+                        <img src="../images/edit.png" alt="edit" style="height: 30px; width: 30px; margin: 12px;">
+                    </div>
+                </a>
+                <a href="/forumReply-delete/<%= reply['id'] %>">
+                    <div class="icon shadow mx-3">
+                        <img src="../images/x.png" alt="edit" style="height: 30px; width: 30px; margin: 12px;">
+                    </div>
+                </a>
+            </div>
+        </div>
+        <br>
+    <% }) %>
+</div>
+
+</html>

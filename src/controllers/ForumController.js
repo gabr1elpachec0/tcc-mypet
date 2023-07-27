@@ -195,6 +195,7 @@ module.exports = {
 
     async getMessageResponseForm(req, res) {
         var userId = req.session.userId
+        var messageId = parseInt(req.params.id)
 
         const findUserById = await prisma.user.findUnique({
             where: {
@@ -205,7 +206,10 @@ module.exports = {
         var userType   = findUserById.type
         var profilePic = findUserById.profilePic
 
-        const findAllMessages = await prisma.forumMessage.findMany({
+        const findMessage = await prisma.forumMessage.findUnique({
+            where: {
+                id: messageId
+            },
             include: {
                 forumMessageAuthor: true
             }
@@ -215,7 +219,7 @@ module.exports = {
             res.render('responderMensagemForum', {
                 userType: userType,
                 profilePic: profilePic,
-                messages: findAllMessages
+                message: findMessage
             })
         } else {
             req.session.warning = "Você não tem permissão para responder à dúvida!"
@@ -271,5 +275,108 @@ module.exports = {
             userType: userType,
             profilePic: profilePic
         })
+    },
+
+    async getMyForumReplies(req, res) {
+        var userId = req.session.userId
+        var success_update_forum_message
+        var success_delete_forum_message
+
+
+        const findUserById = await prisma.user.findUnique({
+            where: {
+                id: userId
+            }
+        })
+
+        var userType = findUserById.type
+        var profilePic = findUserById.profilePic
+
+        const findMyForumReplies = await prisma.forumReply.findMany({
+            where: {
+                userId: userId
+            },
+            include: {
+                forumMessage: true,
+            }
+        })
+
+        if (req.session.success_update_forum_message) {
+            success_update_forum_message = req.session.success_update_forum_message
+            req.session.success_update_forum_message = ""
+        }
+
+        if (req.session.success_delete_forum_message) {
+            success_delete_forum_message = req.session.success_delete_forum_message
+            req.session.success_delete_forum_message = ""
+        }
+
+        res.render('minhasRespostas', {
+            userType: userType,
+            profilePic: profilePic,
+            replies: findMyForumReplies,
+            success_update_forum_message: success_update_forum_message,
+            success_delete_forum_message: success_delete_forum_message
+        })
+    },
+
+    async getUpdateForumReplyForm(req, res) {
+        var userId = req.session.userId
+        var replyId = parseInt(req.params.id)
+
+        const findUserById = await prisma.user.findUnique({
+            where: {
+                id: userId
+            }
+        })
+
+        var userType = findUserById.type
+        var profilePic = findUserById.profilePic
+
+        const findForumReply = await prisma.forumReply.findUnique({
+            where: {
+                id: replyId
+            }
+        })
+
+        res.render('editarRespostaForum', {
+            userType: userType,
+            profilePic: profilePic,
+            reply: findForumReply
+        })
+    },
+
+    async updateForumReply(req, res) {
+        var replyId = parseInt(req.params.id)
+
+        var form_update_forum_reply = new formidable.IncomingForm()
+
+        form_update_forum_reply.parse(req, async (err, fields, files) => {
+            await prisma.forumReply.update({
+                where: {
+                    id: replyId
+                },
+                data: {
+                    description: fields['description'] 
+                }
+            })
+
+            req.session.success_update_forum_message = "Resposta atualizada com sucesso!"
+            res.redirect('/minhasRespostas')
+        })
+
+    },
+
+    async deleteForumReply(req, res) {
+        var replyId = parseInt(req.params.id)
+
+        await prisma.forumReply.delete({
+            where: {
+                id: replyId
+            }
+        })
+
+        req.session.success_delete_forum_message = "Resposta excluída com sucesso!"
+        res.redirect('/minhasRespostas')
     }
 }

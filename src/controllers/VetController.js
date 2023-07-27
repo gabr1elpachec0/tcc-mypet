@@ -124,8 +124,8 @@ module.exports = {
             })
 
         } else {
-            req.session.warning = "Acesso negado!"
-            res.redirect('/home') 
+            req.session.erro = "Realize o login para ter acesso a esse serviço!"
+            res.redirect('/login')
         }
     },
 

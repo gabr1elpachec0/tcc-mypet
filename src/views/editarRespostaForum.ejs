@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <%- include('head') %>
+</head>
+<body>
+  <%- include('menu') %>
+  <div class="container text-center col-md-4 mt-5">
+    <form action="/forumReply-update/<%= reply.id %>>" method="post" class="form p-5 shadow" enctype="multipart/form-data">
+      <h2 class="form-title-login fw-bold">Atualize sua resposta</h2>
+      <br>       
+      <div class="mb-3 text-start">
+        <label for="exampleFormControlTextarea1" class="form-label">
+          Descrição 
+        </label>
+        <textarea class="form-control" id="exampleFormControlTextarea1" name="description" placeholder="Digite aqui" rows="3" required><%= reply.description %></textarea>
+      </div>
+      <div class="form-group">
+        <input type="submit" class="btn text-light fw-bold shadow-lg mt-3" name="btn" value="ATUALIZAR" style="background-color: #E26A29;">  
+      </div>
+    </form>
+  </div>
+</body>
+</html>
+

@@ -131,6 +131,10 @@ router.get('/forumMessage-delete/:id', ForumController.deleteForumMessage)
 router.get('/responderMensagemForum/:id', ForumController.getMessageResponseForm)
 router.post('/responderMensagemForum/:id', ForumController.createForumMessageResponse)
 router.get('/verRespostasMensagemForum/:id', ForumController.getForumMessagesReplies)
+router.get('/minhasRespostas', ForumController.getMyForumReplies)
+router.get('/forumReply-update/:id', ForumController.getUpdateForumReplyForm)
+router.post('/forumReply-update/:id', ForumController.updateForumReply)
+router.get('/forumReply-delete/:id', ForumController.deleteForumReply)
 
 // Pets e Carteira Digital
 router.get('/carteiraDigital/:id', PetController.getDigitalCard)
