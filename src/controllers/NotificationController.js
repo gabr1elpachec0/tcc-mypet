@@ -17,6 +17,9 @@ module.exports = {
             const findImmunizationControl = await prisma.immunizationControl.findMany({
                 where: {
                     petId: userPet.id
+                },
+                include: {
+                    pet: true,
                 }
             });
 
@@ -27,11 +30,24 @@ module.exports = {
                 // console.log(repeatDate);
                 // console.log(differenceInDays);
 
-                if (differenceInDays === 7 || differenceInDays === 1) {
+                if (differenceInDays === 7) {
+                    var petName     = immunizationControl.pet.name
+                    var vaccineName = immunizationControl.vaccineName
                     await prisma.notification.create({
                         data: {
                             userId: userId,
-                            message: "A data de repetir a vacina de seu pet está se aproximando, verifique na carteira digital!",
+                            message: `Faltam 7 dias para repetir a dose de ${vaccineName} para ${petName}`,
+                        }
+                    });
+                }
+
+                if (differenceInDays === 1) {
+                    var petName = immunizationControl.pet.name
+                    var vaccineName = immunizationControl.vaccineName
+                    await prisma.notification.create({
+                        data: {
+                            userId: userId,
+                            message: `Falta 1 dia para repetir a dose de ${vaccineName} para ${petName}`,
                         }
                     });
                 }
@@ -50,6 +66,9 @@ module.exports = {
             const findMedicinesControl = await prisma.medicinesControl.findMany({
                 where: {
                     petId: userPet.id
+                },
+                include: {
+                    pet: true
                 }
             });
 
@@ -60,11 +79,27 @@ module.exports = {
                 // console.log(repeatDate);
                 // console.log(differenceInDays);
 
-                if (differenceInDays === 7 || differenceInDays === 1) {
+
+                if (differenceInDays === 7) {
+                    var petName = medicinesControl.pet.name
+                    var medicineName = medicinesControl.medicineName
+
                     await prisma.notification.create({
                         data: {
                             userId: userId,
-                            message: "A data de repetir a medicação de seu pet está se aproximando, verifique na carteira digital!",
+                            message: `Faltam 7 dias para repetir a dose de ${medicineName} para ${petName}`,
+                        }
+                    });
+                }
+
+                if (differenceInDays === 1) {
+                    var petName = medicinesControl.pet.name
+                    var medicineName = medicinesControl.medicineName
+
+                    await prisma.notification.create({
+                        data: {
+                            userId: userId,
+                            message: `Falta 1 dia para repetir a dose de ${medicineName} para ${petName}`,
                         }
                     });
                 }
@@ -72,7 +107,6 @@ module.exports = {
         }
 
     },
-
 
     async listNotifications(req, res) {
         var userId = req.session.userId;

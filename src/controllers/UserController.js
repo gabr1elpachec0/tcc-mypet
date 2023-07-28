@@ -78,7 +78,7 @@ module.exports = {
             if (err) throw err
             if (findUserByEmail) {
                 const user_password = findUserByEmail.password
-                bcrypt.compare(password, user_password, function (err, result) {
+                bcrypt.compare(password, user_password, async function (err, result) {
                     if (err) throw err
                     if (result) {
                         req.session.loggedin = true
@@ -93,11 +93,12 @@ module.exports = {
                         req.session.sucesso_login = `${userName}, seja bem-vindo(a)!`
 
                         // Cria as notificações
-                        NotificationController.createVaccineNotification(userId)
-                        NotificationController.createMedicineNotification(userId)
+                        await NotificationController.createVaccineNotification(userId)
+                        await NotificationController.createMedicineNotification(userId)
 
                         // Redireciona para a página inicial após a criação das notificações
                         res.redirect('/home')
+                        
                     } else {
                         req.session.erro_login = "Email ou senha inválidos!"
                         res.redirect('/login')
