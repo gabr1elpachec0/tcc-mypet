@@ -80,6 +80,7 @@ module.exports = {
                 },
             });
 
+            const findAllComments = await prisma.postComment.findMany()
 
             // console.log(findAllLikes)
             // console.log(findAllPosts)
@@ -96,9 +97,11 @@ module.exports = {
                 counter += 1
             })
             
+            
             res.render('blog', { 
                 posts: findAllPosts,
                 likes: findAllLikes,
+                comments: findAllComments,
                 success_create_post: success_create_post, 
                 userType: userType, 
                 profilePic: profilePic, 
@@ -123,15 +126,26 @@ module.exports = {
                     userId: userId,
                 },
                 include: {
-                    postAuthor: true
+                    postAuthor: true,
+                    PostLikes: true,
                 }
             })
+
+            const findAllLikes = await prisma.postLike.findMany({
+                where: {
+                    userId: userId,
+                },
+            });
+
+            const findAllComments = await prisma.postComment.findMany()
+
 
             const findUserById = await prisma.user.findUnique({
                 where: {
                     id: userId
                 }
-            });
+            }); 
+
             
             var success_update_post
             var success_delete_post
@@ -161,7 +175,17 @@ module.exports = {
                 counter += 1
             })
 
-            res.render('minhasPublicacoes', { posts: findPostByUser, success_delete_post: success_delete_post, success_update_post: success_update_post, userType: userType, profilePic: profilePic, counter: counter })
+            res.render('minhasPublicacoes', { 
+                posts: findPostByUser, 
+                likes: findAllLikes,
+                comments: findAllComments,
+                success_delete_post: success_delete_post, 
+                success_update_post: success_update_post, 
+                userType: userType, 
+                userId: userId,
+                profilePic: profilePic, 
+                counter: counter 
+            })
         } else {
             req.session.erro = "Realize o login para ter acesso a esse serviço!"
             res.redirect('/login')
@@ -423,5 +447,116 @@ module.exports = {
             res.redirect('/blog')
         }
     },
+
+    async getMyPostComments(req, res) {
+        var userId = req.session.userId
+        var success_update_comment
+        var success_delete_comment
+
+
+        const findUserById = await prisma.user.findUnique({
+            where: {
+                id: userId
+            }
+        })
+
+        var userType = findUserById.type
+        var profilePic = findUserById.profilePic
+
+        const findMyComments = await prisma.postComment.findMany({
+            where: {
+                userId: userId
+            },
+            include: {
+                commentAuthor: true,
+            }
+        })
+
+        if (req.session.success_update_comment){ 
+            success_update_comment = req.session.success_update_comment
+            req.session.success_update_comment = ""
+        }
+
+        if (req.session.success_delete_comment) {
+            success_delete_comment = req.session.success_delete_comment
+            req.session.success_delete_comment = ""
+        }
+
+        var counter = 0
+
+        const findNotificationsByUserId = await prisma.notification.findMany({
+            where: {
+                userId: userId
+            }
+        })
+
+        findNotificationsByUserId.forEach(function (notification) {
+            counter += 1
+        })
+
+        res.render('meusComentarios', {
+            userType: userType,
+            profilePic: profilePic,
+            counter: counter,
+            comments: findMyComments,
+            success_update_comment: success_update_comment,
+            success_delete_comment: success_delete_comment
+        })
+    },
+
+    async getUpdateCommentForm (req, res) {
+        var userId = req.session.userId
+
+        const findUserById = await prisma.user.findUnique({
+            where: {
+                id: userId
+            }
+        })
+
+        var userType = findUserById.type
+        var profilePic = findUserById.profilePic
+
+        var counter = 0
+
+        const findNotificationsByUserId = await prisma.notification.findMany({
+            where: {
+                userId: userId
+            }
+        })
+
+        findNotificationsByUserId.forEach(function (notification) {
+            counter += 1
+        })
+
+        const findMyComments = await prisma.postComment.findMany()
+
+        res.render('editarComentario', {
+            userType: userType,
+            profilePic: profilePic,
+            counter: counter,
+            comments: findMyComments
+        })
+    },
+
+    async updateComment(req, res) {
+        var userId = req.session.userId
+        var commentId = parseInt(req.params.id)
+
+        var form_update_comment = new formidable.IncomingForm()
+
+        form_update_comment.parse(req, async (err, fields, files) => {
+            await prisma.postComment.update({
+                where: {
+                    id: commentId
+                },
+                data: {
+                    description: fields['comment']
+                }
+            })
+
+            req.session.success_update_comment = "Comentário atualizado com sucesso!"
+            res.redirect('/meusComentarios')
+        })
+    }
 
 }

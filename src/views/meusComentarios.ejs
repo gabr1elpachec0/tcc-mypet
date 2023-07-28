@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <%- include('head') %>
+  </head>
+
+  <body>
+    <%- include('menu') %>
+    <div class="container mt-5">
+      <% if (success_update_comment) { %>
+      <div class="alert alert-success" style="height: 60px">
+        <p><%= success_update_comment %></p>
+      </div>
+      <% } %> <% if (success_delete_comment) { %>
+      <div class="alert alert-success" style="height: 60px">
+        <p><%= success_delete_comment %></p>
+      </div>
+      <% } %>
+      <div class="d-flex flex-row justify-content-center">
+        <h3 class="fw-bold my-2 mx-5">Meus Comentários</h3>
+      </div>
+      <% comments.forEach(function(comment) { %>
+      <div class="mensagemForum container shadow p-5 mt-5">
+        <h4 class="fw-bold"><%= comment['commentAuthor'].name %></h4>
+        <br />
+        <p style="font-size: large"><%= comment['description'] %></p>
+        <br />
+        <div class="d-flex">
+          <a href="/comment-update/<%= comment['id'] %>">
+            <div class="icon shadow">
+              <img
+                src="images/edit.png"
+                alt="edit"
+                style="height: 30px; width: 30px; margin: 12px"
+              />
+            </div>
+          </a>
+          <a href="/comment-delete/<%= comment['id'] %>">
+            <div class="icon shadow mx-3">
+              <img
+                src="images/x.png"
+                alt="edit"
+                style="height: 30px; width: 30px; margin: 12px"
+              />
+            </div>
+          </a>
+        </div>
+      </div>
+      <br />
+      <% }) %>
+    </div>
+  </body>
+</html>

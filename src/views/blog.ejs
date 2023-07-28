@@ -47,8 +47,18 @@
                   href="/post-like/<%= post['id'] %>"
                   class="mx-2"
                 >
-                  <% var liked = false %>
+                <% var liked = false %>
+                <% var countLikes = 0 %>
+                <% var countComments = 0 %>
+                <% comments.forEach(function(comment) { %>
+                  <% if (comment.postId == post.id) { %>
+                    <% countComments += 1 %>                
+                  <% } %>
+                <% }) %>
                  <% likes.forEach(function(like) { %>
+                    <% if (like.postId == post.id) { %>
+                      <% countLikes += 1 %>
+                    <% } %> 
                     <% if (like.postId == post.id && like.userId == userId) { %>
                         <% liked = true %>
                     <% } %>
@@ -77,14 +87,19 @@
               </div>
 
               <p class="card-text fw-bold">
-                Curtido por 500 pessoas
+                Curtido por <%= countLikes %> pessoa(s)
                 <br />
-                <a
+                <% if (countComments === 0) { %>
+                  <p>Sem comentários</p>
+                <% } else { %>
+                  <a
                   href="/post-comments/<%= post['id'] %>"
                   style="color: #eb762b"
                 >
-                  Ver comentários
+                  
+                  Ver <%= countComments %> comentário(s)
                 </a>
+                <% } %>
               </p>
               <br />
               <p class="card-text fw-bold"><%= post['postAuthor'].name %></p>

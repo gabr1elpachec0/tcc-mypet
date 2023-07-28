@@ -126,3 +126,7 @@
 #chat-conteudo {
   overflow-y: auto;
 }
+
+.card-body {
+  height: 300px;
+}
