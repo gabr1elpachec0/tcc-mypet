@@ -121,6 +121,8 @@ router.get('/post-comments/:id', PostController.getAllComments)
 router.get('/post-like/:id', PostController.like)
 router.get('/myComments', PostController.getMyPostComments)
 router.get('/comment-update/:id', PostController.getUpdateCommentForm)
+router.post('/comment-update/:id', PostController.updateComment)
+router.get('/comment-delete/:id', PostController.deleteComment)
 
 // Forum
 router.get('/forum', ForumController.getAllForumMessages)

@@ -7,6 +7,11 @@
   <body>
     <%- include('menu') %>
     <div class="container mt-5">
+      
+      <div class="d-flex flex-row justify-content-center">
+        <h3 class="fw-bold my-2 mx-5">Meus Comentários</h3>
+      </div>
+      <br>
       <% if (success_update_comment) { %>
       <div class="alert alert-success" style="height: 60px">
         <p><%= success_update_comment %></p>
@@ -16,9 +21,6 @@
         <p><%= success_delete_comment %></p>
       </div>
       <% } %>
-      <div class="d-flex flex-row justify-content-center">
-        <h3 class="fw-bold my-2 mx-5">Meus Comentários</h3>
-      </div>
       <% comments.forEach(function(comment) { %>
       <div class="mensagemForum container shadow p-5 mt-5">
         <h4 class="fw-bold"><%= comment['commentAuthor'].name %></h4>

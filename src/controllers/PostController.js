@@ -555,8 +555,21 @@ module.exports = {
             })
 
             req.session.success_update_comment = "Comentário atualizado com sucesso!"
-            res.redirect('/meusComentarios')
+            res.redirect('/myComments')
         })
+    },
+    
+    async deleteComment(req, res) {
+        var commentId = parseInt(req.params.id)
+
+        await prisma.postComment.delete({
+            where: {
+                id: commentId
+            }
+        })
+        
+        req.session.success_delete_comment = "Comentário excluído com sucesso!"
+        res.redirect('/myComments')
     }
 
 }
