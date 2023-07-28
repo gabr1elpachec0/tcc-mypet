@@ -27,11 +27,11 @@ module.exports = {
                 // console.log(repeatDate);
                 // console.log(differenceInDays);
 
-                if (differenceInDays == 7) {
+                if (differenceInDays === 7 || differenceInDays === 1) {
                     await prisma.notification.create({
                         data: {
                             userId: userId,
-                            message: "Você precisa vacinar seu pet daqui a 7 dias!",
+                            message: "A data de repetir a vacina de seu pet está se aproximando, verifique na carteira digital!",
                         }
                     });
                 }
@@ -60,11 +60,11 @@ module.exports = {
                 // console.log(repeatDate);
                 // console.log(differenceInDays);
 
-                if (differenceInDays == 7) {
+                if (differenceInDays === 7 || differenceInDays === 1) {
                     await prisma.notification.create({
                         data: {
                             userId: userId,
-                            message: "Você precisa dar remédio ao seu pet daqui a 7 dias!",
+                            message: "A data de repetir a medicação de seu pet está se aproximando, verifique na carteira digital!",
                         }
                     });
                 }
@@ -92,10 +92,26 @@ module.exports = {
             }
         });
 
+        var counter = 0
+
+        const findNotificationsByUserId = await prisma.notification.findMany({
+            where: {
+                userId: userId
+            }
+        })
+
+        findNotificationsByUserId.forEach(function (notification) {
+            counter += 1
+        })
+
         res.render('notificacoes', {
             userType: userType,
             profilePic: profilePic,
-            notifications: findNotificationByUserId
+            notifications: findNotificationByUserId,
+            counter: counter
         })
-    }
+    },
+
+    
+
 };

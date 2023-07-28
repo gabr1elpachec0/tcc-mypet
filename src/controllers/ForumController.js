@@ -18,7 +18,19 @@ module.exports = {
         var userType   = findUserById.type
         var profilePic = findUserById.profilePic
 
-        res.render('adicionarMensagemForum', { userType: userType, profilePic: profilePic })
+        var counter = 0
+
+        const findNotificationsByUserId = await prisma.notification.findMany({
+            where: {
+                userId: userId
+            }
+        })
+
+        findNotificationsByUserId.forEach(function (notification) {
+            counter += 1
+        })
+
+        res.render('adicionarMensagemForum', { userType: userType, profilePic: profilePic, counter: counter })
     },
     
     // Create Forum Message
@@ -81,13 +93,26 @@ module.exports = {
                 }
             })
 
+            var counter = 0
+
+            const findNotificationsByUserId = await prisma.notification.findMany({
+                where: {
+                    userId: userId
+                }
+            })
+
+            findNotificationsByUserId.forEach(function (notification) {
+                counter += 1
+            })
+
             res.render('forum', { 
                 messages: findAllMessages, 
                 userType: userType, 
                 profilePic: profilePic, 
                 success_create_forum_message: success_create_forum_message, 
                 success_create_forum_message_response: success_create_forum_message_response,
-                warning: warning
+                warning: warning,
+                counter: counter
             })
         } else {
             req.session.erro = "Realize o login para ter acesso a esse serviço!"
@@ -128,7 +153,19 @@ module.exports = {
                 req.session.success_delete_pet = ""
             }
 
-            res.render('minhasMensagens', { messages: findMyForumMessages, userType: userType, profilePic: profilePic, success_update_forum_message: success_update_forum_message, success_delete_forum_message: success_delete_forum_message })
+            var counter = 0
+
+            const findNotificationsByUserId = await prisma.notification.findMany({
+                where: {
+                    userId: userId
+                }
+            })
+
+            findNotificationsByUserId.forEach(function (notification) {
+                counter += 1
+            })
+
+            res.render('minhasMensagens', { messages: findMyForumMessages, userType: userType, profilePic: profilePic, success_update_forum_message: success_update_forum_message, success_delete_forum_message: success_delete_forum_message, counter: counter })
         } else {
             req.session.erro = "Realize o login para ter acesso a esse serviço!"
             res.redirect('/login')
@@ -154,7 +191,19 @@ module.exports = {
         var userType = findUserById.type
         var profilePic = findUserById.profilePic
 
-        res.render('editarMensagemForum', { message: [findForumMessageById], userType: userType, profilePic: profilePic })
+        var counter = 0
+
+        const findNotificationsByUserId = await prisma.notification.findMany({
+            where: {
+                userId: userId
+            }
+        })
+
+        findNotificationsByUserId.forEach(function (notification) {
+            counter += 1
+        })
+
+        res.render('editarMensagemForum', { message: [findForumMessageById], userType: userType, profilePic: profilePic, counter: counter })
     },
 
     async updateForumMessage(req, res) {
@@ -215,11 +264,24 @@ module.exports = {
             }
         })
 
+        var counter = 0
+
+        const findNotificationsByUserId = await prisma.notification.findMany({
+            where: {
+                userId: userId
+            }
+        })
+
+        findNotificationsByUserId.forEach(function (notification) {
+            counter += 1
+        })
+
         if (userType == "vet") {
             res.render('responderMensagemForum', {
                 userType: userType,
                 profilePic: profilePic,
-                message: findMessage
+                message: findMessage,
+                counter: counter
             })
         } else {
             req.session.warning = "Você não tem permissão para responder à dúvida!"
@@ -270,10 +332,23 @@ module.exports = {
             }
         })
 
+        var counter = 0
+
+        const findNotificationsByUserId = await prisma.notification.findMany({
+            where: {
+                userId: userId
+            }
+        })
+
+        findNotificationsByUserId.forEach(function (notification) {
+            counter += 1
+        })
+
         res.render('verRespostasMensagemForum', {
             replies: findForumMessagesReplies,
             userType: userType,
-            profilePic: profilePic
+            profilePic: profilePic,
+            counter: counter
         })
     },
 
@@ -311,12 +386,25 @@ module.exports = {
             req.session.success_delete_forum_message = ""
         }
 
+        var counter = 0
+
+        const findNotificationsByUserId = await prisma.notification.findMany({
+            where: {
+                userId: userId
+            }
+        })
+
+        findNotificationsByUserId.forEach(function (notification) {
+            counter += 1
+        })
+
         res.render('minhasRespostas', {
             userType: userType,
             profilePic: profilePic,
             replies: findMyForumReplies,
             success_update_forum_message: success_update_forum_message,
-            success_delete_forum_message: success_delete_forum_message
+            success_delete_forum_message: success_delete_forum_message,
+            counter: counter
         })
     },
 
@@ -339,10 +427,23 @@ module.exports = {
             }
         })
 
+        var counter = 0
+
+        const findNotificationsByUserId = await prisma.notification.findMany({
+            where: {
+                userId: userId
+            }
+        })
+
+        findNotificationsByUserId.forEach(function (notification) {
+            counter += 1
+        })
+
         res.render('editarRespostaForum', {
             userType: userType,
             profilePic: profilePic,
-            reply: findForumReply
+            reply: findForumReply,
+            counter: counter
         })
     },
 

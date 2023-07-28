@@ -72,7 +72,19 @@ module.exports = {
         var userType = findUserById.type
         var profilePic = findUserById.profilePic
 
-        res.render('adicionarDoacao', { userType: userType, profilePic: profilePic })
+        var counter = 0
+
+        const findNotificationsByUserId = await prisma.notification.findMany({
+            where: {
+                userId: userId
+            }
+        })
+
+        findNotificationsByUserId.forEach(function (notification) {
+            counter += 1
+        })
+
+        res.render('adicionarDoacao', { userType: userType, profilePic: profilePic, counter: counter })
     },
 
     // Read
@@ -111,7 +123,26 @@ module.exports = {
                 req.session.success_delete_donation = ""
             }
 
-            res.render('minhasDoacoes', { donations: findDonationByUser, success_update_donation: success_update_donation, success_delete_donation: success_delete_donation, userType: userType, profilePic: profilePic })
+            var counter = 0
+
+            const findNotificationsByUserId = await prisma.notification.findMany({
+                where: {
+                    userId: userId
+                }
+            })
+
+            findNotificationsByUserId.forEach(function (notification) {
+                counter += 1
+            })
+
+            res.render('minhasDoacoes', { 
+                donations: findDonationByUser, 
+                success_update_donation: success_update_donation, 
+                success_delete_donation: success_delete_donation, 
+                userType: userType, 
+                profilePic: profilePic,
+                counter: counter
+            })
         } else {
             req.session.erro = "Realize o login para ter acesso a esse serviço!"
             res.redirect('/login')
@@ -144,7 +175,25 @@ module.exports = {
                 }
             })
 
-            res.render('doacoes', { donations: findAllDonations, success_create_donation: success_create_donation, userType: userType, profilePic: profilePic })
+            var counter = 0
+
+            const findNotificationsByUserId = await prisma.notification.findMany({
+                where: {
+                    userId: userId
+                }
+            })
+
+            findNotificationsByUserId.forEach(function (notification) {
+                counter += 1
+            })
+
+            res.render('doacoes', { 
+                donations: findAllDonations, 
+                success_create_donation: success_create_donation, 
+                userType: userType, 
+                profilePic: profilePic,
+                counter: counter
+            })
         } else {
             req.session.erro = "Realize o login para ter acesso a esse serviço!"
             res.redirect('/login')
@@ -230,7 +279,24 @@ module.exports = {
         var userType = findUserById.type
         var profilePic = findUserById.profilePic
 
-        res.render('editarDoacao', { donation: [findDonationById], userType: userType, profilePic: profilePic })
+        var counter = 0
+
+        const findNotificationsByUserId = await prisma.notification.findMany({
+            where: {
+                userId: userId
+            }
+        })
+
+        findNotificationsByUserId.forEach(function (notification) {
+            counter += 1
+        })
+
+        res.render('editarDoacao', { 
+            donation: [findDonationById], 
+            userType: userType, 
+            profilePic: profilePic,
+            counter: counter
+        })
     },
 
     // Delete

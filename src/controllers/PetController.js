@@ -65,7 +65,19 @@ module.exports = {
         var userType = findUserById.type
         var profilePic = findUserById.profilePic
 
-        res.render('adicionarPet', { userType: userType, profilePic: profilePic })
+        var counter = 0
+
+        const findNotificationsByUserId = await prisma.notification.findMany({
+            where: {
+                userId: userId
+            }
+        })
+
+        findNotificationsByUserId.forEach(function (notification) {
+            counter += 1
+        })
+
+        res.render('adicionarPet', { userType: userType, profilePic: profilePic, counter: counter })
     },
 
     // Read
@@ -114,13 +126,26 @@ module.exports = {
                 birthDate: dayjs(pet.birthDate).add(1, 'day').format('DD/MM/YYYY'),
             }))
 
+            var counter = 0
+
+            const findNotificationsByUserId = await prisma.notification.findMany({
+                where: {
+                    userId: userId
+                }
+            })
+
+            findNotificationsByUserId.forEach(function (notification) {
+                counter += 1
+            })
+
             res.render('pets', { 
                 pets: formattedPets, 
                 userType: userType, 
                 profilePic: profilePic, 
                 success_create_pet: success_create_pet, 
                 success_update_pet: success_update_pet, 
-                success_delete_pet: success_delete_pet 
+                success_delete_pet: success_delete_pet,
+                counter: counter
             })
         } else {
             req.session.erro = "Realize o login para ter acesso a esse serviço!"
@@ -187,7 +212,19 @@ module.exports = {
         var userType = findUserById.type
         var profilePic = findUserById.profilePic
 
-        res.render('editarPet', { pet: [findPetById], userType: userType, profilePic: profilePic })
+        var counter = 0
+
+        const findNotificationsByUserId = await prisma.notification.findMany({
+            where: {
+                userId: userId
+            }
+        })
+
+        findNotificationsByUserId.forEach(function (notification) {
+            counter += 1
+        })
+
+        res.render('editarPet', { pet: [findPetById], userType: userType, profilePic: profilePic, counter: counter })
     },
 
     // Delete
@@ -230,10 +267,23 @@ module.exports = {
             }
         })
 
+        var counter = 0
+
+        const findNotificationsByUserId = await prisma.notification.findMany({
+            where: {
+                userId: userId
+            }
+        })
+
+        findNotificationsByUserId.forEach(function (notification) {
+            counter += 1
+        })
+
         res.render('selecionarPet', {
             userType: userType,
             profilePic: profilePic,
-            userPets: userPets
+            userPets: userPets,
+            counter: counter
         })
     },
 
@@ -292,6 +342,18 @@ module.exports = {
             vaccineRepeat: dayjs(pet.vaccineRepeat).add(1, 'day').format('DD/MM/YYYY')
         }))
 
+        var counter = 0
+
+        const findNotificationsByUserId = await prisma.notification.findMany({
+            where: {
+                userId: userId
+            }
+        })
+
+        findNotificationsByUserId.forEach(function (notification) {
+            counter += 1
+        })
+
         res.render('carteiraDigital', {
             userType: userType,
             profilePic: profilePic,
@@ -300,7 +362,8 @@ module.exports = {
             success_create_immunization_control: success_create_immunization_control,
             success_create_weight_control: success_create_weight_control,
             success_create_medicines_control: success_create_medicines_control,
-            success_download: success_download
+            success_download: success_download,
+            counter: counter
 
         })
     },
@@ -324,10 +387,23 @@ module.exports = {
         var userType   = findUserById.type
         var profilePic = findUserById.profilePic
 
+        var counter = 0
+
+        const findNotificationsByUserId = await prisma.notification.findMany({
+            where: {
+                userId: userId
+            }
+        })
+
+        findNotificationsByUserId.forEach(function (notification) {
+            counter += 1
+        })
+
         res.render('adicionarControleImunizacao', {
             userType: userType,
             profilePic: profilePic,
-            pet: [findPetById]
+            pet: [findPetById],
+            counter: counter
         })
     },
 
@@ -374,10 +450,23 @@ module.exports = {
         var userType = findUserById.type
         var profilePic = findUserById.profilePic
 
+        var counter = 0
+
+        const findNotificationsByUserId = await prisma.notification.findMany({
+            where: {
+                userId: userId
+            }
+        })
+
+        findNotificationsByUserId.forEach(function (notification) {
+            counter += 1
+        })
+
         res.render('adicionarControlePeso', {
             userType: userType,
             profilePic: profilePic,
-            pet: [findPetById]
+            pet: [findPetById],
+            counter: counter
         })
     },
 
@@ -422,10 +511,23 @@ module.exports = {
         var userType = findUserById.type
         var profilePic = findUserById.profilePic
 
+        var counter = 0
+
+        const findNotificationsByUserId = await prisma.notification.findMany({
+            where: {
+                userId: userId
+            }
+        })
+
+        findNotificationsByUserId.forEach(function (notification) {
+            counter += 1
+        })
+
         res.render('adicionarControleMedicamentos', {
             userType: userType,
             profilePic: profilePic,
-            pet: [findPetById]
+            pet: [findPetById],
+            counter: counter
         })
     },
 
@@ -483,11 +585,24 @@ module.exports = {
             weightDate: dayjs(pet.weightDate).add(1, 'day').format('DD/MM/YYYY'),
         }))
 
+        var counter = 0
+
+        const findNotificationsByUserId = await prisma.notification.findMany({
+            where: {
+                userId: userId
+            }
+        })
+
+        findNotificationsByUserId.forEach(function (notification) {
+            counter += 1
+        })
+
         res.render('listarControlePeso', {
             userType: userType,
             profilePic: profilePic,
             pet: [findPetById],
             weightControl: formattedWeightControl,
+            counter: counter
         })
     },
 
@@ -522,11 +637,24 @@ module.exports = {
             medicineRepeat: dayjs(pet.medicineRepeat).add(1, 'day').format('DD/MM/YYYY'),
         }))
 
+        var counter = 0
+
+        const findNotificationsByUserId = await prisma.notification.findMany({
+            where: {
+                userId: userId
+            }
+        })
+
+        findNotificationsByUserId.forEach(function (notification) {
+            counter += 1
+        })
+
         res.render('listarControleMedicamentos', {
             userType: userType,
             profilePic: profilePic,
             pet: [findPetById],
             medicinesControl: formattedMedicinesControl,
+            counter: counter
         })
     },
 
@@ -670,10 +798,23 @@ module.exports = {
         var userType = findUserById.type
         var profilePic = findUserById.profilePic
 
+        var counter = 0
+
+        const findNotificationsByUserId = await prisma.notification.findMany({
+            where: {
+                userId: userId
+            }
+        })
+
+        findNotificationsByUserId.forEach(function (notification) {
+            counter += 1
+        })
+
         res.render('editarControleImunizacao', { 
             immunizationControl: [findImmunizationControlById], 
             userType: userType, 
-            profilePic: profilePic 
+            profilePic: profilePic,
+            counter: counter
         })
     },
 
@@ -735,10 +876,23 @@ module.exports = {
         var userType = findUserById.type
         var profilePic = findUserById.profilePic
 
+        var counter = 0
+
+        const findNotificationsByUserId = await prisma.notification.findMany({
+            where: {
+                userId: userId
+            }
+        })
+
+        findNotificationsByUserId.forEach(function (notification) {
+            counter += 1
+        })
+
         res.render('editarControleMedicamentos', {
             medicinesControl: [findMedicinesControlById],
             userType: userType,
-            profilePic: profilePic
+            profilePic: profilePic,
+            counter: counter
         })
     },
 
@@ -800,10 +954,23 @@ module.exports = {
         var userType = findUserById.type
         var profilePic = findUserById.profilePic
 
+        var counter = 0
+
+        const findNotificationsByUserId = await prisma.notification.findMany({
+            where: {
+                userId: userId
+            }
+        })
+
+        findNotificationsByUserId.forEach(function (notification) {
+            counter += 1
+        })
+
         res.render('editarControlePeso', {
             weightControl: [findWeightControlById],
             userType: userType,
-            profilePic: profilePic
+            profilePic: profilePic,
+            counter: counter
         })
     },
 

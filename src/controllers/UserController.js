@@ -63,45 +63,41 @@ module.exports = {
 
     // Login
     async verifyUser(req, res) {
-        // console.log('verifyUser() started')
-        
         var form_login = new formidable.IncomingForm()
 
-        form_login.parse(req, async(err, fields, files) => {
+        form_login.parse(req, async (err, fields, files) => {
             var email = fields['email']
             var password = fields['password']
 
-            // console.log('Email:', email)
             const findUserByEmail = await prisma.user.findUnique({
                 where: {
                     email: email
                 }
             })
-            // console.log(findUserByEmail)
+
             if (err) throw err
             if (findUserByEmail) {
                 const user_password = findUserByEmail.password
-                // console.log(user_password)
                 bcrypt.compare(password, user_password, function (err, result) {
-                    // console.log('bcrypt iniciou')
                     if (err) throw err
                     if (result) {
-                        // console.log('login realizado')
-                        req.session.loggedin       = true
-                        req.session.userId         = findUserByEmail.id
-                        req.session.userName       = findUserByEmail.name
-                        req.session.userEmail      = findUserByEmail.email
-                        req.session.userBio        = findUserByEmail.bio
-                        req.session.userType       = findUserByEmail.type
+                        req.session.loggedin = true
+                        req.session.userId = findUserByEmail.id
+                        req.session.userName = findUserByEmail.name
+                        req.session.userEmail = findUserByEmail.email
+                        req.session.userBio = findUserByEmail.bio
+                        req.session.userType = findUserByEmail.type
                         req.session.userProfilePic = findUserByEmail.profilePic
                         var userName = req.session.userName = findUserByEmail.name
                         var userId = req.session.userId
                         req.session.sucesso_login = `${userName}, seja bem-vindo(a)!`
-                        res.redirect('/home')
-                        const createVaccineNotification = NotificationController.createVaccineNotification(userId)
-                        const createMedicinesNotification = NotificationController.createMedicineNotification(userId)
 
-                        // console.log(createNotification)
+                        // Cria as notificações
+                        NotificationController.createVaccineNotification(userId)
+                        NotificationController.createMedicineNotification(userId)
+
+                        // Redireciona para a página inicial após a criação das notificações
+                        res.redirect('/home')
                     } else {
                         req.session.erro_login = "Email ou senha inválidos!"
                         res.redirect('/login')
@@ -111,8 +107,9 @@ module.exports = {
                 req.session.erro_login = "Email ou senha inválidos!"
                 res.redirect('/login')
             }
-        })  
+        })
     },
+
 
     async getUsers(req, res) {
         if (req.session.loggedin == true) {
@@ -132,13 +129,26 @@ module.exports = {
                 var userBio = findUserById.bio
                 var userProfilePic = findUserById.profilePic
 
+                var counter = 0
+
+                const findNotificationsByUserId = await prisma.notification.findMany({
+                    where: {
+                        userId: userId
+                    }
+                })
+
+                findNotificationsByUserId.forEach(function (notification) {
+                    counter += 1
+                })
+
                 res.render('meuPerfilUsuario', {
                     name: userName,
                     email: userEmail,
                     bio: userBio,
                     profilePic: userProfilePic,
                     userType: userType,
-                    id: userId
+                    id: userId,
+                    counter: counter
                 })
             } else {
                 req.session.warning = "Acesso negado!"
@@ -171,6 +181,18 @@ module.exports = {
             var profileUserVetPic
             var profileUserVetBio
             var profileUserVetId
+            
+            var counter = 0
+
+            const findNotificationsByUserId = await prisma.notification.findMany({
+                where: {
+                    userId: userId
+                }
+            })
+
+            findNotificationsByUserId.forEach(function (notification) {
+                counter += 1
+            })
 
             if (findProfileById.type == "user") {
                 profileUserVetId = findProfileById.id
@@ -184,7 +206,8 @@ module.exports = {
                     profileId: profileUserVetId,
                     profileUserVetName: profileUserVetName,
                     profileUserVetBio: profileUserVetBio,
-                    profileUserVetPic: profileUserVetPic
+                    profileUserVetPic: profileUserVetPic,
+                    counter: counter
                 })
             }
             if (findProfileById.type == "vet") {
@@ -192,6 +215,7 @@ module.exports = {
                 profileUserVetName = findProfileById.name
                 profileUserVetPic = findProfileById.profilePic
                 profileUserVetBio = findProfileById.bio
+                profileUserCertified = findProfileById.certified,
 
                 res.render('perfilVeterinario', {
                     userType: userType,
@@ -199,7 +223,10 @@ module.exports = {
                     profileId: profileUserVetId,
                     profileUserVetName: profileUserVetName,
                     profileUserVetBio: profileUserVetBio,
-                    profileUserVetPic: profileUserVetPic
+                    profileUserVetPic: profileUserVetPic,
+                    profileUserCertified: profileUserCertified,
+                    counter: counter
+
                 })
             }
         } else {
@@ -228,11 +255,24 @@ module.exports = {
                 }
             })
 
+            var counter = 0
+
+            const findNotificationsByUserId = await prisma.notification.findMany({
+                where: {
+                    userId: userId
+                }
+            })
+
+            findNotificationsByUserId.forEach(function (notification) {
+                counter += 1
+            })
+
             res.render('publicacoesUsuario', {
                 userType: userType,
                 profilePic: profilePic,
                 userName: userName,
-                posts: findPostsByUserId
+                posts: findPostsByUserId,
+                counter: counter
             })
         }
     },
@@ -257,11 +297,24 @@ module.exports = {
                 }
             })
 
+            var counter = 0
+
+            const findNotificationsByUserId = await prisma.notification.findMany({
+                where: {
+                    userId: userId
+                }
+            })
+
+            findNotificationsByUserId.forEach(function (notification) {
+                counter += 1
+            })
+
             res.render('doacoesUsuario', {
                 userType: userType,
                 profilePic: profilePic,
                 userName: userName,
-                donations: findDonationsByUserId
+                donations: findDonationsByUserId,
+                counter: counter
             })
         }
     },
@@ -286,11 +339,24 @@ module.exports = {
                 }
             })
 
+            var counter = 0
+
+            const findNotificationsByUserId = await prisma.notification.findMany({
+                where: {
+                    userId: userId
+                }
+            })
+
+            findNotificationsByUserId.forEach(function (notification) {
+                counter += 1
+            })
+
             res.render('mensagensUsuario', {
                 userType: userType,
                 profilePic: profilePic,
                 userName: userName,
-                forumMessages: findForumMessagesByUserId
+                forumMessages: findForumMessagesByUserId,
+                counter: counter
             })
         }
     },
@@ -308,11 +374,24 @@ module.exports = {
             var userType = findUserById.type
             var profilePic = findUserById.profilePic
 
+            var counter = 0
+
+            const findNotificationsByUserId = await prisma.notification.findMany({
+                where: {
+                    userId: userId
+                }
+            })
+
+            findNotificationsByUserId.forEach(function (notification) {
+                counter += 1
+            })
+
 
             res.render('editarPerfil', {
                 userType: userType,
                 profilePic: profilePic,
-                user: findUserById
+                user: findUserById,
+                counter: counter
             })
         }
     },

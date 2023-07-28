@@ -80,8 +80,21 @@ module.exports = {
                 },
             });
 
+
             // console.log(findAllLikes)
             // console.log(findAllPosts)
+
+            var counter = 0
+
+            const findNotificationsByUserId = await prisma.notification.findMany({
+                where: {
+                    userId: userId
+                }
+            })
+
+            findNotificationsByUserId.forEach(function (notification) {
+                counter += 1
+            })
             
             res.render('blog', { 
                 posts: findAllPosts,
@@ -90,7 +103,8 @@ module.exports = {
                 userType: userType, 
                 profilePic: profilePic, 
                 success_comment: success_comment,
-                userId: userId
+                userId: userId,
+                counter: counter
             });
         } else {
             req.session.erro = "Realize o login para ter acesso a esse serviço!"
@@ -135,7 +149,19 @@ module.exports = {
                 req.session.success_delete_post = ""
             }
 
-            res.render('minhasPublicacoes', { posts: findPostByUser, success_delete_post: success_delete_post, success_update_post: success_update_post, userType: userType, profilePic: profilePic })
+            var counter = 0
+
+            const findNotificationsByUserId = await prisma.notification.findMany({
+                where: {
+                    userId: userId
+                }
+            })
+
+            findNotificationsByUserId.forEach(function (notification) {
+                counter += 1
+            })
+
+            res.render('minhasPublicacoes', { posts: findPostByUser, success_delete_post: success_delete_post, success_update_post: success_update_post, userType: userType, profilePic: profilePic, counter: counter })
         } else {
             req.session.erro = "Realize o login para ter acesso a esse serviço!"
             res.redirect('/login')
@@ -155,7 +181,19 @@ module.exports = {
         var userType   = findUserById.type
         var profilePic = findUserById.profilePic
 
-        res.render('adicionarPostagem', { userType: userType, profilePic: profilePic })
+        var counter = 0
+
+        const findNotificationsByUserId = await prisma.notification.findMany({
+            where: {
+                userId: userId
+            }
+        })
+
+        findNotificationsByUserId.forEach(function (notification) {
+            counter += 1
+        })
+
+        res.render('adicionarPostagem', { userType: userType, profilePic: profilePic, counter: counter })
     },
 
     // Update Post Form
@@ -178,7 +216,19 @@ module.exports = {
         var userType = findUserById.type
         var profilePic = findUserById.profilePic
 
-        res.render('editarPostagem', { post: [findPostById], userType: userType, profilePic: profilePic })
+        var counter = 0
+
+        const findNotificationsByUserId = await prisma.notification.findMany({
+            where: {
+                userId: userId
+            }
+        })
+
+        findNotificationsByUserId.forEach(function (notification) {
+            counter += 1
+        })
+
+        res.render('editarPostagem', { post: [findPostById], userType: userType, profilePic: profilePic, counter: counter })
     },
 
     // Update Post
@@ -252,11 +302,24 @@ module.exports = {
                 }
             })
 
+            var counter = 0
+
+            const findNotificationsByUserId = await prisma.notification.findMany({
+                where: {
+                    userId: userId
+                }
+            })
+
+            findNotificationsByUserId.forEach(function (notification) {
+                counter += 1
+            })
+
             res.render('adicionarComentario', {
                 posts: [findPostById],
                 userType: userType,
                 profilePic: profilePic,
-                postId: postId
+                postId: postId,
+                counter: counter
             })
         }
     },
@@ -306,10 +369,23 @@ module.exports = {
                 }
             })
 
+            var counter = 0
+
+            const findNotificationsByUserId = await prisma.notification.findMany({
+                where: {
+                    userId: userId
+                }
+            })
+
+            findNotificationsByUserId.forEach(function (notification) {
+                counter += 1
+            })
+
             res.render('comentarios', {
                 comments: findPostComments,
                 userType: userType,
-                profilePic: profilePic
+                profilePic: profilePic,
+                counter: counter
             })
         }
     },

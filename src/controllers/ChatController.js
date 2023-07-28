@@ -13,6 +13,18 @@ module.exports = {
     async getChat(req, res) {
         var success_message;
 
+        var counter = 0
+
+        const findNotificationsByUserId = await prisma.notification.findMany({
+            where: {
+                userId: userId
+            }
+        })
+
+        findNotificationsByUserId.forEach(function (notification) {
+            counter += 1
+        })
+
         if (req.session.success_message) {
             success_message = req.session.success_message;
             req.session.success_message = "";
@@ -72,7 +84,8 @@ module.exports = {
                     success_message: success_message,
                     recipientId: recipientUserId,
                     allMessages: formattedMessages,
-                    senderUserId: senderUserId
+                    senderUserId: senderUserId,
+                    counter: counter
                 });
             }
         } else {
@@ -156,10 +169,23 @@ module.exports = {
             const chatsArray = Object.values(uniqueChats);
             // console.log(chatsArray)
 
+            var counter = 0
+
+            const findNotificationsByUserId = await prisma.notification.findMany({
+                where: {
+                    userId: userId
+                }
+            })
+
+            findNotificationsByUserId.forEach(function (notification) {
+                counter += 1
+            })
+
             res.render('conversas', {
                 userType: userType,
                 profilePic: profilePic,
                 chats: chatsArray,
+                counter: counter
             });
         }
     }

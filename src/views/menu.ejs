@@ -1,10 +1,17 @@
 <nav class="navbar navbar-expand-lg" id="home">
   <div class="container">
     <a class="navbar-brand" href="/home">
-      <img class="logo" src="../../images/logo.png" alt="logo">
+      <img class="logo" src="../../images/logo.png" alt="logo" />
     </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
       <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -23,38 +30,64 @@
           <a id="link" class="nav-link m-2" href="/forum">Fórum</a>
         </li>
         <li class="nav-item">
-          <a id="link" class="nav-link m-2" href="/listaVeterinarios">Veterinários</a>
+          <a id="link" class="nav-link m-2" href="/listaVeterinarios"
+            >Veterinários</a
+          >
         </li>
         <% if (userType == "user" || userType == "vet") { %>
         <li class="nav-item">
           <a id="link" class="nav-link m-2" href="/conversas">Conversas</a>
         </li>
-          <li class="nav-item">
-            <a id="link" class="nav-link m-2" href="/notifications">
-              <img src="../../images/bell.svg" alt="bell">
-            </a>
-          </li>
-          <li class="nav-item">
-            <a id="link" class="nav-link" href="/<%=userType%>-profile">
-              <% if (profilePic) { %>
-                <img class="rounded-circle shadow" src="/profilePics/<%= profilePic %>" alt="profile-picture"
-                  style="width: 50px; height: 50px;">
-              <% } else { %>
-                <img class="rounded-circle shadow" src="/images/user-circle.png" alt="profile-picture"
-                  style="width: 50px; height: 50px;">
-              <% } %>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a id="link-cadastro-logout" class="nav-link m-2" href="/logout">Logout</a>
-          </li>
+        <li class="nav-item">
+          <a id="link" class="nav-link" href="/notifications" style="margin-right: 20px;">
+            <button
+              type="button"
+              class="btn position-relative"
+              id="notificationButton"
+            >
+              <img src="../../images/bell.svg" alt="bell" />
+              <span
+                class="position-absolute top-0 start-100 translate-middle badge rounded-pill"
+                style="background-color: #EB762B;"
+              >
+              <%= counter %>
+              </span>
+            </button>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a id="link" class="nav-link" href="/<%=userType%>-profile">
+            <% if (profilePic) { %>
+            <img
+              class="rounded-circle shadow"
+              src="/profilePics/<%= profilePic %>"
+              alt="profile-picture"
+              style="width: 50px; height: 50px"
+            />
+            <% } else { %>
+            <img
+              class="rounded-circle shadow"
+              src="/images/user-circle.png"
+              alt="profile-picture"
+              style="width: 50px; height: 50px"
+            />
+            <% } %>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a id="link-cadastro-logout" class="nav-link m-2" href="/logout"
+            >Logout</a
+          >
+        </li>
         <% } else { %>
-          <li class="nav-item">
-            <a id="link" class="nav-link m-2" href="/login">Entrar</a>
-          </li>
-          <li class="nav-item">
-            <a id="link-cadastro-logout" class="nav-link m-2" href="/cadastro">Cadastre-se</a>
-          </li>
+        <li class="nav-item">
+          <a id="link" class="nav-link m-2" href="/login">Entrar</a>
+        </li>
+        <li class="nav-item">
+          <a id="link-cadastro-logout" class="nav-link m-2" href="/cadastro"
+            >Cadastre-se</a
+          >
+        </li>
         <% } %>
       </ul>
     </div>

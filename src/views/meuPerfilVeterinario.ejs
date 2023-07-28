@@ -1,81 +1,106 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
-<head>
+  <head>
     <%- include('head') %>
-</head>
+  </head>
 
-<body>
+  <body>
     <%- include('menu') %>
     <div class="container text-start">
-        <h2 class="fw-bold mt-4">Área do veterinário</h2>
+      <h2 class="fw-bold mt-4">Área do veterinário</h2>
     </div>
-        <div class="perfil container d-flex text-start mt-5 shadow">
-            <% if (profilePic) { %>
-                <img class="rounded-circle shadow m-5" src="profilePics/<%= profilePic %>" alt="profile-picture"
-                    style="height: 300px; width: 300px;">
-            <% } else { %>
-                <img class="rounded-circle shadow m-5" src="images/user-circle.png" alt="profile-picture"
-                    style="height: 300px; width: 300px;">
-            <% } %>
-            <div class="container m-5">
-                <h5 class="fw-bold" style="color: #EB762B;">Nome:</h5>
-                <% if(name){ %>
-                    <h5>
-                        <%= name %>
-                    </h5>
-                <%} %>
-                <br>
-                <h5 class="fw-bold" style="color: #EB762B;">Email:</h5>
-                <% if(email){ %>
-                    <h5>
-                        <%= email %>
-                    </h5>
-                <%} %>
-                <br>
-                <h5 class="fw-bold" style="color: #EB762B;">Descrição:</h5>
-                <% if(bio){ %>
-                    <h5>
-                        <%= bio %>
-                    </h5>
-                <% } %>
-                <% if (!bio) { %>
-                    <h5>
-                        Nenhuma
-                    </h5>
-                <% } %>
-            </div>
-            <div class="container">
-                <a href="/vet-update/<%= id %>" class="text-decoration-none text-white">
-                    <button class="btn text-light m-5 fw-bold shadow" style="background-color: #E26A29;">
-                        EDITAR
-                    </button>
-                </a>
-            </div>
-        </div>
-        <br>
-        <div class="container mt-5 mb-5">
-            <table class="table mt-1">
-                <thead>
-                    <tr>
-                        <th scope="col">Doações</th>
-                        <th scope="col">Pets</th>
-                        <th scope="col">Publicações</th>
-                        <th scope="col">Fórum</th>
-                        <th scope="col">Fórum</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><a href="/minhasDoacoes" style="color: #EB762B;">Minhas doações</a></td>
-                        <td><a href="/pets" style="color: #EB762B;">Meus pets</a></td>
-                        <td><a href="/minhasPublicacoes" style="color: #EB762B;">Minhas publicações</a></td>
-                        <td><a href="/minhasMensagens" style="color: #EB762B;">Minhas mensagens</a></td>
-                        <td><a href="/minhasRespostas" style="color: #EB762B;">Minhas respostas</a></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-</body>
-
+    <div class="perfil container d-flex text-start mt-5 shadow">
+      <% if (profilePic) { %>
+      <img
+        class="rounded-circle shadow m-5"
+        src="profilePics/<%= profilePic %>"
+        alt="profile-picture"
+        style="height: 300px; width: 300px"
+      />
+      <% } else { %>
+      <img
+        class="rounded-circle shadow m-5"
+        src="images/user-circle.png"
+        alt="profile-picture"
+        style="height: 300px; width: 300px"
+      />
+      <% } %>
+      <div class="container m-5">
+        <h5 class="fw-bold" style="color: #eb762b">Nome:</h5>
+        <% if(name){ %>
+        <h5><%= name %></h5>
+        <%} %>
+        <br />
+        <h5 class="fw-bold" style="color: #eb762b">Email:</h5>
+        <% if(email){ %>
+        <h5><%= email %></h5>
+        <%} %>
+        <br />
+        <h5 class="fw-bold" style="color: #eb762b">Descrição:</h5>
+        <% if(bio){ %>
+        <h5><%= bio %></h5>
+        <% } %> <% if (!bio) { %>
+        <h5>Nenhuma</h5>
+        <% } %>
+        <br />
+        <h5 class="fw-bold" style="color: #eb762b">Certificado:</h5>
+        <% if(profileUserCertified){ %>
+        <h5>
+          <a href="../vetCertifieds/<%= profileUserCertified %>" id="link">
+            Abrir
+          </a>
+        </h5>
+        <% } else{ %>
+        <h5>Nenhum</h5>
+        <% } %>
+      </div>
+      <div class="container">
+        <a href="/vet-update/<%= id %>" class="text-decoration-none text-white">
+          <button
+            class="btn text-light m-5 fw-bold shadow"
+            style="background-color: #e26a29"
+          >
+            EDITAR
+          </button>
+        </a>
+      </div>
+    </div>
+    <br />
+    <div class="container mt-5 mb-5">
+      <table class="table mt-1">
+        <thead>
+          <tr>
+            <th scope="col">Doações</th>
+            <th scope="col">Pets</th>
+            <th scope="col">Publicações</th>
+            <th scope="col">Fórum</th>
+            <th scope="col">Fórum</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <a href="/minhasDoacoes" style="color: #eb762b">Minhas doações</a>
+            </td>
+            <td><a href="/pets" style="color: #eb762b">Meus pets</a></td>
+            <td>
+              <a href="/minhasPublicacoes" style="color: #eb762b"
+                >Minhas publicações</a
+              >
+            </td>
+            <td>
+              <a href="/minhasMensagens" style="color: #eb762b"
+                >Minhas mensagens</a
+              >
+            </td>
+            <td>
+              <a href="/minhasRespostas" style="color: #eb762b"
+                >Minhas respostas</a
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
 </html>

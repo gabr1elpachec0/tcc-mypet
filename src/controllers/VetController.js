@@ -81,6 +81,19 @@ module.exports = {
                 var userEmail = findUserById.email
                 var userBio = findUserById.bio
                 var userProfilePic = findUserById.profilePic
+                var profileUserCertified = findUserById.certified
+
+                var counter = 0
+
+                const findNotificationsByUserId = await prisma.notification.findMany({
+                    where: {
+                        userId: userId
+                    }
+                })
+
+                findNotificationsByUserId.forEach(function (notification) {
+                    counter += 1
+                })
 
                 res.render('meuPerfilVeterinario', {
                     name: userName,
@@ -88,7 +101,9 @@ module.exports = {
                     bio: userBio,
                     profilePic: userProfilePic,
                     userType: userType,
-                    id: userId
+                    id: userId,
+                    profileUserCertified: profileUserCertified,
+                    counter: counter
                 })
         
             } else {
@@ -116,11 +131,24 @@ module.exports = {
                     type: 'vet'
                 }
             })
+
+            var counter = 0
+
+            const findNotificationsByUserId = await prisma.notification.findMany({
+                where: {
+                    userId: userId
+                }
+            })
+
+            findNotificationsByUserId.forEach(function (notification) {
+                counter += 1
+            })
             
             res.render('listaVeterinarios', {
                 vets: findAllVets,
                 userType: userType,
-                profilePic: profilePic
+                profilePic: profilePic,
+                counter: counter
             })
 
         } else {
@@ -142,11 +170,23 @@ module.exports = {
             var userType = findUserById.type
             var profilePic = findUserById.profilePic
 
+            var counter = 0
+
+            const findNotificationsByUserId = await prisma.notification.findMany({
+                where: {
+                    userId: userId
+                }
+            })
+
+            findNotificationsByUserId.forEach(function (notification) {
+                counter += 1
+            })
 
             res.render('editarPerfilVeterinario', {
                 userType: userType,
                 profilePic: profilePic,
-                user: findUserById
+                user: findUserById,
+                counter: counter
             })
         }
     },

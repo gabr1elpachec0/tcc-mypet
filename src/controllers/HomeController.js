@@ -12,7 +12,7 @@ module.exports = {
         var profilePic 
         var userType
         var userName
-        
+
         if (req.session.warning) {
             warning = req.session.warning
             req.session.warning = ""
@@ -38,8 +38,19 @@ module.exports = {
                 req.session.sucesso_login = ""
             }
 
+            var counter = 0
 
-            res.render('home', { profilePic: profilePic, userType: userType, userName: userName, sucesso_login: sucesso_login, warning: warning })
+            const findNotificationsByUserId = await prisma.notification.findMany({
+                where: {
+                    userId: userId
+                }
+            })
+
+            findNotificationsByUserId.forEach(function (notification) {
+                counter += 1
+            })
+
+            res.render('home', { profilePic: profilePic, userType: userType, userName: userName, sucesso_login: sucesso_login, warning: warning, counter: counter })
         } else {
             res.render('home', { userType: userType, profilePic: profilePic, userName: userName, sucesso_login: sucesso_login, warning: warning })
         }

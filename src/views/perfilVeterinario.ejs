@@ -37,6 +37,13 @@
         <% } %> <% if (!profileUserVetBio) { %>
         <h5>Nenhuma</h5>
         <% } %>
+        <br>
+        <h5 class="fw-bold" style="color: #eb762b">Certificado:</h5>
+        <% if(profileUserCertified){ %>
+        <h5><a href="../vetCertifieds/<%= profileUserCertified %>" id="link"> Abrir </a></h5>
+        <% } else{ %>
+        <h5>Nenhum</h5>
+        <% } %>
       </div>
       <div class="container">
         <a href="#" class="text-decoration-none text-white">
