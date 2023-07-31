@@ -44,11 +44,13 @@
                     Mensagem: <%= message['description'] %>
                 </p>
                 <p class="fw-bold"><%= message['forumMessageAuthor'].name %></p>
-                <p class="">
-                    <a href="/responderMensagemForum/ <%= message['id'] %>" style="color: #EB762B;">
-                        Responder
-                    </a>
-                </p>
+                <% if (userType == "vet") { %>
+                    <p class="">
+                        <a href="/responderMensagemForum/ <%= message['id'] %>" style="color: #EB762B;">
+                            Responder
+                        </a>
+                    </p>
+                <% } %>
                 <br>
                 <a href="/verRespostasMensagemForum/<%= message['id'] %>" class="btn" style="background-color: #EB762B; color: white;">
                     Ver respostas

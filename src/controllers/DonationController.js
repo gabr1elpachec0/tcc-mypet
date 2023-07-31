@@ -55,7 +55,7 @@ module.exports = {
             // console.log(createDonation)
 
             req.session.success_create_donation = "Doação criada com sucesso!"
-            res.redirect('/doacoes')
+            res.redirect('/minhasDoacoes')
         })
     },
 

@@ -74,13 +74,9 @@ module.exports = {
                 }
             });
 
-            const findAllLikes = await prisma.postLike.findMany({
-                where: {
-                    userId: userId,
-                },
-            });
+            const findAllLikes = await prisma.postLike.findMany();
 
-            const findAllComments = await prisma.postComment.findMany()
+            const findAllComments = await prisma.postComment.findMany();
 
             // console.log(findAllLikes)
             // console.log(findAllPosts)
@@ -131,11 +127,7 @@ module.exports = {
                 }
             })
 
-            const findAllLikes = await prisma.postLike.findMany({
-                where: {
-                    userId: userId,
-                },
-            });
+            const findAllLikes = await prisma.postLike.findMany();
 
             const findAllComments = await prisma.postComment.findMany()
 

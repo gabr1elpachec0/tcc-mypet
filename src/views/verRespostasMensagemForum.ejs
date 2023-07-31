@@ -13,18 +13,23 @@
                     Respostas à <span style="color: #eb762b">mensagem</span>!
                 </h3>
             </div>
-            <% replies.forEach(function(reply) { %>
-                <div class="mensagemForum container shadow p-5 mt-5">
-                    <h4 class="fw-bold">
-                        <%= reply['forumReplyAuthor'].name %>
-                    </h4>
-                    <br>
-                    <p style="font-size: large;">
-                        <%= reply['description'] %>
-                    </p>
-                </div>
-                <br />
-            <% }) %>
+            <br>
+            <% if (replies.length > 0) { %>
+                <% replies.forEach(function(reply) { %>
+                    <div class="mensagemForum container shadow p-5 mt-5">
+                        <h4 class="fw-bold">
+                            <%= reply['forumReplyAuthor'].name %>
+                        </h4>
+                        <br>
+                        <p style="font-size: large;">
+                            <%= reply['description'] %>
+                        </p>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <p class="text-center">Não há respostas.</p>
+            <% } %>
+            
         </div>
 </body>
 
