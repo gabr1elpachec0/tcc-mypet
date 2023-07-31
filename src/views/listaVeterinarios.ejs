@@ -17,6 +17,7 @@
                         <tr>
                             <th scope="col">Veterinário</th>
                             <th scope="col">Contato</th>
+                            <th scope="col">Certificado</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -25,6 +26,8 @@
                             <tr>
                                 <th class="fw-normal" scope="row"><%= vet['name'] %></th>
                                 <td><a href="/chat/<%= vet['id']%>" style="color: #EB762B;">Entrar em contato</a></td>
+                                <td><a href="../vetCertifieds/<%= vet['certified'] %>" style="color: #EB762B;">Ver certificado</a></td>
+
                             </tr>
                         <% } %>                                            
                         <% }) %>

@@ -7,7 +7,8 @@ module.exports = {
     async createVaccineNotification(userId) {
         // console.log(userId)
 
-        const today = dayjs().format('DD/MM/YYYY');
+        const currentDate = dayjs().startOf('day')
+
 
         const findUserPets = await prisma.pet.findMany({
             where: {
@@ -27,8 +28,7 @@ module.exports = {
 
             for (const immunizationControl of findImmunizationControl) {
                 const repeatDate = dayjs(immunizationControl.vaccineRepeat, 'DD/MM/YYYY');
-                const differenceInDays = (repeatDate.diff(dayjs(), 'day') + 1);
-
+                const differenceInDays = (repeatDate.diff(currentDate, 'day') + 1);
 
                 // console.log(repeatDate);
 
@@ -45,7 +45,7 @@ module.exports = {
                 }
 
                 if (differenceInDays === 1) {
-                    console.log(differenceInDays);
+                    // console.log(differenceInDays);
                     var petName = immunizationControl.pet.name
                     var vaccineName = immunizationControl.vaccineName
                     await prisma.notification.create({
@@ -60,6 +60,8 @@ module.exports = {
     },
 
     async createMedicineNotification(userId) {
+        const currentDate = dayjs().startOf('day')
+
         const findUserPets = await prisma.pet.findMany({
             where: {
                 userId: userId
@@ -78,7 +80,7 @@ module.exports = {
 
             for (const medicinesControl of findMedicinesControl) {
                 const repeatDate = dayjs(medicinesControl.medicineRepeat, 'DD/MM/YYYY');
-                const differenceInDays = (repeatDate.diff(dayjs(), 'day') + 1);
+                const differenceInDays = (repeatDate.diff(currentDate, 'day') + 1);
 
                 // console.log(repeatDate);
                 // console.log(differenceInDays);

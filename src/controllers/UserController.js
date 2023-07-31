@@ -88,9 +88,9 @@ module.exports = {
                         req.session.userBio = findUserByEmail.bio
                         req.session.userType = findUserByEmail.type
                         req.session.userProfilePic = findUserByEmail.profilePic
-                        var userName = req.session.userName = findUserByEmail.name
+                        var userName = findUserByEmail.name
                         var userId = req.session.userId
-                        req.session.sucesso_login = `${userName}, seja bem-vindo(a)!`
+                        req.session.sucesso_login = userName + ', seja bem-vindo(a)!'
 
                         // Cria as notificações
                         await NotificationController.createVaccineNotification(userId)
