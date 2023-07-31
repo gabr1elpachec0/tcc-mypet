@@ -22,11 +22,13 @@
                     </thead>
                     <tbody>
                         <% vets.forEach(function (vet) { %>
+                        <% if (vet['id'] != userId) { %>
                             <tr>
                                 <th class="fw-normal" scope="row"><%= vet['name'] %></th>
                                 <td><a href="/profile/<%= vet['id'] %>" style="color: #EB762B;">Ver perfil</a></td>
                                 <td><a href="/chat/<%= vet['id']%>" style="color: #EB762B;">Entrar em contato</a></td>
                             </tr>
+                        <% } %>                                            
                         <% }) %>
                     </tbody>
                 </table>

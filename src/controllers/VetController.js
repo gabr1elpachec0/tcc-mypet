@@ -145,6 +145,7 @@ module.exports = {
             })
             
             res.render('listaVeterinarios', {
+                userId: userId,
                 vets: findAllVets,
                 userType: userType,
                 profilePic: profilePic,

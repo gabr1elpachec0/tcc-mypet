@@ -12,6 +12,7 @@ module.exports = {
     // Get Chat
     async getChat(req, res) {
         var success_message;
+        var userId = req.session.userId
 
         var counter = 0
 
@@ -67,6 +68,7 @@ module.exports = {
             var userType = findSenderUserById.type;
             var profilePic = findSenderUserById.profilePic;
             var recipientProfilePic = findRecipientUserById.profilePic;
+            var recipientName = findRecipientUserById.name;
 
             const formattedMessages = allMessages.map((message) => ({
                 ...message,
@@ -85,7 +87,8 @@ module.exports = {
                     recipientId: recipientUserId,
                     allMessages: formattedMessages,
                     senderUserId: senderUserId,
-                    counter: counter
+                    counter: counter,
+                    recipientName: recipientName
                 });
             }
         } else {

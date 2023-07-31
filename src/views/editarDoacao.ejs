@@ -26,13 +26,13 @@
             Tipo do pet
           </h4>
           <div class="form-check">
-            <input class="form-check-input" type="radio" name="type" id="dog" value="Cão" required>
+            <input class="form-check-input" type="radio" name="type" id="dog" value="Cão" required <% if (donation['petType'] === 'Cão') { %>checked<% } %>>
             <label class="form-check-label" for="dog">
               Cão
             </label>
           </div>
           <div class="form-check">
-            <input class="form-check-input" type="radio" name="type" id="cat" value="Gato" required>
+            <input class="form-check-input" type="radio" name="type" id="cat" value="Gato" required <% if (donation['petType'] === 'Gato') { %>checked<% } %>>
             <label class="form-check-label" for="cat">
               Gato
             </label>
@@ -42,13 +42,13 @@
             Castração e Vacinação
           </h4>       
           <div class="form-check mt-2">
-            <input class="form-check-input" type="checkbox" name="spayed" id="castracao">
+            <input class="form-check-input" type="checkbox" name="spayed" id="castracao" <% if (donation['petSpayed']) { %>checked<% } %>>
             <label class="form-check-label" for="castracao">
               Castrado
             </label>
           </div>
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="vaccinated" id="vacinacao">
+            <input class="form-check-input" type="checkbox" name="vaccinated" id="vacinacao" <% if (donation['petVaccinated']) { %>checked<% } %>>
             <label class="form-check-label" for="vacinacao">
               Vacinado
             </label>
@@ -58,13 +58,13 @@
             Gênero do pet
           </h4>
           <div class="form-check">
-            <input class="form-check-input" type="radio" name="gender" id="macho" value="Macho" required>
+            <input class="form-check-input" type="radio" name="gender" id="macho" value="Macho" required <% if (donation['petGender'] === 'Macho') { %>checked<% } %>>
             <label class="form-check-label" for="macho">
               Macho
             </label>
           </div>
           <div class="form-check">
-            <input class="form-check-input" type="radio" name="gender" id="femea" value="Fêmea" required>
+            <input class="form-check-input" type="radio" name="gender" id="femea" value="Fêmea" required <% if (donation['petGender'] === 'Fêmea') { %>checked<% } %>>
             <label class="form-check-label" for="femea">
               Fêmea
             </label>

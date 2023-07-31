@@ -21,7 +21,15 @@
           <div class="card" id="chat2">
             <div class="ps-theme-default ps-active-y chat-container" id="chat-conteudo" style="overflow-y: auto !important;">
               <div class="card-header d-flex justify-content-between align-items-center p-3">
-                <h5 class="mb-0 fw-bold" style="color: #e26a29;">Chat</h5>
+                <h5 class="mb-0 fw-bold" style="color: #e26a29;">
+                  <span>
+                    <% if (recipientProfilePic) { %>
+                        <img class="rounded-circle shadow" src="/profilePics/<%= recipientProfilePic %>" alt="profile-picture" style="width: 50px; height: 50px; margin-right: 10px" />
+                      <% } else { %>
+                        <img class="rounded-circle shadow" src="/images/user-circle.png" alt="profile-picture" style="width: 50px; height: 50px; margin-right: 10px" />
+                      <% } %>
+                  </span>
+                  <%= recipientName %></h5>
               </div>
               <div class="card-body" data-mdb-perfect-scrollbar="true" style="position: relative; height: 400px" id="chat-conteudo">
                 <!-- ...código anterior... -->
