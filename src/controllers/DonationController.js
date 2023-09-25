@@ -54,8 +54,8 @@ module.exports = {
             })
             // console.log(createDonation)
 
-            req.session.success_create_donation = "Doação criada com sucesso!"
-            res.redirect('/minhasDoacoes')
+            req.session.success_create_donation = "Doação criada com sucesso! Acesse-a em seu perfil na aba Minhas doações."
+            res.redirect('/doacoes')
         })
     },
 
