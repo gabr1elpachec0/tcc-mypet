@@ -287,6 +287,18 @@ module.exports = {
     async deletePost(req, res) {
         var postId = parseInt(req.params.id)
 
+        await prisma.postLike.deleteMany({
+            where: {
+                postId: postId
+            }
+        })
+
+        await prisma.postComment.deleteMany({
+            where: {
+                postId: postId
+            }
+        })
+
         await prisma.post.delete({
             where: {
                 id: postId
