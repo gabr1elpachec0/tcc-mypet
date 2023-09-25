@@ -7,7 +7,6 @@
   <body>
     <%- include('menu') %>
     <div class="container text-center col-md-4 mt-5">
-      <% comments.forEach(function (comment) { %>
       <form
         action="/comment-update/<%= comment.id %>"
         method="post"
@@ -41,7 +40,6 @@
           />
         </div>
       </form>
-      <%}) %>
     </div>
   </body>
 </html>

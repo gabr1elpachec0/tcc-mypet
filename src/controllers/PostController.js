@@ -497,6 +497,7 @@ module.exports = {
 
     async getUpdateCommentForm (req, res) {
         var userId = req.session.userId
+        var commentId = req.params.id
 
         const findUserById = await prisma.user.findUnique({
             where: {
@@ -519,13 +520,17 @@ module.exports = {
             counter += 1
         })
 
-        const findMyComments = await prisma.postComment.findMany()
+        const findMyComment = await prisma.postComment.findUnique({
+            where: {
+                id: Number(commentId)
+            }
+        })
 
         res.render('editarComentario', {
             userType: userType,
             profilePic: profilePic,
             counter: counter,
-            comments: findMyComments
+            comment: findMyComment
         })
     },
 
