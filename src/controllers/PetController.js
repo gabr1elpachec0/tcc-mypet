@@ -330,7 +330,7 @@ module.exports = {
         var userType   = findUserById.type
         var profilePic = findUserById.profilePic
 
-        const findImmunizationControl = await prisma.ImmunizationControl.findMany({
+        const findImmunizationControl = await prisma.immunizationControl.findMany({
             where: {
                 petId: petId
             }
