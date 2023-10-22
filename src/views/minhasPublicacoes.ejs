@@ -80,13 +80,14 @@
                 <% if (countComments === 0) { %>
                   <p>Sem comentários</p>
                 <% } else { %>
-                  <a
-                  href="/post-comments/<%= post['id'] %>"
-                  style="color: #eb762b"
-                >
-                  
-                  Ver <%= countComments %> comentário(s)
-                </a>
+                  <p> 
+                    <a
+                      href="/post-comments/<%= post['id'] %>"
+                      style="color: #eb762b"
+                    >                  
+                      Ver <%= countComments %> comentário(s)
+                    </a>                    
+                  </p>                  
                 <% } %>
               </p>
               <br />
