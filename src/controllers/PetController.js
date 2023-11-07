@@ -232,6 +232,24 @@ module.exports = {
 
         var petId = parseInt(req.params.id)
 
+        await prisma.immunizationControl.deleteMany({
+            where: {
+                petId: petId
+            }
+        })
+
+        await prisma.weightControl.deleteMany({
+            where: {
+                petId: petId
+            }
+        })
+
+        await prisma.medicinesControl.deleteMany({
+            where: {
+                petId: petId
+            }
+        })
+
         await prisma.pet.delete({
             where: {
                 id: petId
