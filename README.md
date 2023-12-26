@@ -1,4 +1,5 @@
   # TCC MyPet
+  ## Plataforma destinada a simplificar a vida dos tutores de animais de estimação
 
 Projeto desenvolvido nessas tecnologias:
 
